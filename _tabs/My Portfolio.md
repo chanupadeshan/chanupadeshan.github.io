@@ -10,7 +10,7 @@ order: 4
 <div style="flex: 1; min-width: 300px;">
 
 <h1>Chanupa Munasinghe</h1>
-<p><strong>Undergraduate at SLIIT | AI/ML</strong></p>
+<p><strong>Undergraduate at SLIIT | AI/ML | Data Analyst | Computer Vision</strong></p>
 
 <p>📍 Thalavitiya, Parakaduwa, Sri Lanka<br>
 📞 076 0850 780<br>
@@ -22,7 +22,7 @@ order: 4
 
 <h2>Skills</h2>
 <ul>
-  <li><strong>Programming:</strong> Python, R (basic), C++, Java</li>
+  <li><strong>Programming:</strong> Python, R (basic), C++, Java, SQL</li>
   <li><strong>ML & AI:</strong> Supervised & Unsupervised Learning, Deep Learning, Neural Networks, Hyperparameter Tuning</li>
   <li><strong>Frameworks:</strong> TensorFlow, Scikit-learn, NumPy, pandas, Matplotlib, Seaborn, OpenCV, NLTK, LangChain, CrewAI</li>
   <li><strong>Tools:</strong> Jupyter Notebook, AWS, Git</li>
@@ -37,14 +37,25 @@ order: 4
   <li>Python for Data Science & ML Bootcamp (Udemy)</li>
   <li>Deep Learning A-Z (Udemy)</li>
   <li>AI/ML Engineer - Stage 1 (SLIIT)</li>
-  <li>Complete Generative AI Course with LangChain and HuggingFace (Udemy) </li>
+  <li>Complete Generative AI Course with LangChain and HuggingFace (Udemy)</li>
   <li>AWS Cloud Practitioner (CLF-C02) (DataCamp)</li>
   <li>R Programming A-Z™ (Udemy)</li>
   <li>Python for Beginners (UoM)</li>
   <li>Maths & Statistics for AI (CodeBasics)</li>
 </ul>
 
-</div>
+<hr>
+
+<h2>References</h2>
+<p><strong>Ms. Uthpala Samarakoon</strong><br>
+Senior Lecturer – Dept. of IT, SLIIT<br>
+📧 <a href="mailto:uthpala.s@sliit.lk">uthpala.s@sliit.lk</a> | 📞 +94 77 7237 653</p>
+
+<p><strong>Mr. Thusithanjana Thilakarathna</strong><br>
+Senior Lecturer – Dept. of IT, SLIIT<br>
+📧 <a href="mailto:thusithanjana.t@sliit.lk">thusithanjana.t@sliit.lk</a> | 📞 +94 11 7543 999</p>
+
+</div> <!-- END LEFT COLUMN -->
 
 <!-- RIGHT COLUMN -->
 <div style="flex: 1; min-width: 300px;">
@@ -56,6 +67,10 @@ Enthusiastic and self-motivated IT undergraduate at SLIIT with a strong foundati
 
 <p>
 Currently, I am expanding my knowledge in <strong>MLOps</strong>, <strong>Transformer architectures</strong>, and <strong>Vision Transformers (ViT)</strong>, aiming to strengthen my skills in production-level ML deployment and cutting-edge deep learning techniques.
+</p>
+
+<p>
+Beyond coursework, I also pursue <strong>independent research</strong> in deep learning. My latest work explores <em>hybrid CNN architectures</em> that combine pixel-domain and frequency-domain features with adaptive fusion strategies. This research focuses on improving robustness and performance for domains such as low-light vision, solar panel defect detection, and medical imaging.
 </p>
 
 <hr>
@@ -114,17 +129,5 @@ Accounting: A | Economics: B | ICT: B</p>
   </li>
 </ul>
 
-
-<hr>
-
-<h2>References</h2>
-<p><strong>Ms. Uthpala Samarakoon</strong><br>
-Senior Lecturer – Dept. of IT, SLIIT<br>
-📧 <a href="mailto:uthpala.s@sliit.lk">uthpala.s@sliit.lk</a> | 📞 +94 77 7237 653</p>
-
-<p><strong>Mr. Thusithanjana Thilakarathna</strong><br>
-Senior Lecturer – Dept. of IT, SLIIT<br>
-📧 <a href="mailto:thusithanjana.t@sliit.lk">thusithanjana.t@sliit.lk</a> | 📞 +94 11 7543 999</p>
-
-</div>
-</div>
+</div> <!-- END RIGHT COLUMN -->
+</div> <!-- END FLEX CONTAINER -->
