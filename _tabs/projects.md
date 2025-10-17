@@ -45,6 +45,7 @@ order: 3
   text-decoration: none !important;
   border-bottom: none !important;
 }
+
 .project-card h3 a:hover {
   color: #fff;
 }
@@ -88,7 +89,6 @@ order: 3
 }
 </style>
 
-
 <div class="projects-grid">
 
 <!-- 1 -->
@@ -120,9 +120,10 @@ order: 3
   <p>LSTM network forecasting stock prices based on historical Yahoo Finance data.</p>
   <div class="tech-stack">
     <div class="tech-badge"><img src="https://skillicons.dev/icons?i=python" alt="">Python</div>
-  <div class="tech-badge"><img src="https://cdn.simpleicons.org/pandas" alt="Pandas">Pandas</div>
+    <div class="tech-badge"><img src="https://cdn.simpleicons.org/pandas" alt="Pandas">Pandas</div>
     <div class="tech-badge"><img src="https://skillicons.dev/icons?i=tensorflow" alt="">TensorFlow</div>
-    <div class="tech-badge">Time Series</div>
+    <div class="tech-badge">⏱️ Time Series</div>
+
   </div>
 </div>
 
@@ -134,9 +135,13 @@ order: 3
     <div class="tech-badge"><img src="https://cdn.simpleicons.org/python" alt="Python">Python</div>
     <div class="tech-badge"><img src="https://cdn.simpleicons.org/pandas" alt="Pandas">Pandas</div>
     <div class="tech-badge"><img src="https://cdn.simpleicons.org/numpy" alt="NumPy">NumPy</div>
-<div class="tech-badge"><img src="https://skillicons.dev/icons?i=python" alt="Python">Matplotlib</div>
+    <div class="tech-badge">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/8/84/Matplotlib_icon.svg" alt="Matplotlib" style="height:18px;">Matplotlib
+</div>
+
     <div class="tech-badge"><img src="https://cdn.simpleicons.org/scikitlearn" alt="Scikit-Learn">Scikit-Learn</div>
-    <div class="tech-badge">A/B testing</div>
+    <div class="tech-badge">🧪 A/B Testing</div>
+
   </div>
 </div>
 
@@ -168,12 +173,9 @@ order: 3
   <div class="tech-stack">
     <div class="tech-badge"><img src="https://skillicons.dev/icons?i=pytorch" alt="">PyTorch</div>
     <div class="tech-badge"><img src="https://skillicons.dev/icons?i=python" alt="">Python</div>
-  <div class="tech-badge"><img src="https://cdn.simpleicons.org/huggingface" alt="Hugging Face">Hugging Face</div>
-  <div class="tech-badge" style="background: rgba(255,255,255,0.08); font-weight:600; color:#e0e0e0;">
-  🧩 LoRA
-</div>
-
-  <div class="tech-badge"><img src="https://cdn.simpleicons.org/jupyter" alt="Jupyter">Jupyter</div>
+    <div class="tech-badge"><img src="https://cdn.simpleicons.org/huggingface" alt="Hugging Face">Hugging Face</div>
+    <div class="tech-badge">🧩 LoRA</div>
+    <div class="tech-badge"><img src="https://cdn.simpleicons.org/jupyter" alt="Jupyter">Jupyter</div>
   </div>
 </div>
 
@@ -185,11 +187,7 @@ order: 3
     <div class="tech-badge"><img src="https://skillicons.dev/icons?i=python" alt="">Python</div>
     <div class="tech-badge"><img src="https://skillicons.dev/icons?i=opencv" alt="">OpenCV</div>
     <div class="tech-badge"><img src="https://skillicons.dev/icons?i=pytorch" alt="">PyTorch</div>
-    <div class="tech-badge">
-    <img src="https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/yolo.svg" 
-       alt="YOLO" style="filter: invert(1); height:18px;">
-  YOLO
-</div>
+    <div class="tech-badge"><img src="https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/yolo.svg" alt="YOLO" style="filter: invert(1); height:18px;">YOLO</div>
   </div>
 </div>
 
@@ -199,8 +197,8 @@ order: 3
   <p>Streamlit chatbot using Retrieval-Augmented Generation with summarization and memory.</p>
   <div class="tech-stack">
     <div class="tech-badge"><img src="https://skillicons.dev/icons?i=python" alt="">Python</div>
-  <div class="tech-badge"><img src="https://cdn.simpleicons.org/streamlit" alt="Streamlit">Streamlit</div>
-  <div class="tech-badge"><img src="https://cdn.simpleicons.org/openai" alt="OpenAI">OpenAI</div>
+    <div class="tech-badge"><img src="https://cdn.simpleicons.org/streamlit" alt="Streamlit">Streamlit</div>
+    <div class="tech-badge"><img src="https://cdn.simpleicons.org/openai" alt="OpenAI">OpenAI</div>
   </div>
 </div>
 
@@ -211,14 +209,22 @@ order: 3
   <div class="tech-stack">
     <div class="tech-badge"><img src="https://skillicons.dev/icons?i=python" alt="">Python</div>
     <div class="tech-badge"><img src="https://skillicons.dev/icons?i=pytorch" alt="">PyTorch</div>
-    <div class="tech-badge" style="background: rgba(255,255,255,0.08); font-weight:600; color:#e0e0e0;">
-  🤖 CrewAI
+    <div class="tech-badge">🤖 CrewAI</div>
+  </div>
 </div>
 
+
+<!-- 11 -->
+<!-- 11 -->
+<div class="project-card">
+  <h3><a href="https://github.com/chanupadeshan/basic-data-analytics" target="_blank">Basic Data Analytics</a></h3>
+  <p>Data analysis project using SQL queries, EDA techniques, and window functions for insights.</p>
+  <div class="tech-stack">
+    <div class="tech-badge"><img src="https://skillicons.dev/icons?i=mysql" alt="SQL">SQL</div>
+    <div class="tech-badge">📊 EDA</div>
+    <div class="tech-badge">🪟 Window Functions</div>
+  </div>
 </div>
 
-
-
-</div>
 
 </div>
