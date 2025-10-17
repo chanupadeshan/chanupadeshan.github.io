@@ -1,7 +1,7 @@
 ---
 title: Certifications
 icon: fas fa-certificate
-order: 4
+order: 2
 ---
 
 <style>
