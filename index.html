@@ -118,6 +118,17 @@ section{padding:72px 24px}
 .section-head .hash{font-family:'JetBrains Mono',monospace;color:var(--accent);font-size:1.2rem}
 
 /* ---------- Projects ---------- */
+.certificate-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.certificate{display:flex;align-items:flex-start;gap:16px;min-height:142px;padding:22px;background:rgba(255,255,255,.88);border:1px solid var(--line);border-radius:14px;transition:transform .2s,border-color .2s,box-shadow .2s}
+.certificate:hover{transform:translateY(-2px);border-color:#C4D7CE;box-shadow:var(--shadow)}
+.certificate-mark{display:grid;place-items:center;flex:0 0 42px;width:42px;height:42px;border-radius:10px;background:var(--accent-soft);color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:1rem;font-weight:600}
+.certificate-body{display:flex;flex-direction:column;align-items:flex-start;height:100%}
+.certificate h3{font-family:'Archivo',sans-serif;font-size:1rem;line-height:1.4;letter-spacing:-.01em}
+.certificate-meta{margin-top:5px;color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:.72rem}
+.certificate-link{margin-top:auto;padding-top:14px;font-size:.82rem;font-weight:600}
+.certificate-link::after{content:" ↗"}
+
+/* ---------- Projects ---------- */
 .project{
   display:grid;
   grid-template-columns:200px 1fr;
@@ -186,7 +197,9 @@ footer{border-top:1px solid var(--line);padding:28px 0 40px;color:var(--muted);f
   .nav-inner{height:60px}
   .logo{font-size:.82rem}.logo .full-name{display:none}
   .nav-links{gap:14px}.nav-links a{font-size:.78rem}
-  .nav-links a:nth-child(2){display:none}
+  .nav-links a:nth-child(1),.nav-links a:nth-child(2){display:none}
+  .certificate-grid{grid-template-columns:1fr}
+  .certificate{min-height:0;padding:18px}
   .project{grid-template-columns:1fr;gap:18px;padding:18px}
   .entry{grid-template-columns:1fr;gap:10px;padding:22px}
   .thumb{max-width:none;aspect-ratio:16/7}
@@ -209,6 +222,7 @@ footer{border-top:1px solid var(--line);padding:28px 0 40px;color:var(--muted);f
     <div class="nav-links">
       <a href="#experience">Experience</a>
       <a href="#education">Education</a>
+      <a href="#certificates">Certificates</a>
       <a href="#projects">Projects</a>
       <a href="#contact">Contact</a>
     </div>
@@ -309,6 +323,76 @@ footer{border-top:1px solid var(--line);padding:28px 0 40px;color:var(--muted);f
         <span class="tag">Web Development</span>
       </div>
     </div>
+  </div>
+</section>
+
+<section id="certificates" class="wrap">
+  <div class="section-head"><span class="hash">##</span><h2>Certificates</h2></div>
+  <div class="certificate-grid">
+    <article class="certificate">
+      <div class="certificate-mark" aria-hidden="true">01</div>
+      <div class="certificate-body">
+        <h3>Docker Foundations Professional Certificate</h3>
+        <p class="certificate-meta">LinkedIn Learning · Dec 2025</p>
+        <a class="certificate-link" href="https://drive.google.com/file/d/10oK1D2rqcjQPc8c9kbKyUbDSqNyJd8ZD/view?usp=drive_link" target="_blank" rel="noreferrer">View credential</a>
+      </div>
+    </article>
+    <article class="certificate">
+      <div class="certificate-mark" aria-hidden="true">02</div>
+      <div class="certificate-body">
+        <h3>AWS Cloud Practitioner (CLF-C02)</h3>
+        <p class="certificate-meta">DataCamp · Jul 2025</p>
+        <a class="certificate-link" href="https://drive.google.com/file/d/1oSfEyvH2Z7dTOJVHxsgIZ1WcopSkm6dH/view?usp=drive_link" target="_blank" rel="noreferrer">View credential</a>
+      </div>
+    </article>
+    <article class="certificate">
+      <div class="certificate-mark" aria-hidden="true">03</div>
+      <div class="certificate-body">
+        <h3>Complete Generative AI with LangChain and Hugging Face</h3>
+        <p class="certificate-meta">Udemy · May 2025</p>
+        <a class="certificate-link" href="https://drive.google.com/file/d/1erCxf3hLRgBwJxDFfipw0CCW18hcXR98/view?usp=drive_link" target="_blank" rel="noreferrer">View credential</a>
+      </div>
+    </article>
+    <article class="certificate">
+      <div class="certificate-mark" aria-hidden="true">04</div>
+      <div class="certificate-body">
+        <h3>Deep Learning A–Z 2025: Neural Networks, AI &amp; ChatGPT</h3>
+        <p class="certificate-meta">Udemy · Feb 2025</p>
+        <a class="certificate-link" href="https://drive.google.com/file/d/19Uep_QbPWjXgBrsVi8S7NencfJdzvK5P/view?usp=drive_link" target="_blank" rel="noreferrer">View credential</a>
+      </div>
+    </article>
+    <article class="certificate">
+      <div class="certificate-mark" aria-hidden="true">05</div>
+      <div class="certificate-body">
+        <h3>R Programming A–Z: R for Data Science</h3>
+        <p class="certificate-meta">Udemy · Jan 2024</p>
+        <a class="certificate-link" href="https://drive.google.com/file/d/104IZX7SjjW63KI9v5iwCiemklZNi14WK/view?usp=drive_link" target="_blank" rel="noreferrer">View credential</a>
+      </div>
+    </article>
+    <article class="certificate">
+      <div class="certificate-mark" aria-hidden="true">06</div>
+      <div class="certificate-body">
+        <h3>AI/ML Engineer — Stage 1</h3>
+        <p class="certificate-meta">SLIIT · Jul 2024</p>
+        <a class="certificate-link" href="https://drive.google.com/file/d/1l5MIysflIsSw69uDUDVY0_qori52m5-q/view?usp=drive_link" target="_blank" rel="noreferrer">View credential</a>
+      </div>
+    </article>
+    <article class="certificate">
+      <div class="certificate-mark" aria-hidden="true">07</div>
+      <div class="certificate-body">
+        <h3>Python for Data Science and Machine Learning Bootcamp</h3>
+        <p class="certificate-meta">Udemy · Jun 2024</p>
+        <a class="certificate-link" href="https://drive.google.com/file/d/187_WG8p5Ta1b5o81lV9-96W5jsCI_21n/view?usp=drive_link" target="_blank" rel="noreferrer">View credential</a>
+      </div>
+    </article>
+    <article class="certificate">
+      <div class="certificate-mark" aria-hidden="true">08</div>
+      <div class="certificate-body">
+        <h3>Math and Statistics for AI, Data Science</h3>
+        <p class="certificate-meta">Codebasics · Jul 2025</p>
+        <a class="certificate-link" href="https://drive.google.com/file/d/1_J0Rg_JzhsF_v95uenZl6Yg45TJo2Qv6/view?usp=drive_link" target="_blank" rel="noreferrer">View credential</a>
+      </div>
+    </article>
   </div>
 </section>
 
