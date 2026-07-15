@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Chanupa Deshan — AI Engineer portfolio. Agentic AI systems, AI for finance, IoT, LLMOps, AIOps." />
+<title>Chanupa Deshan — AI Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg:#FAFBF9;
+  --ink:#16211C;
+  --muted:#66746D;
+  --accent:#0E7A5F;
+  --accent-soft:#E4F1EC;
+  --line:#E3E8E4;
+  --card:#FFFFFF;
+  --code-bg:#10201A;
+  --code-ink:#D7E7E0;
+  --code-dim:#7E958C;
+  --maxw:960px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Inter',system-ui,sans-serif;
+  font-size:16px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .15s}
+a:hover{border-bottom-color:var(--accent)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+
+/* ---------- Nav ---------- */
+nav{
+  position:sticky;top:0;z-index:10;
+  background:rgba(250,251,249,.92);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{font-family:'JetBrains Mono',monospace;font-weight:500;font-size:.95rem;color:var(--ink)}
+.logo .prompt{color:var(--accent)}
+.nav-links{display:flex;gap:28px}
+.nav-links a{color:var(--ink);font-size:.9rem;font-weight:500}
+
+/* ---------- Hero ---------- */
+header{padding:88px 0 64px}
+.intro h1{
+  font-family:'Archivo',sans-serif;
+  font-weight:800;
+  font-size:clamp(2rem,5vw,3.1rem);
+  line-height:1.12;
+  letter-spacing:-.02em;
+  max-width:21ch;
+  margin-top:12px;
+}
+.intro h1 em{font-style:normal;color:var(--accent)}
+.intro p.lede{margin-top:20px;max-width:56ch;color:var(--muted);font-size:1.05rem}
+
+/* ---------- REPL signature ---------- */
+.repl{
+  margin-top:48px;
+  background:var(--code-bg);
+  border-radius:10px;
+  padding:6px 0 18px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.88rem;
+  color:var(--code-ink);
+  overflow-x:auto;
+  box-shadow:0 12px 32px rgba(16,32,26,.14);
+}
+.repl-bar{display:flex;gap:7px;padding:10px 16px 12px;border-bottom:1px solid rgba(255,255,255,.07);margin-bottom:12px}
+.repl-bar span{width:11px;height:11px;border-radius:50%;background:rgba(255,255,255,.16)}
+.repl-line{padding:3px 20px;white-space:pre-wrap;word-break:break-word}
+.repl .in{color:var(--code-dim)}
+.repl .in .obj{color:#8FD4BE}
+.repl .in .prop{color:var(--code-ink)}
+.repl .out{color:var(--code-ink)}
+.repl .str{color:#B7DFA6}
+.repl .out a{color:#8FD4BE;border-bottom:1px dashed #4a6a5e}
+.repl .out a:hover{border-bottom-style:solid}
+.repl .cursor{display:inline-block;width:8px;height:1.05em;background:var(--code-ink);vertical-align:text-bottom;animation:blink 1.1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+
+/* ---------- Sections ---------- */
+section{padding:72px 0}
+#projects{margin-top:32px}
+.section-head{display:flex;align-items:baseline;gap:14px;margin-bottom:10px}
+.section-head h2{font-family:'Archivo',sans-serif;font-weight:700;font-size:1.6rem;letter-spacing:-.01em}
+.section-head .hash{font-family:'JetBrains Mono',monospace;color:var(--accent);font-size:1.2rem}
+
+/* ---------- Projects ---------- */
+.project{
+  display:grid;
+  grid-template-columns:200px 1fr;
+  gap:32px;
+  padding:32px 0;
+  border-top:1px solid var(--line);
+}
+.project:last-of-type{border-bottom:1px solid var(--line)}
+.thumb{
+  aspect-ratio:4/3;
+  border-radius:8px;
+  background:var(--accent-soft);
+  border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.thumb .glyph{font-family:'JetBrains Mono',monospace;font-size:1.6rem;color:var(--accent);font-weight:500}
+.project h3{font-family:'Archivo',sans-serif;font-weight:700;font-size:1.25rem;margin-bottom:8px}
+.project .desc{color:var(--muted);font-size:.95rem;max-width:62ch}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.tag{
+  font-family:'JetBrains Mono',monospace;
+  font-size:.72rem;
+  padding:3px 9px;
+  border-radius:4px;
+  background:var(--accent-soft);
+  color:var(--accent);
+}
+.links{margin-top:16px;display:flex;gap:20px;font-size:.9rem;font-weight:500}
+.links a::before{content:"→ ";color:var(--muted)}
+
+/* ---------- Experience / Education ---------- */
+.entry{
+  display:grid;
+  grid-template-columns:160px 1fr;
+  gap:32px;
+  padding:28px 0;
+  border-top:1px solid var(--line);
+}
+.entry:last-of-type{border-bottom:1px solid var(--line)}
+.entry .date{font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--muted)}
+.entry h3{font-family:'Archivo',sans-serif;font-weight:700;font-size:1.15rem}
+.entry .org{color:var(--accent);font-size:.9rem;font-weight:500;margin-top:2px;margin-bottom:8px}
+.entry .desc{color:var(--muted);font-size:.95rem;max-width:62ch}
+.sub-project{margin-top:22px}
+.sub-project h4{font-family:'Archivo',sans-serif;font-weight:700;font-size:1rem;display:inline}
+.sub-project .sub-date{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--muted);margin-left:10px}
+.sub-project .desc{margin-top:6px}
+
+/* ---------- Contact ---------- */
+#contact{padding-bottom:56px}
+.contact-row{display:flex;flex-wrap:wrap;gap:16px 32px;font-size:.98rem}
+footer{border-top:1px solid var(--line);padding:24px 0 40px;color:var(--muted);font-size:.85rem;font-family:'JetBrains Mono',monospace}
+
+@media (max-width:640px){
+  .project{grid-template-columns:1fr;gap:18px}
+  .entry{grid-template-columns:1fr;gap:6px}
+  .thumb{max-width:280px}
+  header{padding:56px 0 40px}
+  section{padding:52px 0}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-inner">
+    <div class="logo"><span class="prompt">&gt;&gt;&gt;</span> Chanupa Deshan Munasinghe</div>
+    <div class="nav-links">
+      <a href="#experience">Experience</a>
+      <a href="#education">Education</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<header class="wrap">
+  <div class="intro">
+    <h1>I build AI systems that can <em>show their work</em>.</h1>
+    <p class="lede">
+      AI Engineer and MLOps practitioner. I mainly build agentic AI systems
+      and AI for finance, alongside IoT, LLMOps, and AIOps work — with a bias
+      toward honest baselines, real benchmarks, and evaluation-driven
+      development.
+    </p>
+  </div>
+
+  <!-- Signature: Python REPL identity card -->
+  <div class="repl" role="figure" aria-label="Python-style summary of Chanupa Deshan">
+    <div class="repl-bar"><span></span><span></span><span></span></div>
+    <div class="repl-line in">&gt;&gt;&gt; <span class="obj">chanupa</span>.<span class="prop">location</span></div>
+    <div class="repl-line out"><span class="str">'Colombo, Sri Lanka'</span></div>
+    <div class="repl-line in">&gt;&gt;&gt; <span class="obj">chanupa</span>.<span class="prop">roles</span></div>
+    <div class="repl-line out">['AI Engineer', 'MLOps Engineer']</div>
+    <div class="repl-line in">&gt;&gt;&gt; <span class="obj">chanupa</span>.<span class="prop">stack</span></div>
+    <div class="repl-line out">['Python', 'R', 'LangGraph', 'LangChain', 'Docker', 'PyTorch', 'TensorFlow', 'MLflow', 'GitHub']</div>
+    <div class="repl-line in">&gt;&gt;&gt; <span class="obj">chanupa</span>.<span class="prop">focus</span></div>
+    <div class="repl-line out">['Agentic AI systems', 'AI for finance', 'IoT', 'LLMOps', 'AIOps']</div>
+    <div class="repl-line in">&gt;&gt;&gt; <span class="obj">chanupa</span>.<span class="prop">learning</span></div>
+    <div class="repl-line out">['AI security']</div>
+    <div class="repl-line in">&gt;&gt;&gt; <span class="obj">chanupa</span>.<span class="prop">contact</span></div>
+    <div class="repl-line out">[<a href="chanupadeshan@gmail.com">'email'</a>, <a href="https://github.com/chanupadeshan">'github'</a>, <a href="https://www.linkedin.com/in/chanupadeshanmunasinghe/">'linkedin'</a>]</div>
+    <div class="repl-line in">&gt;&gt;&gt; <span class="cursor" aria-hidden="true"></span></div>
+  </div>
+</header>
+
+<section id="experience" class="wrap">
+  <div class="section-head"><span class="hash">##</span><h2>Experience</h2></div>
+  <div class="entry">
+    <div class="date">Jan 2026 – Jul 2026</div>
+    <div>
+      <h3>AI/ML Intern</h3>
+      <div class="org">Sri Lanka Ports Authority (SLPA)</div>
+      <p class="desc">Six-month internship building two applied ML systems for port operations end-to-end, from dataset collection through deployment handoff.</p>
+
+      <div class="sub-project">
+        <h4>Truck Container Damage Detection System</h4><span class="sub-date">Jan – May 2026</span>
+        <p class="desc">A full-stack inspection tool (React + Django) combining YOLO-based damage detection with SAM/GroundingDINO segmentation to isolate container regions, plus OCR to read ISO container numbers off the container body. Owned the pipeline end-to-end: dataset collection and annotation with class-balance and augmentation planning, model inference with caching to keep response times down, manual and automatic inspection workflows, and PDF/EIR report generation with damage labels, confidence scores, and bounding-box data. Also handled backend input validation, error handling, and a multilingual, theme-aware UI. Completed and handed over to the supervisor in May 2026.</p>
+        <div class="tags">
+          <span class="tag">React</span>
+          <span class="tag">Django</span>
+          <span class="tag">YOLO</span>
+          <span class="tag">SAM</span>
+          <span class="tag">OCR</span>
+          <span class="tag">Computer Vision</span>
+        </div>
+      </div>
+
+      <div class="sub-project">
+        <h4>SLPA Chatbot</h4><span class="sub-date">May – Jul 2026</span>
+        <p class="desc">A retrieval-augmented generation (RAG) chatbot serving separate internal (staff) and external (public) flows in English, Sinhala, and Tamil. Built the full pipeline solo: query processing, embedding-based retrieval over an indexed knowledge base, and prompt-engineered response generation tuned for concise, official-toned answers, with small-talk handling as a fallback for greetings and general messages. Also shipped an attendance-request feature (form + backend), a monitoring panel for chat and attendance activity, and structured logging for debugging failed responses. Delivered on React + Vite (frontend) and FastAPI (backend), from requirements gathering through final testing and demo.</p>
+        <div class="tags">
+          <span class="tag">React</span>
+          <span class="tag">Vite</span>
+          <span class="tag">FastAPI</span>
+          <span class="tag">Python</span>
+          <span class="tag">RAG</span>
+          <span class="tag">Embeddings</span>
+          <span class="tag">Multilingual</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="education" class="wrap">
+  <div class="section-head"><span class="hash">##</span><h2>Education</h2></div>
+  <div class="entry">
+    <div class="date">Expected Mar 2027</div>
+    <div>
+      <h3>BSc (Hons) in Information Technology</h3>
+      <div class="org">Sri Lanka Institute of Information Technology (SLIIT)</div>
+      <div class="tags">
+        <span class="tag">OOP</span>
+        <span class="tag">Data Structures & Algorithms</span>
+        <span class="tag">AI/ML</span>
+        <span class="tag">Statistics & Probability</span>
+        <span class="tag">IoT</span>
+        <span class="tag">Robotics</span>
+        <span class="tag">Project Management</span>
+        <span class="tag">Software Engineering</span>
+        <span class="tag">Databases</span>
+        <span class="tag">Computer Networks</span>
+        <span class="tag">Web Development</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects" class="wrap">
+  <div class="section-head"><span class="hash">##</span><h2>Projects</h2></div>
+  <div id="project-list"><!-- rendered from PROJECTS data below --></div>
+</section>
+
+<section id="contact" class="wrap">
+  <div class="section-head"><span class="hash">##</span><h2>Contact</h2></div>
+  <div class="contact-row">
+    <a href="mailto:chanupadeshan@gmail.com">chanupadeshan@gmail.com</a>
+    <a href="https://github.com/chanupadeshan">GitHub</a>
+    <a href="https://www.linkedin.com/in/chanupadeshanmunasinghe/">LinkedIn</a>
+    <a href="resume.pdf">Résumé (PDF)</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap"># Made by Chanupa Deshan &copy; 2026 &mdash; content lives in one array, like any good config.</div>
+</footer>
+
+<script>
+/* ============================================================
+   Edit your projects here — the page renders itself from this.
+   image: path to a screenshot (or null to show the glyph)
+   glyph: short mono symbol shown when there's no image
+   ============================================================ */
+const PROJECTS = [
+  {
+    name: "Verdict  (On-going)",
+    glyph: "⊢",
+    image: null,
+    desc: "A multi-agent natural-language data analysis system built on LangGraph and DuckDB. Ask questions in plain English; agents plan, write SQL, verify, and self-correct. Benchmarked against BIRD and Spider with honest single-agent baselines.",
+    tags: ["Python", "LangGraph", "DuckDB", "BIRD/Spider", "Evaluation","Docker"],
+    demo: "#",
+    source: "#"
+  },
+  {
+    name: "SQL Data Warehouse Project",
+    glyph: "⋈",
+    image: null,
+    desc: "A unified sales analytics warehouse built entirely in T-SQL, consolidating CRM and ERP data into a single source of truth via a Bronze/Silver/Gold medallion architecture. The Gold layer exposes a star schema (dim_customers, dim_products, fact_sales) for CLV analysis, sales trends, and cost-vs-revenue reporting.",
+    tags: ["SQL Server", "T-SQL", "ETL", "Medallion Architecture", "Star Schema"],
+    demo: "#",
+    source: "https://github.com/chanupadeshan/sql-data-warehouse-projet"
+  },
+  {
+    name: "Atliq Bank Insights",
+    glyph: "σ",
+    image: null,
+    desc: "A data analytics and A/B testing case study evaluating a targeted marketing campaign for a bank's 18-25 age segment. Covers data cleaning and EDA across customer, credit, and transaction data, then power analysis and Z-tests to validate the campaign's statistically significant lift in transaction amounts.",
+    tags: ["Python", "Pandas", "SciPy", "Statsmodels", "A/B Testing"],
+    demo: "#",
+    source: "https://github.com/chanupadeshan/atliq-bank-insights"
+  },
+  {
+    name: "LoRA Fine-Tune",
+    glyph: "Δ",
+    image: null,
+    desc: "Parameter-efficient fine-tuning of TinyLlama-1.1B for grade-school math reasoning on GSM8K, using LoRA adapters on the attention projections (rank 8, alpha 16). Only ~0.1% of parameters are trained, producing 1-2MB adapters — built for resource-constrained fine-tuning.",
+    tags: ["Python", "PyTorch", "HuggingFace", "PEFT", "LoRA"],
+    demo: "#",
+    source: "https://github.com/chanupadeshan/LoRA-Fine-Tune"
+  }
+];
+
+const list = document.getElementById("project-list");
+list.innerHTML = PROJECTS.map(p => `
+  <article class="project">
+    <div class="thumb">
+      ${p.image
+        ? `<img src="${p.image}" alt="Screenshot of ${p.name}" loading="lazy" />`
+        : `<span class="glyph" aria-hidden="true">${p.glyph}</span>`}
+    </div>
+    <div>
+      <h3>${p.name}</h3>
+      <p class="desc">${p.desc}</p>
+      <div class="tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join("")}</div>
+      <div class="links">
+        ${p.demo && p.demo !== "#" ? `<a href="${p.demo}">Live demo</a>` : ""}
+        ${p.source && p.source !== "#" ? `<a href="${p.source}">View source</a>` : `<a href="${p.source}">View source</a>`}
+      </div>
+    </div>
+  </article>
+`).join("");
+</script>
+
+</body>
+</html>
