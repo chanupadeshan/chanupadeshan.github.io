@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="description" content="Chanupa Deshan — AI Engineer portfolio. Agentic AI systems, AI for finance, IoT, LLMOps, AIOps." />
 <title>Chanupa Deshan — AI Engineer</title>
+<link rel="icon" type="image/png" href="favicon.png" />
+<link rel="apple-touch-icon" href="favicon.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
@@ -192,12 +194,105 @@ section{padding:72px 24px}
 .contact-row a:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-1px)}
 footer{border-top:1px solid var(--line);padding:28px 0 40px;color:var(--muted);font-size:.8rem;font-family:'JetBrains Mono',monospace}
 
+/* ---------- Blog page ---------- */
+#blog-page{
+  display:none;
+  animation:blogIn .35s cubic-bezier(.22,1,.36,1);
+}
+@keyframes blogIn{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+#blog-page .wrap{padding-top:104px;padding-bottom:96px}
+.blog-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.78rem;font-weight:500;
+  color:var(--muted);
+  margin-bottom:28px;
+}
+.blog-eyebrow svg{color:var(--accent)}
+.blog-back{
+  display:inline-flex;align-items:center;gap:7px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.8rem;font-weight:500;
+  color:var(--muted);
+  border-bottom:0;
+  margin-bottom:52px;
+  transition:color .2s;
+}
+.blog-back:hover{color:var(--ink);border-bottom:0}
+.blog-back svg{transition:transform .2s;flex-shrink:0}
+.blog-back:hover svg{transform:translateX(-3px)}
+.blog-coming{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:64px;
+  align-items:center;
+}
+
+.blog-heading{
+  font-family:'Archivo',sans-serif;
+  font-weight:800;
+  font-size:clamp(2.4rem,5vw,3.8rem);
+  letter-spacing:-.045em;
+  line-height:1.05;
+  margin-bottom:20px;
+}
+.blog-heading em{font-style:normal;color:var(--accent)}
+.blog-sub{
+  color:var(--muted);
+  font-size:1.05rem;
+  max-width:50ch;
+  line-height:1.75;
+  margin-bottom:28px;
+}
+.blog-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--accent-soft);
+  border:1px solid rgba(14,122,95,.18);
+  border-radius:999px;
+  padding:6px 16px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.78rem;
+  color:var(--accent);
+  font-weight:500;
+}
+.blog-badge-dot{
+  width:7px;height:7px;
+  border-radius:50%;
+  background:var(--accent);
+  animation:pulse 1.6s ease-in-out infinite;
+}
+@keyframes pulse{
+  0%,100%{opacity:1;transform:scale(1)}
+  50%{opacity:.4;transform:scale(.7)}
+}
+.blog-terminal{
+  background:var(--code-bg);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:14px;
+  padding:6px 0 22px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:.88rem;
+  color:var(--code-ink);
+  box-shadow:0 26px 60px rgba(16,32,26,.22);
+}
+.blog-terminal .repl-bar{display:flex;gap:7px;padding:10px 16px 12px;border-bottom:1px solid rgba(255,255,255,.07);margin-bottom:12px}
+.blog-terminal .repl-bar span{width:11px;height:11px;border-radius:50%;background:rgba(255,255,255,.16)}
+
+@media(max-width:640px){
+  #blog-page .wrap{padding-top:68px;padding-bottom:64px}
+  .blog-coming{grid-template-columns:1fr;gap:36px}
+  .blog-post-grid{grid-template-columns:1fr}
+}
+
 @media (max-width:640px){
   .wrap{padding-left:18px;padding-right:18px}
   .nav-inner{height:60px}
   .logo{font-size:.82rem}.logo .full-name{display:none}
   .nav-links{gap:14px}.nav-links a{font-size:.78rem}
-  .nav-links a:nth-child(1),.nav-links a:nth-child(2){display:none}
+  .nav-links a:nth-child(1),.nav-links a:nth-child(2),.nav-links a:nth-child(3){display:none}
   .certificate-grid{grid-template-columns:1fr}
   .certificate{min-height:0;padding:18px}
   .project{grid-template-columns:1fr;gap:18px;padding:18px}
@@ -220,11 +315,13 @@ footer{border-top:1px solid var(--line);padding:28px 0 40px;color:var(--muted);f
   <div class="wrap nav-inner">
     <a class="logo" href="#top" aria-label="Back to top"><span class="prompt">&gt;&gt;&gt;</span> Chanupa <span class="full-name">Deshan Munasinghe</span></a>
     <div class="nav-links">
-      <a href="#experience">Experience</a>
-      <a href="#education">Education</a>
-      <a href="#certificates">Certificates</a>
-      <a href="#projects">Projects</a>
-      <a href="#contact">Contact</a>
+      <a href="#experience" class="main-only">Experience</a>
+      <a href="#open-source" class="main-only">Open Source</a>
+      <a href="#education" class="main-only">Education</a>
+      <a href="#certificates" class="main-only">Certificates</a>
+      <a href="#projects" class="main-only">Projects</a>
+      <a href="#contact" class="main-only">Contact</a>
+      <a href="#" id="blog-link" class="nav-blog-link">Blog</a>
     </div>
   </div>
 </nav>
@@ -236,7 +333,8 @@ footer{border-top:1px solid var(--line);padding:28px 0 40px;color:var(--muted);f
       AI Engineer and MLOps practitioner. I mainly build agentic AI systems
       and AI for finance, alongside IoT, LLMOps, and AIOps work — with a bias
       toward honest baselines, real benchmarks, and evaluation-driven
-      development.
+      development. I'm also an open-source contributor at
+      <a href="https://127crew.dev/" target="_blank" rel="noreferrer">127Crew</a>.
     </p>
     <div class="hero-actions">
       <a class="button primary" href="#projects">Explore my work <span aria-hidden="true">↓</span></a>
@@ -258,7 +356,7 @@ footer{border-top:1px solid var(--line);padding:28px 0 40px;color:var(--muted);f
     <div class="repl-line in">&gt;&gt;&gt; <span class="obj">chanupa</span>.<span class="prop">learning</span></div>
     <div class="repl-line out">['AI security']</div>
     <div class="repl-line in">&gt;&gt;&gt; <span class="obj">chanupa</span>.<span class="prop">contact</span></div>
-    <div class="repl-line out">[<a href="mailto:chanupadeshan@gmail.com">'email'</a>, <a href="https://github.com/chanupadeshan" target="_blank" rel="noreferrer">'github'</a>, <a href="https://www.linkedin.com/in/chanupadeshanmunasinghe/" target="_blank" rel="noreferrer">'linkedin'</a>]</div>
+    <div class="repl-line out">[<a href="mailto:chanupadeshan@gmail.com">'email'</a>, <a href="https://github.com/chanupadeshan" target="_blank" rel="noreferrer">'github'</a>, <a href="https://www.linkedin.com/in/chanupadeshanmunasinghe/" target="_blank" rel="noreferrer">'linkedin'</a>, <a href="https://127crew.dev/" target="_blank" rel="noreferrer">'127crew'</a>]</div>
     <div class="repl-line in">&gt;&gt;&gt; <span class="cursor" aria-hidden="true"></span></div>
   </div>
 </header>
@@ -298,6 +396,18 @@ footer{border-top:1px solid var(--line);padding:28px 0 40px;color:var(--muted);f
           <span class="tag">Multilingual</span>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<section id="open-source" class="wrap">
+  <div class="section-head"><span class="hash">##</span><h2>Open Source</h2></div>
+  <div class="entry">
+    <div class="date">2026 – Present</div>
+    <div>
+      <h3>Open Source Contributor</h3>
+      <div class="org"><a href="https://127crew.dev/" target="_blank" rel="noreferrer">127Crew ↗</a></div>
+      <p class="desc">Contributing to open-source projects and initiatives at 127Crew, an open-source developer community.</p>
     </div>
   </div>
 </section>
@@ -407,14 +517,73 @@ footer{border-top:1px solid var(--line);padding:28px 0 40px;color:var(--muted);f
     <a href="mailto:chanupadeshan2002@gmail.com">Email ↗</a>
     <a href="https://github.com/chanupadeshan" target="_blank" rel="noreferrer">GitHub ↗</a>
     <a href="https://www.linkedin.com/in/chanupadeshanmunasinghe/" target="_blank" rel="noreferrer">LinkedIn ↗</a>
+    <a href="https://127crew.dev/" target="_blank" rel="noreferrer">127Crew ↗</a>
   </div>
 </section>
 
-<footer>
+<footer id="main-footer">
   <div class="wrap"># Made by Chanupa Deshan &copy; 2026 &mdash; content lives in one array, like any good config.</div>
 </footer>
 
+<!-- ===== Blog Page ===== -->
+<div id="blog-page" role="main" aria-label="Blog">
+  <div class="wrap">
+    <a href="#" id="blog-back" class="blog-back">
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="10 3 5 8 10 13"/></svg>
+      Back
+    </a>
+    <div class="blog-coming">
+      <div class="blog-left">
+        <h1 class="blog-heading">Something's <em>brewing</em>.</h1>
+        <p class="blog-sub">I'm working on posts about agentic AI, LLMOps, and honest ML engineering — evaluation-driven, no fluff. Check back soon.</p>
+        <span class="blog-badge"><span class="blog-badge-dot"></span>Under development</span>
+      </div>
+      <div class="blog-terminal" role="figure" aria-label="Blog status">
+        <div class="repl-bar"><span></span><span></span><span></span></div>
+        <div class="repl-line in">&gt;&gt;&gt; <span class="obj">blog</span>.<span class="prop">status</span></div>
+        <div class="repl-line out"><span class="str">'under_development'</span></div>
+        <div class="repl-line in">&gt;&gt;&gt; <span class="obj">blog</span>.<span class="prop">eta</span></div>
+        <div class="repl-line out"><span class="str">'soon™'</span></div>
+        <div class="repl-line in">&gt;&gt;&gt; <span class="obj">blog</span>.<span class="prop">topics</span></div>
+        <div class="repl-line out">['Agentic AI', 'LLMOps',</div>
+        <div class="repl-line out">&nbsp;'ML Engineering',</div>
+        <div class="repl-line out">&nbsp;'AI for Finance']</div>
+        <div class="repl-line in">&gt;&gt;&gt; <span class="cursor" aria-hidden="true"></span></div>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
 <script>
+/* ============================================================
+   Blog page toggle
+   ============================================================ */
+const blogPage     = document.getElementById('blog-page');
+const mainSections = document.querySelectorAll('header, section, #main-footer');
+
+function showBlog(){
+  blogPage.style.display = 'block';
+  mainSections.forEach(el => el.style.display = 'none');
+  window.scrollTo({top:0,behavior:'instant'});
+  document.title = 'Blog — Chanupa Deshan';
+}
+function showMain(){
+  blogPage.style.display = 'none';
+  mainSections.forEach(el => el.style.display = '');
+  document.title = 'Chanupa Deshan — AI Engineer';
+}
+
+document.getElementById('blog-link').addEventListener('click', e => {
+  e.preventDefault();
+  showBlog();
+});
+document.getElementById('blog-back').addEventListener('click', e => {
+  e.preventDefault();
+  showMain();
+});
+
 /* ============================================================
    Edit your projects here — the page renders itself from this.
    image: path to a screenshot (or null to show the glyph)
