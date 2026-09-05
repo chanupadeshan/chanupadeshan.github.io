@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Supervised Learning vs. Unsupervised Learning — Chanupa Deshan</title>
+  <meta name="description" content="How labels change what a machine learning model can learn, with practical examples and guidance on choosing an approach." />
+  <meta name="author" content="Chanupa Deshan" />
+  <link rel="canonical" href="https://chanupa.blog/blog/supervised-vs-unsupervised-learning.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Supervised Learning vs. Unsupervised Learning" />
+  <meta property="og:description" content="A practical introduction to labeled data, clustering, prediction, and choosing the right learning approach." />
+  <meta property="og:url" content="https://chanupa.blog/blog/supervised-vs-unsupervised-learning.html" />
+  <link rel="icon" type="image/png" href="../favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="article.css" />
+</head>
+<body>
+  <a class="skip-link" href="#article">Skip to article</a>
+  <nav aria-label="Main navigation">
+    <div class="nav-inner">
+      <a class="logo" href="../index.html#top"><span>&gt;&gt;&gt;</span> Chanupa</a>
+      <div class="nav-links">
+        <a href="../index.html#projects">Projects</a>
+        <a href="../index.html#contact">Contact</a>
+        <a href="../index.html#blog-page" aria-current="location">Blog</a>
+      </div>
+    </div>
+  </nav>
+  <main id="article" class="wrap">
+    <a class="back" href="../index.html#blog-page">← All posts</a>
+    <article>
+      <header>
+        <p class="eyebrow">Machine Learning · Foundations</p>
+        <h1>Supervised Learning vs. Unsupervised Learning</h1>
+        <p class="meta">Chanupa Deshan · <time datetime="2026-09-05">September 5, 2026</time></p>
+      </header>
+      <p>Imagine you have a spreadsheet containing thousands of bank transactions. You want to use machine learning to make sense of them.</p>
+      <p>If past transactions have been marked as fraudulent or legitimate, you can train a model to predict that label for new transactions. If you only have transaction details, you might instead look for groups of similar transactions or unusual patterns.</p>
+      <p>These are examples of supervised and unsupervised learning. The main difference is whether training data includes a target answer for the task.</p>
+      <h2>Supervised learning: learning from labeled examples</h2>
+      <p>In supervised learning, each training example includes input features and a target. The model learns a relationship between them so it can predict targets for unseen inputs.</p>
+      <p>For a house-price model, the features might be floor area, location, and number of bedrooms. The target is the recorded sale price.</p>
+      <div class="table-scroll" role="region" aria-label="Examples of features and targets" tabindex="0"><table><caption>Examples of features and targets</caption><thead><tr><th scope="col">Input features</th><th scope="col">Target</th></tr></thead><tbody><tr><td>Floor area, location, bedrooms</td><td>House sale price</td></tr><tr><td>Email text and sender information</td><td>Spam or legitimate</td></tr><tr><td>Transaction amount, time, and merchant</td><td>Fraudulent or legitimate</td></tr></tbody></table></div>
+      <p>The two common task types are:</p>
+      <ul><li><strong>Classification:</strong> predicting a category, such as whether an email is spam.</li><li><strong>Regression:</strong> predicting a numeric value, such as a house price.</li></ul>
+      <p>Common algorithms include linear regression, logistic regression, decision trees, random forests, and support vector machines. Neural networks can also be trained for supervised tasks.</p>
+      <p>During training, an algorithm adjusts the model to reduce a loss: a measure of how far its predictions are from the known targets. But performing well on training examples is only part of the job. We evaluate on held-out data to check whether the model generalizes.</p>
+      <p>The evaluation metric should match the task. For house prices, mean absolute error expresses the average error in the same currency as the target. For rare fraud cases, accuracy alone can be misleading: predicting every transaction as legitimate may appear accurate while missing every fraudulent transaction. Precision and recall help reveal that failure.</p>
+      <h2>Unsupervised learning: finding structure without target labels</h2>
+      <p>In unsupervised learning, the training data does not provide target labels for the task. The algorithm looks for structure according to its objective and assumptions.</p>
+      <p>Consider a bank that wants to explore customer behavior. It has features such as transaction frequency, average spending, and account balance, but no predefined customer-segment labels.</p>
+      <p>A clustering algorithm can group customers with similar feature values. An analyst then examines those groups and decides whether they are useful. Names such as “frequent small purchases” are human interpretations of the results.</p>
+      <p>Two common task types are:</p>
+      <ul><li><strong>Clustering:</strong> grouping similar examples. K-means and DBSCAN are common algorithms.</li><li><strong>Dimensionality reduction:</strong> representing data with fewer dimensions. Principal component analysis (PCA) is one approach, which preserves as much variance as possible for a chosen number of components.</li></ul>
+      <p>Unsupervised methods can also help flag unusual observations. An unusual transaction deserves investigation, but unusual behavior alone does not prove fraud.</p>
+      <p>Without target labels, evaluation takes more judgment. You can examine cluster separation, stability, and usefulness for the intended task. A good numerical clustering score does not automatically mean you have found meaningful customer segments.</p>
+      <h2>The key differences</h2>
+      <div class="table-scroll" role="region" aria-label="Supervised and unsupervised learning comparison" tabindex="0"><table><caption>Supervised and unsupervised learning comparison</caption><thead><tr><th scope="col">Question</th><th scope="col">Supervised learning</th><th scope="col">Unsupervised learning</th></tr></thead><tbody><tr><td>What training data is available?</td><td>Features with target labels</td><td>Features without target labels for the task</td></tr><tr><td>What is the goal?</td><td>Predict a known target</td><td>Discover or represent structure</td></tr><tr><td>Example</td><td>Predict whether a customer will leave</td><td>Group customers by behavior</td></tr><tr><td>Common tasks</td><td>Classification and regression</td><td>Clustering and dimensionality reduction</td></tr><tr><td>How is it evaluated?</td><td>Predictions against held-out targets</td><td>Structure, stability, and practical usefulness</td></tr><tr><td>Main challenge</td><td>Obtaining reliable, representative labels</td><td>Deciding whether discovered patterns are meaningful</td></tr></tbody></table></div>
+      <h2>Which should you use?</h2>
+      <p>Start with the question you want to answer.</p>
+      <p>If you want to predict a specific outcome and have reliable historical labels, supervised learning is a natural starting point. If you want to explore patterns without a predefined target, unsupervised learning may help.</p>
+      <p>Both depend on how you prepare the data. For example, k-means uses distances, so a feature measured in thousands can dominate another measured between zero and one unless you handle scaling appropriately. Supervised models can also produce misleading results if their inputs contain information that would only become available after the prediction is needed. That is data leakage.</p>
+      <p>The approaches can work together. You might first explore customer groups, then train a supervised model to predict customer churn. Any preprocessing used in that predictive pipeline should be fitted on the training data to keep evaluation honest.</p>
+      <p>Before choosing an algorithm, write down your target, the data available at prediction time, and what a useful result would look like. Those decisions will guide the approach more reliably than starting with a favorite model.</p>
+    </article>
+    <a class="back end-link" href="../index.html#blog-page">← All posts</a>
+  </main>
+  <footer><div class="wrap">© 2026 Chanupa Deshan</div></footer>
+</body>
+</html>
