@@ -321,7 +321,7 @@ footer{border-top:1px solid var(--line);padding:28px 0 40px;color:var(--muted);f
       <a href="#certificates" class="main-only">Certificates</a>
       <a href="#projects" class="main-only">Projects</a>
       <a href="#contact" class="main-only">Contact</a>
-      <a href="#" id="blog-link" class="nav-blog-link">Blog</a>
+      <a href="#blog-page" id="blog-link" class="nav-blog-link">Blog</a>
     </div>
   </div>
 </nav>
@@ -528,7 +528,7 @@ footer{border-top:1px solid var(--line);padding:28px 0 40px;color:var(--muted);f
 <!-- ===== Blog Page ===== -->
 <div id="blog-page" role="main" aria-label="Blog">
   <div class="wrap">
-    <a href="#" id="blog-back" class="blog-back">
+    <a href="#top" id="blog-back" class="blog-back">
       <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="10 3 5 8 10 13"/></svg>
       Back
     </a>
@@ -573,14 +573,19 @@ function showMain(){
   document.title = 'Chanupa Deshan — AI Engineer';
 }
 
-document.getElementById('blog-link').addEventListener('click', e => {
-  e.preventDefault();
-  showBlog();
-});
-document.getElementById('blog-back').addEventListener('click', e => {
-  e.preventDefault();
+function navigateToHash(){
+  if(window.location.hash === '#blog-page'){
+    showBlog();
+    return;
+  }
+
   showMain();
-});
+  // Reveal the homepage before scrolling to an anchor that was hidden by Blog.
+  const target = document.getElementById(window.location.hash.slice(1) || 'top');
+  if(target) target.scrollIntoView();
+}
+
+window.addEventListener('hashchange', navigateToHash);
 
 /* ============================================================
    Edit your projects here — the page renders itself from this.
@@ -649,6 +654,8 @@ list.innerHTML = PROJECTS.map(p => `
     </div>
   </article>
 `).join("");
+
+navigateToHash();
 </script>
 
 </body>
