@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data preprocessing: from raw data to model-ready inputs — Chanupa Deshan</title>
+  <meta name="description" content="What data preprocessing is, why it matters, and practical Python examples for tables, text, images, and time series." />
+  <meta name="author" content="Chanupa Deshan" />
+  <link rel="canonical" href="https://chanupa.blog/blog/data-preprocessing/data-preprocessing.html" />
+  <link rel="alternate" hreflang="en" href="https://chanupa.blog/blog/data-preprocessing/data-preprocessing.html" />
+  <link rel="alternate" hreflang="si" href="https://chanupa.blog/blog/data-preprocessing/data-preprocessing.si.html" />
+  <link rel="alternate" hreflang="x-default" href="https://chanupa.blog/blog/data-preprocessing/data-preprocessing.html" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:locale:alternate" content="si_LK" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Data preprocessing: from raw data to model-ready inputs" />
+  <meta property="og:description" content="What data preprocessing is, why it matters, and practical Python examples for tables, text, images, and time series." />
+  <meta property="og:url" content="https://chanupa.blog/blog/data-preprocessing/data-preprocessing.html" />
+  <link rel="icon" type="image/png" href="../../favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../article.css" />
+  <link rel="stylesheet" href="../../styles/navigation.css" />
+</head>
+<body>
+  <a class="skip-link" href="#article">Skip to article</a>
+<nav lang="en" aria-label="Main navigation">
+  <div class="wrap nav-inner">
+    <a class="logo" href="../../index.html#top" aria-label="Back to top"><span class="prompt">&gt;&gt;&gt;</span> Chanupa <span class="full-name">Deshan Munasinghe</span></a>
+    <div class="nav-links">
+      <a href="../../index.html#experience" class="main-only">Experience</a>
+      <a href="../../index.html#open-source" class="main-only">Open Source</a>
+      <a href="../../index.html#education" class="main-only">Education</a>
+      <a href="../../index.html#certificates" class="main-only">Certificates</a>
+      <a href="../../index.html#projects" class="main-only">Projects</a>
+      <a href="../../index.html#contact" class="main-only">Contact</a>
+      <a href="../../index.html#blog-page" id="blog-link" class="nav-blog-link">Blog</a>
+    </div>
+  </div>
+</nav>
+  <main id="article" class="wrap">
+    <div class="article-toolbar">
+    <a class="back" href="../../index.html#blog-page">← All posts</a>
+      <div class="language-switch" role="group" aria-label="Article language"><a href="data-preprocessing.html" lang="en" hreflang="en" aria-current="page">English</a><a href="data-preprocessing.si.html" lang="si" hreflang="si">සිංහල</a></div>
+    </div>
+    <article>
+      <header class="article-hero">
+        <div class="hero-copy">
+        <p class="eyebrow">Machine Learning · Foundations</p>
+        <h1>Data <span class="title-accent">preprocessing.</span></h1>
+        <p class="dek">From raw inputs to useful features. A practical guide to tables, text, images, and more—with Python.</p>
+        <p class="meta">Chanupa Deshan · <time datetime="2026-09-05">September 5, 2026</time> · Guide + 4 Python examples</p>
+
+        </div>
+        <figure class="learning-visual"><figcaption><span class="figure-index">02 / DATA PREPROCESSING</span><span class="visual-dot" aria-hidden="true"></span></figcaption><div class="prep-flow"><div class="prep-step"><span>01</span><p>Inspect the inputs</p></div><div class="prep-step"><span>02</span><p>Split the data</p></div><div class="prep-step"><span>03</span><p>Fit on training data</p></div><div class="prep-step"><span>04</span><p>Transform new inputs</p></div></div><p class="visual-note">One repeatable process, from training to prediction.</p></figure>
+      </header>
+      <div class="reading-layout">
+        <aside class="contents" aria-label="ON THIS PAGE"><p>ON THIS PAGE</p><a href="#overview"><span>01</span> What & why</a><a href="#workflow"><span>02</span> A safe workflow</a><a href="#tabular"><span>03</span> Tabular data</a><a href="#text"><span>04</span> Text</a><a href="#images"><span>05</span> Images</a><a href="#time-series"><span>06</span> Time series</a><a href="#other-data"><span>07</span> Audio, video & more</a><a href="#checklist"><span>08</span> Checklist</a></aside>
+<div class="prose"><div class="takeaway"><span>THE CORE IDEA</span><p>Fit learned preprocessing on training data. Reuse it for validation, testing, and real-world predictions.</p></div>
+<p>A model does not see a customer, a sentence, or a photograph the way we do. It receives a representation of that information. Data preprocessing is how we turn raw observations into consistent inputs that a model can use.</p>
+<p>In the <a href="../supervisedVSunsupervised/supervised-vs-unsupervised-learning.html">previous post</a>, we compared supervised and unsupervised learning. Both depend on the quality of those inputs. Here, we will prepare several kinds of data and write the Python code behind each step.</p>
+<h2 id="overview"><span class="section-number">01</span>What is preprocessing, and why does it matter?</h2>
+<p>Preprocessing includes checking data types, correcting known errors, handling missing values, and converting inputs into a useful representation. Feature engineering is closely related: it creates useful signals, such as the hour of a transaction or yesterday’s temperature.</p>
+<p>Imagine a price column containing <code>1200</code>, <code>"1,200"</code>, an empty cell, and an amount recorded in a different currency. Converting everything to a number is not enough. You also need to understand units, what a blank means, and which values are valid.</p>
+<p>Good preprocessing makes inputs consistent, helps suitable models learn efficiently, and makes training and real-world prediction follow the same rules. It can also expose collection errors before they become model errors. It does not fix incorrect labels, missing populations, or a poorly defined problem on its own.</p>
+<div class="table-scroll" role="region" aria-label="Preprocessing by data type" tabindex="0"><table><caption>Preprocessing by data type</caption>
+<thead>
+<tr>
+<th scope="col">Data type</th>
+<th scope="col">Typical preparation</th>
+<th scope="col">A mistake to avoid</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tables</td>
+<td>Imputation, encoding, scaling</td>
+<td>Fitting statistics on the test set</td>
+</tr>
+<tr>
+<td>Text</td>
+<td>Unicode handling, tokenization, vectorization</td>
+<td>Removing meaning with aggressive cleaning</td>
+</tr>
+<tr>
+<td>Images</td>
+<td>Orientation, color mode, resizing, pixel conversion</td>
+<td>Applying the wrong pretrained-model transform</td>
+</tr>
+<tr>
+<td>Time series</td>
+<td>Timestamp alignment, lags, temporal splits</td>
+<td>Using future observations in current features</td>
+</tr>
+<tr>
+<td>Audio and video</td>
+<td>Sample/frame rates, alignment, feature extraction</td>
+<td>Splitting clips from one recording across train and test</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="workflow"><span class="section-number">02</span>A workflow that keeps evaluation honest</h2>
+<p>Inspect the schema and define the prediction task first. Decide which information will actually exist when the prediction is made. Resolve known duplicate records and group related samples so the same person, document, or recording does not leak across splits.</p>
+<p>Then create training, validation, and test sets suited to the task. A random split can work for independent examples; grouped or chronological splits are needed when records are related or ordered in time.</p>
+<p><strong>Fit learned preprocessing on training data only.</strong> Medians, means, category vocabularies, and feature-selection rules all learn from data. Reuse those fitted transformations for validation, testing, and production. In cross-validation, fit them again inside each training fold. A pipeline helps keep preprocessing and the model together. See scikit-learn’s <a href="https://scikit-learn.org/stable/common_pitfalls.html">guide to data leakage</a>.</p>
+<p>The examples use Python and small teaching datasets. Download <a download href="requirements.txt">requirements.txt</a>, then install the packages in a virtual environment:</p>
+<pre tabindex="0"><code class="language-bash">python -m venv .venv
+# Linux / macOS:
+source .venv/bin/activate
+# Windows PowerShell: .venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+</code></pre>
+<p>Download each linked Python file and run it, for example <code>python tabular.py</code>. These examples demonstrate transformations, not production model quality.</p>
+<h2 id="tabular"><span class="section-number">03</span>Tabular data: missing values, categories, and scale</h2>
+<p>Start by validating types, units, ranges, and duplicate identifiers. Investigate outliers before deleting them: a large transaction may be the very event you want to detect. Missing values may require a median, a category such as “unknown,” a missingness indicator, or a model that handles them directly. Choose based on what absence means.</p>
+<p>For many linear and distance-based models, numeric scaling matters. Standardization subtracts the training mean and divides by the training standard deviation; min–max scaling maps the training range to a chosen interval. Robust scaling uses statistics such as the median and interquartile range. Tree-based models usually do not need the same scaling. These are alternatives, not a checklist to apply together. See <a href="https://scikit-learn.org/stable/modules/preprocessing.html">scikit-learn’s preprocessing guide</a>.</p>
+<p>One-hot encoding represents categories as indicator columns without inventing a numeric order. Use ordinal encoding only when the order is meaningful. High-cardinality categories may need a different representation; target encoding needs particular care to avoid leakage.</p>
+<p>This example imputes and scales numeric columns, encodes cities, and trains a classifier. The pipeline accepts an unseen city without crashing, but ignoring an unknown category does not guarantee a good prediction. The pattern uses <a href="https://scikit-learn.org/stable/auto_examples/compose/plot_column_transformer_mixed_types.html">ColumnTransformer and Pipeline</a>.</p>
+<p><a download href="examples/tabular.py">Download tabular.py</a></p>
+<pre tabindex="0"><code class="language-python">&quot;&quot;&quot;Small teaching example; predictions are not a quality benchmark.&quot;&quot;&quot;
+import numpy as np
+import pandas as pd
+from sklearn.compose import ColumnTransformer
+from sklearn.impute import SimpleImputer
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+
+X = pd.DataFrame({
+    &quot;age&quot;: [22, 45, np.nan, 31, 52, 27, 39, 24, 48, 35, 29, 56],
+    &quot;income&quot;: [30, 80, 45, np.nan, 95, 35, 65, 28, 88, 55, 40, 100],
+    &quot;city&quot;: [&quot;Kandy&quot;, &quot;Colombo&quot;, &quot;Galle&quot;] * 4,
+})
+y = [0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1]
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.25, stratify=y, random_state=42
+)
+
+numeric = Pipeline([
+    (&quot;fill&quot;, SimpleImputer(strategy=&quot;median&quot;)),
+    (&quot;scale&quot;, StandardScaler()),
+])
+categorical = Pipeline([
+    (&quot;fill&quot;, SimpleImputer(strategy=&quot;most_frequent&quot;)),
+    (&quot;encode&quot;, OneHotEncoder(handle_unknown=&quot;ignore&quot;)),
+])
+prepare = ColumnTransformer([
+    (&quot;numeric&quot;, numeric, [&quot;age&quot;, &quot;income&quot;]),
+    (&quot;category&quot;, categorical, [&quot;city&quot;]),
+])
+model = Pipeline([
+    (&quot;prepare&quot;, prepare),
+    (&quot;predict&quot;, LogisticRegression(max_iter=1000)),
+])
+model.fit(X_train, y_train)  # Learn every statistic on training data only.
+print(&quot;Test predictions:&quot;, model.predict(X_test))
+new_customer = pd.DataFrame({
+    &quot;age&quot;: [33], &quot;income&quot;: [50], &quot;city&quot;: [&quot;Jaffna&quot;]
+})
+print(&quot;New category prediction:&quot;, model.predict(new_customer))
+</code></pre>
+<h2 id="text"><span class="section-number">04</span>Text: preserve meaning before creating numbers</h2>
+<p>Text preprocessing is task-dependent. Common steps include decoding correctly, removing unwanted markup, normalizing Unicode, and tokenization. Lowercasing, stop-word removal, stemming, and lemmatization are optional. Removing “not” can reverse sentiment; deleting punctuation can lose useful signals. Stripping every non-English character would destroy Sinhala text.</p>
+<p>Traditional models can use counts or TF-IDF features. Here, character n-grams provide a simple baseline for English and Sinhala without assuming that an English word tokenizer works for both. TF-IDF learns a vocabulary and inverse-document-frequency weights from the training corpus. A sparse output matrix stores mostly nonzero entries efficiently. The <a href="https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html">TfidfVectorizer documentation</a> explains its options.</p>
+<p><a download href="examples/text.py">Download text.py</a></p>
+<pre tabindex="0"><code class="language-python">import unicodedata
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+
+def clean_text(text):
+    # Keep Sinhala characters, punctuation, and words such as &quot;not&quot;.
+    text = unicodedata.normalize(&quot;NFC&quot;, text)
+    return &quot; &quot;.join(text.split())
+
+
+train_texts = [
+    &quot;This service is good!&quot;, &quot;This service is not good.&quot;,
+    &quot;මෙම සේවාව හොඳයි&quot;, &quot;මෙම සේවාව හොඳ නැහැ&quot;,
+]
+test_texts = [&quot;  The service\n is good. &quot;, &quot;සේවාව හොඳයි&quot;]
+vectorizer = TfidfVectorizer(
+    analyzer=&quot;char_wb&quot;, ngram_range=(3, 5), lowercase=True
+)
+X_train = vectorizer.fit_transform([clean_text(t) for t in train_texts])
+X_test = vectorizer.transform([clean_text(t) for t in test_texts])
+print(&quot;Training shape:&quot;, X_train.shape)
+print(&quot;Test shape:&quot;, X_test.shape)
+# Both matrices use the vocabulary and IDF learned from train_texts.
+</code></pre>
+<p>The test matrix has the same number of feature columns as the training matrix. It does not grow a new vocabulary from the test messages. Character n-grams are not a complete linguistic tokenizer. For transformer models, use the tokenizer associated with the checkpoint, including its padding, truncation, and attention-mask conventions. Avoid cleaning away information that tokenizer expects.</p>
+<h2 id="images"><span class="section-number">05</span>Images: consistent shape, color, and pixel values</h2>
+<p>First check that images decode and that labels are correct. Respect camera orientation, choose a consistent color mode, and decide whether to resize, crop, or pad. Stretching changes geometry; cropping can remove the subject; padding adds borders. The best choice depends on the task.</p>
+<p>The example preserves aspect ratio, pads to a square, converts to RGB, and maps an 8-bit image into a float array in <code>[0, 1]</code>. Its output layout is height × width × channels. Some models expect channels first or additional normalization. Follow the exact preprocessing of a pretrained checkpoint. See <a href="https://pillow.readthedocs.io/en/stable/reference/ImageOps.html">Pillow’s image operations</a> and <a href="https://docs.pytorch.org/vision/stable/transforms.html">Torchvision’s transform guide</a>.</p>
+<p><a download href="examples/image.py">Download image.py</a></p>
+<pre tabindex="0"><code class="language-python">import numpy as np
+from PIL import Image, ImageOps
+
+
+def prepare_image(image):
+    image = ImageOps.exif_transpose(image)  # Respect camera orientation.
+    image = image.convert(&quot;RGB&quot;)
+    image = ImageOps.pad(
+        image, (224, 224), method=Image.Resampling.BILINEAR,
+        color=(0, 0, 0),
+    )  # Preserve aspect ratio and add padding.
+    return np.asarray(image, dtype=np.float32) / 255.0
+
+
+# A synthetic input keeps the example runnable without downloading a photo.
+example = Image.new(&quot;RGB&quot;, (320, 180), color=(80, 160, 240))
+pixels = prepare_image(example)
+print(&quot;Shape:&quot;, pixels.shape)  # (224, 224, 3): height, width, channels
+print(&quot;Type:&quot;, pixels.dtype)  # float32
+print(&quot;Range:&quot;, pixels.min(), pixels.max())  # Within [0, 1]
+# For your photo:
+# with Image.open(&quot;photo.jpg&quot;) as photo:
+#     pixels = prepare_image(photo)
+</code></pre>
+<p>This conversion is for ordinary 8-bit RGB images, not a universal recipe for medical scans or high-bit-depth sensor data. Dividing by 255 is pixel scaling; per-channel mean/std normalization is a separate operation.</p>
+<p>Training-time augmentation adds plausible variations such as crops, brightness changes, or flips. Keep validation/test preprocessing deterministic unless you deliberately evaluate a defined test-time augmentation scheme. A horizontal flip may preserve a cat label but corrupt written text. For segmentation and detection, transform masks or boxes consistently with the image.</p>
+<h2 id="time-series"><span class="section-number">06</span>Time series: prepare the past, not the future</h2>
+<p>Parse timestamps, standardize time zones, sort observations, and check gaps or irregular sampling. Resampling can place readings on a shared interval; use an aggregation suited to the measurement. Missing observations are not automatically zeros.</p>
+<p>For forecasting, create lagged values and rolling statistics that use only information available at the prediction time. Backward filling or interpolation using later observations can leak the future. The example below fills only short feature gaps from the past, leaves missing targets unfilled, and separates training from testing by time. Relevant APIs are covered in the <a href="https://pandas.pydata.org/docs/user_guide/timeseries.html">pandas time-series guide</a>.</p>
+<p><a download href="examples/time_series.py">Download time_series.py</a></p>
+<pre tabindex="0"><code class="language-python">import numpy as np
+import pandas as pd
+
+readings = pd.Series(
+    [10, 12, np.nan, 14, 13, 15, 16, 18, 17, 19, 20, 21],
+    index=pd.date_range(&quot;2026-01-01&quot;, periods=12, freq=&quot;h&quot;, tz=&quot;UTC&quot;),
+    name=&quot;value&quot;,
+)
+# Keep the measured target separate. Do not invent evaluation labels.
+features = pd.DataFrame({
+    &quot;lag_1&quot;: readings.shift(1),
+    &quot;past_mean_3&quot;: readings.shift(1).rolling(3, min_periods=1).mean(),
+    &quot;hour&quot;: readings.index.hour,
+})
+features = features.ffill(limit=1)  # Only past values; fill short gaps.
+data = features.join(readings.rename(&quot;target&quot;)).dropna()
+cutoff = pd.Timestamp(&quot;2026-01-01 08:00&quot;, tz=&quot;UTC&quot;)
+train = data.loc[data.index &lt; cutoff]
+test = data.loc[data.index &gt;= cutoff]
+print(&quot;Training rows:&quot;, len(train), &quot;Test rows:&quot;, len(test))
+print(test.head())
+# This is rolling one-step prediction: earlier observations become available.
+# For a fixed multi-step forecast, future actual values cannot supply lags.
+</code></pre>
+<p>The output has six training rows and four test rows. This is a <strong>rolling one-step</strong> setup: by the time you predict the next reading, earlier readings are observed. For a forecast of the entire next day made at midnight, actual values from later that day cannot supply lag features. Match the code to your forecasting horizon.</p>
+<h2 id="other-data"><span class="section-number">07</span>What about audio, video, and imbalanced data?</h2>
+<p>For audio, check the sample rate, channel count, clipping, and recording quality. You may resample, select or combine channels, trim irrelevant silence, divide recordings into windows, or compute spectrograms and MFCCs. A speech model may already include some of these steps. Do not discard channel information if location or direction matters, and do not normalize away loudness when it carries the target signal.</p>
+<p>For video, choose a frame-sampling policy, apply compatible image transforms, and preserve temporal order. Keep synchronized audio, frames, and labels aligned. Split by source recording or subject when nearby clips would otherwise be nearly identical across train and test.</p>
+<p>Class imbalance is another concern across data types. Consider class weights, suitable metrics, and possibly training-set resampling. If you oversample or create synthetic examples, do it only within the training partition of each fold. Do not rebalance the held-out test set just to make scores look better.</p>
+<h2 id="checklist"><span class="section-number">08</span>A practical checklist</h2>
+<ul>
+<li>Check types, units, missingness, duplicates, label quality, and representation of relevant groups.</li>
+<li>Choose a split that matches the way the model will encounter new data.</li>
+<li>Fit learned transformations on training data only; preserve the fitted pipeline.</li>
+<li>Validate shapes, ranges, unknown categories, empty text, broken files, and missing timestamps.</li>
+<li>Apply the same inference preprocessing during testing and deployment.</li>
+<li>Compare against a simple baseline and check whether each transformation helps the actual task.</li>
+<li>Record package versions and preprocessing choices alongside the model.</li>
+</ul>
+<p>Preprocessing is part of the model’s behavior. Treat it as code you can inspect, test, and reuse—not a collection of cleaning steps you have to repeat manually.</p>
+        </div>
+      </div>
+    </article>
+    <div class="article-end"><p>Keep exploring.<span>More notes on AI and engineering.</span></p><a class="back" href="../../index.html#blog-page">← All posts</a></div>
+  </main>
+  <footer><div class="wrap">© 2026 Chanupa Deshan</div></footer>
+</body>
+</html>

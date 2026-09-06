@@ -52,20 +52,6 @@ a:hover{color:var(--accent-hover);border-bottom-color:currentColor}
 a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
 .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
 
-/* ---------- Nav ---------- */
-nav{
-  position:sticky;top:0;z-index:10;
-  background:rgba(247,249,246,.86);
-  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-  border-bottom:1px solid var(--line);
-}
-.nav-inner{display:flex;align-items:center;justify-content:space-between;height:68px}
-.logo{font-family:'JetBrains Mono',monospace;font-weight:500;font-size:.95rem;color:var(--ink);border-bottom:0}
-.logo .prompt{color:var(--accent)}
-.nav-links{display:flex;gap:28px}
-.nav-links a{color:var(--muted);font-size:.86rem;font-weight:600}
-.nav-links a:hover{color:var(--ink)}
-
 /* ---------- Hero ---------- */
 header{padding:104px 24px 72px}
 .intro h1{
@@ -195,108 +181,47 @@ section{padding:72px 24px}
 footer{border-top:1px solid var(--line);padding:28px 0 40px;color:var(--muted);font-size:.8rem;font-family:'JetBrains Mono',monospace}
 
 /* ---------- Blog page ---------- */
-.blog-post{max-width:760px;padding:28px;background:var(--card);border:1px solid var(--line);border-radius:16px}
-.blog-post h2{font-family:'Archivo',sans-serif;font-size:1.6rem;line-height:1.3;margin:12px 0}
-.blog-post h2 a{color:var(--ink)}
-.blog-post > p:not(.certificate-meta){color:var(--muted);margin-bottom:22px}
-#blog-page{
-  display:none;
-  animation:blogIn .35s cubic-bezier(.22,1,.36,1);
-}
-@keyframes blogIn{
-  from{opacity:0;transform:translateY(20px)}
-  to{opacity:1;transform:translateY(0)}
-}
-#blog-page .wrap{padding-top:104px;padding-bottom:96px}
-.blog-eyebrow{
-  display:inline-flex;align-items:center;gap:8px;
-  font-family:'JetBrains Mono',monospace;
-  font-size:.78rem;font-weight:500;
-  color:var(--muted);
-  margin-bottom:28px;
-}
-.blog-eyebrow svg{color:var(--accent)}
-.blog-back{
-  display:inline-flex;align-items:center;gap:7px;
-  font-family:'JetBrains Mono',monospace;
-  font-size:.8rem;font-weight:500;
-  color:var(--muted);
-  border-bottom:0;
-  margin-bottom:52px;
-  transition:color .2s;
-}
-.blog-back:hover{color:var(--ink);border-bottom:0}
-.blog-back svg{transition:transform .2s;flex-shrink:0}
-.blog-back:hover svg{transform:translateX(-3px)}
-.blog-coming{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:64px;
-  align-items:center;
-}
-
-.blog-heading{
-  font-family:'Archivo',sans-serif;
-  font-weight:800;
-  font-size:clamp(2.4rem,5vw,3.8rem);
-  letter-spacing:-.045em;
-  line-height:1.05;
-  margin-bottom:20px;
-}
+#blog-page{display:none;animation:blogIn .3s ease-out}
+@keyframes blogIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+#blog-page .wrap{padding-top:36px;padding-bottom:80px}
+.blog-back{display:inline-flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--muted);border:0}
+.blog-back:hover{color:var(--accent);border:0}
+.blog-intro{display:flex;align-items:flex-end;justify-content:space-between;gap:40px;margin:44px 0 42px}
+.blog-kicker{font-family:'JetBrains Mono',monospace;font-size:.69rem;letter-spacing:.13em;color:var(--accent);margin-bottom:14px}
+.blog-heading{font-family:'Archivo',sans-serif;font-size:clamp(2.7rem,5.2vw,4rem);font-weight:800;letter-spacing:-.05em;line-height:1.05}
 .blog-heading em{font-style:normal;color:var(--accent)}
-.blog-sub{
-  color:var(--muted);
-  font-size:1.05rem;
-  max-width:50ch;
-  line-height:1.75;
-  margin-bottom:28px;
+.blog-sub{font-size:.9rem;line-height:1.8;color:var(--muted);max-width:34ch;padding-bottom:3px}
+.blog-index{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);padding:20px 0;font-family:'JetBrains Mono',monospace;font-size:.7rem}
+.blog-index span:last-child{color:var(--muted)}
+.blog-post + .blog-post{margin-top:24px}
+.blog-post{display:grid;grid-template-columns:1fr 1.05fr;gap:0;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fff}
+.blog-cover{position:relative;display:flex;flex-direction:column;justify-content:space-between;min-height:370px;padding:32px;background:#e4efe8;background-image:radial-gradient(#acc4b7 1px,transparent 1px);background-size:18px 18px;border-right:1px solid var(--line)}
+.cover-label{font-family:'JetBrains Mono',monospace;font-size:.64rem;letter-spacing:.1em;color:#476756}
+.cover-title{font-family:'Archivo',sans-serif;font-size:1.45rem;line-height:1.3;letter-spacing:-.025em;color:#244c39;margin-top:16px}
+.cover-title span{color:#557a64;font-weight:500}
+.blog-cover svg{display:block;width:100%;height:auto;max-height:160px;margin:20px 0}
+.cover-footer{display:flex;justify-content:space-between;gap:14px;font-family:'JetBrains Mono',monospace;font-size:.61rem;color:#476756}
+.blog-post-copy{display:flex;flex-direction:column;align-items:flex-start;padding:38px}
+.blog-category{font-size:.67rem;font-weight:600;letter-spacing:.06em;color:var(--accent);text-transform:uppercase}
+.blog-post h2{font-family:'Archivo',sans-serif;font-size:clamp(1.55rem,2.5vw,2rem);line-height:1.22;letter-spacing:-.025em;margin:16px 0}
+.blog-post h2 a{color:var(--ink);border:0}.blog-post h2 a:hover{color:var(--accent)}
+.blog-excerpt{font-size:.9rem;line-height:1.8;color:var(--muted)}
+.blog-post-meta{font-family:'JetBrains Mono',monospace;font-size:.64rem;color:var(--muted);margin:22px 0 26px}
+.blog-post-actions{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px;width:100%;margin-top:auto}
+.post-languages{font-size:.78rem;line-height:1.8;color:var(--muted)}
+.post-languages a{display:inline-block;padding:5px 0}
+.blog-read{display:inline-flex;align-items:center;gap:24px;font-size:.8rem;font-weight:600;margin-top:auto;padding-bottom:5px;border-bottom:1px solid #b7cfc3}
+.blog-read span{font-size:1.1rem;transition:transform .2s}.blog-read:hover span{transform:translateX(4px)}
+.blog-signoff{display:flex;justify-content:space-between;gap:24px;margin-top:28px;color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:.65rem}
+@media(max-width:760px){
+ .blog-intro{align-items:flex-start;flex-direction:column;gap:18px;margin:32px 0}
+ .blog-sub{max-width:48ch}.blog-post{grid-template-columns:1fr}.blog-cover{min-height:300px;border-right:0;border-bottom:1px solid var(--line)}
+ .blog-cover svg{max-height:140px}.blog-post-copy{padding:28px}.blog-signoff{flex-direction:column;gap:8px}
 }
-.blog-badge{
-  display:inline-flex;align-items:center;gap:8px;
-  background:var(--accent-soft);
-  border:1px solid rgba(14,122,95,.18);
-  border-radius:999px;
-  padding:6px 16px;
-  font-family:'JetBrains Mono',monospace;
-  font-size:.78rem;
-  color:var(--accent);
-  font-weight:500;
-}
-.blog-badge-dot{
-  width:7px;height:7px;
-  border-radius:50%;
-  background:var(--accent);
-  animation:pulse 1.6s ease-in-out infinite;
-}
-@keyframes pulse{
-  0%,100%{opacity:1;transform:scale(1)}
-  50%{opacity:.4;transform:scale(.7)}
-}
-.blog-terminal{
-  background:var(--code-bg);
-  border:1px solid rgba(255,255,255,.07);
-  border-radius:14px;
-  padding:6px 0 22px;
-  font-family:'JetBrains Mono',monospace;
-  font-size:.88rem;
-  color:var(--code-ink);
-  box-shadow:0 26px 60px rgba(16,32,26,.22);
-}
-.blog-terminal .repl-bar{display:flex;gap:7px;padding:10px 16px 12px;border-bottom:1px solid rgba(255,255,255,.07);margin-bottom:12px}
-.blog-terminal .repl-bar span{width:11px;height:11px;border-radius:50%;background:rgba(255,255,255,.16)}
-
-@media(max-width:640px){
-  #blog-page .wrap{padding-top:68px;padding-bottom:64px}
-  .blog-coming{grid-template-columns:1fr;gap:36px}
-  .blog-post-grid{grid-template-columns:1fr}
-}
+@media(max-width:400px){.blog-cover{padding:24px}.blog-post-copy{padding:24px}.blog-heading{font-size:2.6rem}}
 
 @media (max-width:640px){
   .wrap{padding-left:18px;padding-right:18px}
-  .nav-inner{height:60px}
-  .logo{font-size:.82rem}.logo .full-name{display:none}
-  .nav-links{gap:14px}.nav-links a{font-size:.78rem}
-  .nav-links a:nth-child(1),.nav-links a:nth-child(2),.nav-links a:nth-child(3){display:none}
   .certificate-grid{grid-template-columns:1fr}
   .certificate{min-height:0;padding:18px}
   .project{grid-template-columns:1fr;gap:18px;padding:18px}
@@ -312,6 +237,7 @@ footer{border-top:1px solid var(--line);padding:28px 0 40px;color:var(--muted);f
   .sub-project h4,.sub-project .sub-date{display:block;margin-left:0}
 }
 </style>
+<link rel="stylesheet" href="styles/navigation.css" />
 </head>
 <body>
 
@@ -536,14 +462,66 @@ footer{border-top:1px solid var(--line);padding:28px 0 40px;color:var(--muted);f
       <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="10 3 5 8 10 13"/></svg>
       Back
     </a>
-    <h1 class="blog-heading">Notes on <em>AI &amp; engineering</em>.</h1>
-    <p class="blog-sub">Practical explanations of machine learning, agentic AI, and the engineering behind them.</p>
+    <div class="blog-intro">
+      <div>
+        <p class="blog-kicker">IDEAS, EXPLAINED.</p>
+        <h1 class="blog-heading">The <em>notebook.</em></h1>
+      </div>
+      <p class="blog-sub">Notes on machine learning and building with AI. A place to work through ideas and share what I learn.</p>
+    </div>
+    <div class="blog-index"><span>Latest writing</span><span>02 articles</span></div>
     <article class="blog-post">
-      <p class="certificate-meta">Machine Learning · <time datetime="2026-09-05">September 5, 2026</time></p>
-      <h2><a href="blog/supervised-vs-unsupervised-learning.html">Supervised Learning vs. Unsupervised Learning</a></h2>
-      <p>How labels change what a model can learn, with practical examples, a side-by-side comparison, and guidance on choosing an approach.</p>
-      <a class="button" href="blog/supervised-vs-unsupervised-learning.html">Read article →</a>
+      <div class="blog-cover" aria-hidden="true">
+        <div><p class="cover-label">MACHINE LEARNING / 002</p><p class="cover-title">Better inputs.<br><span>A better place to start.</span></p></div>
+        <svg viewBox="0 0 360 145" fill="none">
+          <rect x="1" y="23" width="96" height="100" rx="10" fill="#f7faf7" stroke="#bfd3c5"/>
+          <rect x="132" y="23" width="96" height="100" rx="10" fill="#f7faf7" stroke="#bfd3c5"/>
+          <rect x="263" y="23" width="96" height="100" rx="10" fill="#f7faf7" stroke="#bfd3c5"/>
+          <path d="M104 73h20m-6-5 6 5-6 5M235 73h20m-6-5 6 5-6 5" stroke="#708f7b" stroke-width="2"/>
+          <g stroke="#809d8c" stroke-width="4" stroke-linecap="round"><path d="M19 43h34m12 0h13M19 62h58M19 82h18m12 0h29M19 101h40"/></g>
+          <g stroke="#327558" stroke-width="4" stroke-linecap="round"><path d="m148 49 5 5 9-12m-14 28 5 5 9-12m-14 28 5 5 9-12M174 49h35m-35 21h35m-35 21h35"/></g>
+          <g fill="#327558"><rect x="279" y="76" width="15" height="28" rx="3"/><rect x="304" y="55" width="15" height="49" rx="3"/><rect x="329" y="38" width="15" height="66" rx="3"/></g>
+        </svg>
+        <div class="cover-footer"><span>RAW → CLEAN → FEATURES</span><span>PYTHON INCLUDED</span></div>
+      </div>
+      <div class="blog-post-copy">
+        <p class="blog-category">Machine learning · Practical guide</p>
+        <h2><a href="blog/data-preprocessing/data-preprocessing.html">Data preprocessing: from raw data to model-ready inputs</a></h2>
+        <p class="blog-excerpt">What to clean, what to keep, and how to prepare tables, text, images, and time series—with runnable Python examples.</p>
+        <p class="blog-post-meta"><time datetime="2026-09-05">Sep 5, 2026</time> &nbsp;·&nbsp; 4 code examples</p>
+        <div class="blog-post-actions">
+          <a class="blog-read" href="blog/data-preprocessing/data-preprocessing.html">Read article <span aria-hidden="true">↗</span></a>
+          <div class="post-languages" role="group" aria-label="Article language"><a href="blog/data-preprocessing/data-preprocessing.html" lang="en" hreflang="en">English</a><span aria-hidden="true"> / </span><a href="blog/data-preprocessing/data-preprocessing.si.html" lang="si" hreflang="si">සිංහල</a></div>
+        </div>
+      </div>
     </article>
+    <article class="blog-post">
+      <div class="blog-cover" aria-hidden="true">
+        <div><p class="cover-label">MACHINE LEARNING / 001</p><p class="cover-title">Learning with labels.<br><span>Learning without them.</span></p></div>
+        <svg viewBox="0 0 360 145" fill="none">
+          <rect x="1" y="1" width="158" height="143" rx="10" fill="#f7faf7" stroke="#bfd3c5"/>
+          <rect x="201" y="1" width="158" height="143" rx="10" fill="#f7faf7" stroke="#bfd3c5"/>
+          <path d="M80 18v110" stroke="#adc5b6" stroke-dasharray="4 5"/>
+          <g fill="#327558"><circle cx="30" cy="48" r="6"/><circle cx="54" cy="33" r="6"/><circle cx="47" cy="73" r="6"/><circle cx="26" cy="99" r="6"/><circle cx="62" cy="109" r="6"/></g>
+          <g fill="#b29161"><path d="m112 36 7 12h-14zM130 66l7 12h-14zM106 96l7 12H99zM128 112l7 12h-14z"/></g>
+          <g stroke="#88ac97" stroke-dasharray="3 4"><ellipse cx="245" cy="64" rx="30" ry="43"/><ellipse cx="310" cy="92" rx="31" ry="38"/></g>
+          <g fill="#527f64"><circle cx="240" cy="40" r="5"/><circle cx="256" cy="58" r="5"/><circle cx="233" cy="75" r="5"/><circle cx="246" cy="93" r="5"/><circle cx="301" cy="75" r="5"/><circle cx="319" cy="87" r="5"/><circle cx="300" cy="108" r="5"/><circle cx="327" cy="108" r="5"/></g>
+          <path d="M174 72h12m-6-6v12" stroke="#708f7b" stroke-width="1.5"/>
+        </svg>
+        <div class="cover-footer"><span>01 — SUPERVISED</span><span>02 — UNSUPERVISED</span></div>
+      </div>
+      <div class="blog-post-copy">
+        <p class="blog-category">Machine learning · Foundations</p>
+        <h2><a href="blog/supervisedVSunsupervised/supervised-vs-unsupervised-learning.html">Supervised learning vs. unsupervised learning</a></h2>
+        <p class="blog-excerpt">What changes when your data comes with answers? A practical guide to prediction, patterns, and choosing the right approach.</p>
+        <p class="blog-post-meta"><time datetime="2026-09-05">Sep 5, 2026</time> &nbsp;·&nbsp; 5 min read</p>
+        <div class="blog-post-actions">
+        <a class="blog-read" href="blog/supervisedVSunsupervised/supervised-vs-unsupervised-learning.html">Read article <span aria-hidden="true">↗</span></a>
+          <div class="post-languages" role="group" aria-label="Article language"><a href="blog/supervisedVSunsupervised/supervised-vs-unsupervised-learning.html" lang="en" hreflang="en">English</a><span aria-hidden="true"> / </span><a href="blog/supervisedVSunsupervised/supervised-vs-unsupervised-learning.si.html" lang="si" hreflang="si">සිංහල</a></div>
+        </div>
+      </div>
+    </article>
+    <div class="blog-signoff"><span>Written by Chanupa Deshan</span><span>Learning in public, one note at a time.</span></div>
 
   </div>
 </div>

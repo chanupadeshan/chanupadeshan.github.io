@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Supervised Learning සහ Unsupervised Learning අතර වෙනස — Chanupa Deshan</title>
+  <meta name="description" content="දත්තවල නිවැරදි පිළිතුරු තිබීම ඉගෙනීම වෙනස් කරන්නේ කෙසේද? උදාහරණ සහිතව යන්ත්‍ර ඉගෙනීමේ ප්‍රවේශ දෙකක් හඳුනා ගනිමු." />
+  <meta name="author" content="Chanupa Deshan" />
+  <link rel="canonical" href="https://chanupa.blog/blog/supervisedVSunsupervised/supervised-vs-unsupervised-learning.si.html" />
+  <link rel="alternate" hreflang="en" href="https://chanupa.blog/blog/supervisedVSunsupervised/supervised-vs-unsupervised-learning.html" />
+  <link rel="alternate" hreflang="si" href="https://chanupa.blog/blog/supervisedVSunsupervised/supervised-vs-unsupervised-learning.si.html" />
+  <link rel="alternate" hreflang="x-default" href="https://chanupa.blog/blog/supervisedVSunsupervised/supervised-vs-unsupervised-learning.html" />
+  <meta property="og:locale" content="si_LK" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Supervised Learning සහ Unsupervised Learning අතර වෙනස" />
+  <meta property="og:description" content="පිළිතුරු ලේබල, පොකුරුකරණය, පුරෝකථනය සහ සුදුසු ඉගෙනීමේ ප්‍රවේශය තෝරා ගැනීම පිළිබඳ ප්‍රායෝගික හැඳින්වීමක්." />
+  <meta property="og:url" content="https://chanupa.blog/blog/supervisedVSunsupervised/supervised-vs-unsupervised-learning.si.html" />
+  <link rel="icon" type="image/png" href="../../favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Inter:wght@400;500;600&family=Noto+Sans+Sinhala:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../article.css" />
+  <link rel="stylesheet" href="../../styles/navigation.css" />
+</head>
+<body>
+  <a class="skip-link" href="#article">ලිපියට යන්න</a>
+<nav lang="en" aria-label="Main navigation">
+  <div class="wrap nav-inner">
+    <a class="logo" href="../../index.html#top" aria-label="Back to top"><span class="prompt">&gt;&gt;&gt;</span> Chanupa <span class="full-name">Deshan Munasinghe</span></a>
+    <div class="nav-links">
+      <a href="../../index.html#experience" class="main-only">Experience</a>
+      <a href="../../index.html#open-source" class="main-only">Open Source</a>
+      <a href="../../index.html#education" class="main-only">Education</a>
+      <a href="../../index.html#certificates" class="main-only">Certificates</a>
+      <a href="../../index.html#projects" class="main-only">Projects</a>
+      <a href="../../index.html#contact" class="main-only">Contact</a>
+      <a href="../../index.html#blog-page" id="blog-link" class="nav-blog-link">Blog</a>
+    </div>
+  </div>
+</nav>
+  <main id="article" class="wrap">
+    <div class="article-toolbar">
+    <a class="back" href="../../index.html#blog-page">← සියලු ලිපි</a>
+      <div class="language-switch" role="group" aria-label="ලිපියේ භාෂාව"><a href="supervised-vs-unsupervised-learning.html" lang="en" hreflang="en">English</a><a href="supervised-vs-unsupervised-learning.si.html" lang="si" hreflang="si" aria-current="page">සිංහල</a></div>
+    </div>
+    <article>
+      <header class="article-hero">
+        <div class="hero-copy">
+        <p class="eyebrow">යන්ත්‍ර ඉගෙනීම · මූලික කරුණු</p>
+        <h1><span lang="en">Supervised Learning</span> <span class="versus">සහ</span> <span class="title-accent" lang="en">Unsupervised Learning</span></h1>
+        <p class="dek">දත්තවලින් ඉගෙනීමට ක්‍රම දෙකක්. වෙනස පටන් ගන්නේ ඔබ සතුව දැනටමත් ඇති පිළිතුරුවලින්.</p>
+        <p class="meta">Chanupa Deshan · <time datetime="2026-09-05">2026 සැප්තැම්බර් 5</time></p>
+
+        </div>
+        <figure class="learning-visual">
+          <figcaption><span class="figure-index">01 / ප්‍රධාන වෙනස</span><span class="visual-dot" aria-hidden="true"></span></figcaption>
+          <div class="plot-grid">
+            <div class="plot"><p>Supervised</p><svg viewBox="0 0 240 160" fill="none" aria-hidden="true"><path d="M20 18v125h206" stroke="#50665c" /><g stroke="#86b8a5" stroke-dasharray="4 5"><path d="M126 26 126 142" stroke="#dae8e1" stroke-dasharray="4 6" opacity=".6"/></g><circle cx="38" cy="100" r="5" fill="#89dbc0" /><circle cx="53" cy="72" r="5" fill="#89dbc0" /><circle cx="72" cy="92" r="5" fill="#89dbc0" /><circle cx="87" cy="53" r="5" fill="#89dbc0" /><circle cx="106" cy="75" r="5" fill="#89dbc0" /><circle cx="54" cy="120" r="5" fill="#89dbc0" /><circle cx="120" cy="48" r="5" fill="#89dbc0" /><circle cx="145" cy="113" r="5" fill="#b6b8f3" /><circle cx="163" cy="83" r="5" fill="#b6b8f3" /><circle cx="182" cy="111" r="5" fill="#b6b8f3" /><circle cx="193" cy="67" r="5" fill="#b6b8f3" /><circle cx="208" cy="98" r="5" fill="#b6b8f3" /></svg><span>ලේබලවලින් ඉගෙනීම</span></div>
+            <div class="plot"><p>Unsupervised</p><svg viewBox="0 0 240 160" fill="none" aria-hidden="true"><path d="M20 18v125h206" stroke="#50665c" /><g stroke="#86b8a5" stroke-dasharray="4 5"><ellipse cx="77" cy="84" rx="56" ry="59"/><ellipse cx="177" cy="91" rx="46" ry="45"/></g><circle cx="38" cy="100" r="5" fill="#bdd4cb" /><circle cx="53" cy="72" r="5" fill="#bdd4cb" /><circle cx="72" cy="92" r="5" fill="#bdd4cb" /><circle cx="87" cy="53" r="5" fill="#bdd4cb" /><circle cx="106" cy="75" r="5" fill="#bdd4cb" /><circle cx="54" cy="120" r="5" fill="#bdd4cb" /><circle cx="120" cy="48" r="5" fill="#bdd4cb" /><circle cx="145" cy="113" r="5" fill="#bdd4cb" /><circle cx="163" cy="83" r="5" fill="#bdd4cb" /><circle cx="182" cy="111" r="5" fill="#bdd4cb" /><circle cx="193" cy="67" r="5" fill="#bdd4cb" /><circle cx="208" cy="98" r="5" fill="#bdd4cb" /></svg><span>රටා සෙවීම</span></div>
+          </div>
+          <p class="visual-note">නිදර්ශන රටා · එකම දත්ත, වෙනස් ප්‍රශ්න</p>
+        </figure>
+      </header>
+      <div class="reading-layout">
+        <aside class="contents" aria-label="ලිපියේ අන්තර්ගතය">
+          <p>මෙම ලිපියේ</p>
+          <a href="#supervised"><span>01</span> Supervised Learning</a>
+          <a href="#unsupervised"><span>02</span> Unsupervised Learning</a>
+          <a href="#comparison"><span>03</span> ප්‍රධාන වෙනස්කම්</a>
+          <a href="#choosing"><span>04</span> සුදුසු ක්‍රමය තෝරා ගැනීම</a>
+          <div class="contents-note">යන්ත්‍ර ඉගෙනීමේ<br>මූලික කරුණු පිළිබඳ සටහනක්.</div>
+        </aside>
+        <div class="prose">
+          <div class="takeaway"><span>මූලික අදහස</span><p>Supervised Learning දන්නා ඉලක්කයක් පුරෝකථනය කරනවා. Unsupervised Learning ඉලක්ක පිළිතුරු ලේබල නොමැතිව දත්තවල රටා සොයනවා.</p></div>
+      <p>බැංකු ගනුදෙනු දහස් ගණනක් ඇතුළත් පැතුරුම්පතක් ඔබ සතුව ඇතැයි සිතන්න. ඒ දත්ත තේරුම් ගැනීමට ඔබට යන්ත්‍ර ඉගෙනීම (Machine Learning) භාවිත කිරීමට අවශ්‍යයි.</p>
+      <p>අතීත ගනුදෙනු වංචනික හෝ සාමාන්‍ය ගනුදෙනු ලෙස සලකුණු කර තිබේ නම්, නව ගනුදෙනුවක් අයත් වන්නේ කුමන වර්ගයටදැයි පුරෝකථනය කිරීමට මොඩලයක් පුහුණු කළ හැකියි. ගනුදෙනුවල විස්තර පමණක් තිබේ නම්, ඒ වෙනුවට සමාන ගනුදෙනු කණ්ඩායම් හෝ අසාමාන්‍ය රටා සෙවිය හැකියි.</p>
+      <p>මේවා Supervised Learning සහ Unsupervised Learning සඳහා උදාහරණ දෙකක්. ප්‍රධාන වෙනස වන්නේ පුහුණු දත්ත සමඟ අදාළ කාර්යය සඳහා නිවැරදි පිළිතුරක් ලබා දී තිබේද යන්නයි.</p>
+      <h2 id="supervised"><span class="section-number">01</span>Supervised Learning: පිළිතුරු සහිත උදාහරණවලින් ඉගෙනීම</h2>
+      <p>Supervised Learning හිදී සෑම පුහුණු උදාහරණයකම ආදාන ලක්ෂණ (features) සහ ඉලක්ක පිළිතුරක් (target) තිබෙනවා. මොඩලය ඒවා අතර සම්බන්ධතාව ඉගෙන ගන්නේ කලින් දැක නැති ආදානයක් සඳහාත් පිළිතුරක් පුරෝකථනය කිරීමටයි.</p>
+      <p>නිවසක මිල පුරෝකථනය කරන මොඩලයක ලක්ෂණ ලෙස නිවසේ වර්ග ප්‍රමාණය, පිහිටීම සහ නිදන කාමර ගණන යොදා ගත හැකියි. ඉලක්ක පිළිතුර වන්නේ එම නිවසේ වාර්තාගත විකුණුම් මිලයි.</p>
+      <div class="table-scroll" role="region" aria-label="ලක්ෂණ සහ ඉලක්ක පිළිතුරු සඳහා උදාහරණ" tabindex="0"><table><caption>ලක්ෂණ සහ ඉලක්ක පිළිතුරු සඳහා උදාහරණ</caption><thead><tr><th scope="col">ආදාන ලක්ෂණ</th><th scope="col">ඉලක්ක පිළිතුර</th></tr></thead><tbody><tr><td>වර්ග ප්‍රමාණය, පිහිටීම, නිදන කාමර ගණන</td><td>නිවසේ විකුණුම් මිල</td></tr><tr><td>ඊමේල් පණිවිඩයේ අන්තර්ගතය සහ යවන්නාගේ තොරතුරු</td><td>අනවශ්‍ය පණිවිඩයක්ද (spam), සාමාන්‍ය පණිවිඩයක්ද යන්න</td></tr><tr><td>ගනුදෙනුවේ මුදල, වේලාව සහ වෙළෙන්දා</td><td>වංචනිකද, සාමාන්‍යද යන්න</td></tr></tbody></table></div>
+      <p>මෙහි බහුලව හමුවන කාර්ය වර්ග දෙකක් තිබෙනවා:</p>
+      <ul><li><strong>වර්ගීකරණය (Classification):</strong> ඊමේල් පණිවිඩයක් spam ද යන්න වැනි, දත්තයක් අයත් කාණ්ඩය පුරෝකථනය කිරීම.</li><li><strong>ප්‍රතිගමනය (Regression):</strong> නිවසක මිල වැනි සංඛ්‍යාත්මක අගයක් පුරෝකථනය කිරීම.</li></ul>
+      <p>Linear Regression, Logistic Regression, Decision Trees, Random Forests සහ Support Vector Machines මෙහි භාවිත වන ප්‍රචලිත ඇල්ගොරිතමයි. Neural Networks ද මෙවැනි කාර්ය සඳහා පුහුණු කළ හැකියි.</p>
+      <p>පුහුණුවේදී ඇල්ගොරිතමය මොඩලයේ පුරෝකථන සහ දන්නා පිළිතුරු අතර වෙනස මනින loss අගය අඩු කිරීමට මොඩලය සකස් කරනවා. නමුත් පුහුණු උදාහරණවලට හොඳ පිළිතුරු දීම පමණක් ප්‍රමාණවත් නැහැ. මොඩලය අලුත් දත්තවලටත් හොඳින් ක්‍රියා කරන්නේදැයි බැලීමට, පුහුණුවට භාවිත නොකළ දත්ත කොටසක් මත එය ඇගයිය යුතුයි.</p>
+      <p>ඇගයීමේ මිනුම කාර්යයට ගැළපිය යුතුයි. නිවාස මිල සඳහා Mean Absolute Error භාවිත කළ විට සාමාන්‍ය දෝෂය මිල දැක්වූ මුදල් ඒකකයෙන්ම ලැබෙනවා. වංචනික ගනුදෙනු ඉතා අඩු විට accuracy පමණක් බැලීම නොමඟ යවනසුලුයි. සෑම ගනුදෙනුවක්ම සාමාන්‍ය යැයි කියන මොඩලයක accuracy ඉහළ විය හැකි නමුත් එය සියලු වංචා මඟහරිනවා. Precision සහ recall මිනුම් ඒ දුර්වලතාව හඳුනා ගැනීමට උපකාරී වෙනවා.</p>
+      <h2 id="unsupervised"><span class="section-number">02</span>Unsupervised Learning: පිළිතුරු ලේබල නොමැතිව රටා සෙවීම</h2>
+      <p>Unsupervised Learning සඳහා භාවිත කරන පුහුණු දත්තවල අදාළ කාර්යයට අවශ්‍ය ඉලක්ක පිළිතුරු ලේබල නැහැ. ඇල්ගොරිතමය තම අරමුණ සහ උපකල්පන අනුව දත්තවල ව්‍යුහය හෝ රටා සොයනවා.</p>
+      <p>ගනුදෙනුකරුවන්ගේ හැසිරීම තේරුම් ගැනීමට අවශ්‍ය බැංකුවක් සලකන්න. එය සතුව ගනුදෙනු කරන වාර ගණන, සාමාන්‍ය වියදම සහ ගිණුම් ශේෂය වැනි ලක්ෂණ තිබෙනවා. නමුත් ගනුදෙනුකරුවන් අයත් විය යුතු කණ්ඩායම් කලින් සලකුණු කර නැහැ.</p>
+      <p>Clustering ඇල්ගොරිතමයකට සමාන ලක්ෂණ ඇති ගනුදෙනුකරුවන් කණ්ඩායම් කළ හැකියි. පසුව විශ්ලේෂකයෙකු ඒ කණ්ඩායම් පරීක්ෂා කර ඒවා ප්‍රයෝජනවත්දැයි තීරණය කරනවා. “නිතර කුඩා මිලදී ගැනීම් කරන අය” වැනි නම්, ප්‍රතිඵලවලට මිනිසුන් ලබා දෙන අර්ථකථනයි.</p>
+      <p>මෙහි බහුලව හමුවන කාර්ය වර්ග දෙකක් වන්නේ:</p>
+      <ul><li><strong>පොකුරුකරණය (Clustering):</strong> සමාන උදාහරණ කණ්ඩායම් කිරීම. K-means සහ DBSCAN ප්‍රචලිත ඇල්ගොරිතම දෙකක්.</li><li><strong>මාන අඩු කිරීම (Dimensionality Reduction):</strong> දත්ත අඩු මාන ගණනකින් නිරූපණය කිරීම. Principal Component Analysis (PCA) යනු තෝරාගත් සංරචක ගණනක් තුළ හැකි තරම් දත්ත විචලනය රඳවා ගැනීමට උත්සාහ කරන එක් ක්‍රමයක්.</li></ul>
+      <p>Unsupervised ක්‍රම අසාමාන්‍ය දත්ත හඳුනා ගැනීමටත් උපකාරී වෙනවා. අසාමාන්‍ය ගනුදෙනුවක් විමර්ශනය කිරීම වැදගත් වුවත්, අසාමාන්‍ය වීම පමණක් එය වංචාවක් බවට සාක්ෂියක් නොවෙයි.</p>
+      <p>නිවැරදි පිළිතුරු ලේබල නොමැති නිසා ඇගයීමේදී වැඩි විනිශ්චයක් අවශ්‍ය වෙනවා. කණ්ඩායම් එකිනෙකින් කොතරම් වෙන්වී තිබේද, ප්‍රතිඵල කොතරම් ස්ථාවරද සහ අදාළ කාර්යයට කොතරම් ප්‍රයෝජනවත්ද යන්න පරීක්ෂා කළ හැකියි. හොඳ clustering ලකුණක් ලැබීමෙන් පමණක් අර්ථවත් ගනුදෙනුකරු කණ්ඩායම් හමු වූ බව තහවුරු වෙන්නේ නැහැ.</p>
+      <h2 id="comparison"><span class="section-number">03</span>ප්‍රධාන වෙනස්කම්</h2>
+      <div class="table-scroll" role="region" aria-label="ඉගෙනීමේ ප්‍රවේශ දෙක සැසඳීම" tabindex="0"><table><caption>ඉගෙනීමේ ප්‍රවේශ දෙක සැසඳීම</caption><thead><tr><th scope="col">ප්‍රශ්නය</th><th scope="col">Supervised Learning</th><th scope="col">Unsupervised Learning</th></tr></thead><tbody><tr><td>තිබෙන පුහුණු දත්ත මොනවාද?</td><td>ඉලක්ක පිළිතුරු ලේබල සහිත ලක්ෂණ</td><td>අදාළ කාර්යයට ඉලක්ක පිළිතුරු ලේබල නොමැති ලක්ෂණ</td></tr><tr><td>අරමුණ කුමක්ද?</td><td>දන්නා ඉලක්කයක් පුරෝකථනය කිරීම</td><td>දත්තවල ව්‍යුහය සොයා ගැනීම හෝ නිරූපණය කිරීම</td></tr><tr><td>උදාහරණයක්</td><td>ගනුදෙනුකරුවෙකු සේවාව හැර යාවිදැයි පුරෝකථනය කිරීම</td><td>හැසිරීම අනුව ගනුදෙනුකරුවන් කණ්ඩායම් කිරීම</td></tr><tr><td>ප්‍රචලිත කාර්ය මොනවාද?</td><td>වර්ගීකරණය සහ ප්‍රතිගමනය</td><td>පොකුරුකරණය සහ මාන අඩු කිරීම</td></tr><tr><td>ඇගයීම කරන්නේ කෙසේද?</td><td>පුහුණුවට භාවිත නොකළ දත්තවල දන්නා පිළිතුරු සමඟ පුරෝකථන සැසඳීම</td><td>ව්‍යුහය, ස්ථාවරත්වය සහ ප්‍රායෝගික ප්‍රයෝජනය පරීක්ෂා කිරීම</td></tr><tr><td>ප්‍රධාන අභියෝගය කුමක්ද?</td><td>විශ්වාසදායක සහ අදාළ දත්ත පරාසය නියෝජනය කරන ලේබල ලබා ගැනීම</td><td>සොයාගත් රටා අර්ථවත්දැයි තීරණය කිරීම</td></tr></tbody></table></div>
+      <h2 id="choosing"><span class="section-number">04</span>ඔබ තෝරාගත යුත්තේ කුමක්ද?</h2>
+      <p>මුලින්ම ඔබට පිළිතුරු සෙවීමට අවශ්‍ය ප්‍රශ්නය හඳුනා ගන්න.</p>
+      <p>නිශ්චිත ප්‍රතිඵලයක් පුරෝකථනය කිරීමට අවශ්‍ය නම් සහ විශ්වාසදායක අතීත පිළිතුරු ලේබල තිබේ නම්, Supervised Learning හොඳ ආරම්භයක්. කලින් නියම කළ ඉලක්කයක් නොමැතිව රටා ගවේෂණය කිරීමට අවශ්‍ය නම්, Unsupervised Learning උපකාරී විය හැකියි.</p>
+      <p>ප්‍රවේශ දෙකේම ප්‍රතිඵල දත්ත සකස් කරන ආකාරය මත රඳා පවතිනවා. උදාහරණයක් ලෙස K-means දුර මැනීම් භාවිත කරනවා. ඒ නිසා අගයන් දහස් ගණනින් ඇති ලක්ෂණයක්, අගයන් බිංදුවත් එකත් අතර ඇති ලක්ෂණයකට වඩා ප්‍රතිඵලයට බලපෑ හැකියි. සුදුසු පරිදි පරිමාණ සකස් කිරීම (scaling) මෙහි වැදගත්. Supervised මොඩලයක ආදානයට, සැබෑ පුරෝකථනය කරන මොහොතෙන් පසුව පමණක් දැනගත හැකි තොරතුරු ඇතුළත් වුණොත් එහි ඇගයීමත් නොමඟ යවනසුලු විය හැකියි. මෙය data leakage ලෙස හැඳින්වෙනවා.</p>
+      <p>මේ ප්‍රවේශ දෙක එකට භාවිත කළ හැකියි. මුලින් ගනුදෙනුකරු කණ්ඩායම් ගවේෂණය කර, පසුව ගනුදෙනුකරුවන් සේවාව හැර යාම පුරෝකථනය කරන supervised මොඩලයක් පුහුණු කළ හැකියි. ඇගයීම විශ්වාසදායකව තබා ගැනීමට, එම පුරෝකථන ක්‍රියාවලියේ භාවිත වන පෙර සැකසුම්වල පරාමිතීන් තීරණය කළ යුත්තේ පුහුණු දත්ත මත පමණයි.</p>
+      <p>ඇල්ගොරිතමයක් තෝරා ගැනීමට පෙර ඔබේ ඉලක්කය, පුරෝකථනය කරන මොහොතේ තිබෙන දත්ත සහ ප්‍රයෝජනවත් ප්‍රතිඵලයක් ලෙස සලකන්නේ කුමක්ද යන්න ලියා ගන්න. කැමති මොඩලයකින් පටන් ගැනීමට වඩා, ඒ තීරණ ඔබට සුදුසු ප්‍රවේශය තෝරා ගැනීමට මඟ පෙන්වයි.</p>
+        </div>
+      </div>
+    </article>
+    <div class="article-end"><p>තවත් දැනගන්න.<span>AI සහ ඉංජිනේරුකරණය පිළිබඳ තවත් සටහන්.</span></p><a class="back" href="../../index.html#blog-page">← සියලු ලිපි</a></div>
+  </main>
+  <footer><div class="wrap">© 2026 Chanupa Deshan</div></footer>
+</body>
+</html>

@@ -2,6 +2,7 @@
 title: "Supervised Learning vs. Unsupervised Learning"
 description: "How labels change what a machine learning model can learn, with practical examples and guidance on choosing an approach."
 author: "Chanupa Deshan"
+language: en
 status: published
 date: 2026-09-05
 tags:

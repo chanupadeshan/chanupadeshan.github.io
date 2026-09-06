@@ -1,0 +1,25 @@
+/* Shared by the portfolio and every blog article. */
+nav{
+  position:sticky;top:0;z-index:10;
+  background:rgba(247,249,246,.86);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--line);
+  font-family:'Inter',system-ui,sans-serif;font-size:16px;line-height:1.65;
+}
+nav .nav-inner{max-width:1080px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:68px}
+nav a{color:var(--accent);text-decoration:none;border-bottom:1px solid transparent;transition:color .2s,border-color .2s,transform .2s}
+nav a:hover{color:var(--ink);text-decoration:none;border-bottom-color:currentColor}
+nav a:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+nav .logo{font-family:'JetBrains Mono',monospace;font-weight:500;font-size:.95rem;color:var(--ink);border-bottom:0}
+nav .logo .prompt{color:var(--accent)}
+nav .nav-links{display:flex;gap:28px}
+nav .nav-links a{color:var(--muted);font-size:.86rem;font-weight:600}
+nav .nav-links a:hover{color:var(--ink)}
+@media(max-width:640px){
+  nav .nav-inner{height:60px;padding-left:18px;padding-right:18px}
+  nav .logo{font-size:.82rem}
+  nav .logo .full-name{display:none}
+  nav .nav-links{gap:14px}
+  nav .nav-links a{font-size:.78rem}
+  nav .nav-links a:nth-child(1),nav .nav-links a:nth-child(2),nav .nav-links a:nth-child(3){display:none}
+}

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data Preprocessing: මොඩලයකට ගැළපෙන ලෙස දත්ත සකස් කිරීම — Chanupa Deshan</title>
+  <meta name="description" content="දත්ත පෙර සැකසුම යනු කුමක්ද, එය වැදගත් ඇයි, සහ වගු, පෙළ, රූප හා කාල ශ්‍රේණි සඳහා Python උදාහරණ." />
+  <meta name="author" content="Chanupa Deshan" />
+  <link rel="canonical" href="https://chanupa.blog/blog/data-preprocessing/data-preprocessing.si.html" />
+  <link rel="alternate" hreflang="en" href="https://chanupa.blog/blog/data-preprocessing/data-preprocessing.html" />
+  <link rel="alternate" hreflang="si" href="https://chanupa.blog/blog/data-preprocessing/data-preprocessing.si.html" />
+  <link rel="alternate" hreflang="x-default" href="https://chanupa.blog/blog/data-preprocessing/data-preprocessing.html" />
+  <meta property="og:locale" content="si_LK" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Data Preprocessing: මොඩලයකට ගැළපෙන ලෙස දත්ත සකස් කිරීම" />
+  <meta property="og:description" content="දත්ත පෙර සැකසුම යනු කුමක්ද, එය වැදගත් ඇයි, සහ වගු, පෙළ, රූප හා කාල ශ්‍රේණි සඳහා Python උදාහරණ." />
+  <meta property="og:url" content="https://chanupa.blog/blog/data-preprocessing/data-preprocessing.si.html" />
+  <link rel="icon" type="image/png" href="../../favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Inter:wght@400;500;600&family=Noto+Sans+Sinhala:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../article.css" />
+  <link rel="stylesheet" href="../../styles/navigation.css" />
+</head>
+<body>
+  <a class="skip-link" href="#article">ලිපියට යන්න</a>
+<nav lang="en" aria-label="Main navigation">
+  <div class="wrap nav-inner">
+    <a class="logo" href="../../index.html#top" aria-label="Back to top"><span class="prompt">&gt;&gt;&gt;</span> Chanupa <span class="full-name">Deshan Munasinghe</span></a>
+    <div class="nav-links">
+      <a href="../../index.html#experience" class="main-only">Experience</a>
+      <a href="../../index.html#open-source" class="main-only">Open Source</a>
+      <a href="../../index.html#education" class="main-only">Education</a>
+      <a href="../../index.html#certificates" class="main-only">Certificates</a>
+      <a href="../../index.html#projects" class="main-only">Projects</a>
+      <a href="../../index.html#contact" class="main-only">Contact</a>
+      <a href="../../index.html#blog-page" id="blog-link" class="nav-blog-link">Blog</a>
+    </div>
+  </div>
+</nav>
+  <main id="article" class="wrap">
+    <div class="article-toolbar">
+    <a class="back" href="../../index.html#blog-page">← සියලු ලිපි</a>
+      <div class="language-switch" role="group" aria-label="ලිපියේ භාෂාව"><a href="data-preprocessing.html" lang="en" hreflang="en">English</a><a href="data-preprocessing.si.html" lang="si" hreflang="si" aria-current="page">සිංහල</a></div>
+    </div>
+    <article>
+      <header class="article-hero">
+        <div class="hero-copy">
+        <p class="eyebrow">යන්ත්‍ර ඉගෙනීම · මූලික කරුණු</p>
+        <h1><span lang="en">Data <span class="title-accent">Preprocessing</span></span></h1>
+        <p class="dek">අමු දත්ත ප්‍රයෝජනවත් ලක්ෂණ බවට පත් කරමු. වගු, පෙළ, රූප සහ තවත් දත්ත වර්ග සඳහා Python සමඟ මාර්ගෝපදේශයක්.</p>
+        <p class="meta">Chanupa Deshan · <time datetime="2026-09-05">2026 සැප්තැම්බර් 5</time></p>
+
+        </div>
+        <figure class="learning-visual"><figcaption><span class="figure-index">02 / DATA PREPROCESSING</span><span class="visual-dot" aria-hidden="true"></span></figcaption><div class="prep-flow"><div class="prep-step"><span>01</span><p>ආදාන පරීක්ෂා කරන්න</p></div><div class="prep-step"><span>02</span><p>දත්ත කොටස් වෙන් කරන්න</p></div><div class="prep-step"><span>03</span><p>Training දත්ත මත fit කරන්න</p></div><div class="prep-step"><span>04</span><p>නව ආදාන transform කරන්න</p></div></div><p class="visual-note">පුහුණුවේ සිට පුරෝකථනය දක්වා එකම ක්‍රියාවලියක්.</p></figure>
+      </header>
+      <div class="reading-layout">
+        <aside class="contents" aria-label="මෙම ලිපියේ"><p>මෙම ලිපියේ</p><a href="#overview"><span>01</span> කුමක්ද? ඇයි?</a><a href="#workflow"><span>02</span> නිවැරදි ක්‍රියාවලිය</a><a href="#tabular"><span>03</span> වගු දත්ත</a><a href="#text"><span>04</span> පෙළ දත්ත</a><a href="#images"><span>05</span> රූප</a><a href="#time-series"><span>06</span> කාල ශ්‍රේණි</a><a href="#other-data"><span>07</span> හඬ, වීඩියෝ හා තවත්</a><a href="#checklist"><span>08</span> පරීක්ෂණ ලැයිස්තුව</a></aside>
+<div class="prose"><div class="takeaway"><span>මූලික අදහස</span><p>ඉගෙනගන්නා preprocessing පරාමිතීන් training දත්ත මත fit කරන්න. Validation, test සහ සැබෑ පුරෝකථන සඳහා ඒවාම නැවත භාවිත කරන්න.</p></div>
+<p>මොඩලයක් ගනුදෙනුකරුවෙකු, වාක්‍යයක් හෝ ඡායාරූපයක් දකින්නේ අප දකින ආකාරයට නොවෙයි. එයට ලැබෙන්නේ ඒ තොරතුරු නිරූපණය කරන ආදානයක්. අමු දත්ත මොඩලයට භාවිත කළ හැකි, එකම රීතිවලට අනුව සකස් කළ ආදාන බවට පත් කිරීම දත්ත පෙර සැකසුම (Data Preprocessing) ලෙස හැඳින්වෙනවා.</p>
+<p><a href="../supervisedVSunsupervised/supervised-vs-unsupervised-learning.si.html">පෙර ලිපියේදී</a> අපි Supervised සහ Unsupervised Learning සැසඳුවා. ඒ දෙකටම ආදානවල ගුණාත්මකභාවය වැදගත්. මේ ලිපියේදී දත්ත වර්ග කිහිපයක් සකස් කරන ආකාරය Python කේත සමඟ බලමු.</p>
+<h2 id="overview"><span class="section-number">01</span>Preprocessing යනු කුමක්ද? එය වැදගත් ඇයි?</h2>
+<p>දත්ත වර්ග පරීක්ෂා කිරීම, හඳුනාගත් දෝෂ නිවැරදි කිරීම, නොමැති අගයන් හැසිරවීම සහ ආදාන සුදුසු නිරූපණයකට මාරු කිරීම preprocessing තුළට අයත් වෙනවා. Feature Engineering මීට සම්බන්ධ ක්‍රියාවලියක්. එහිදී ගනුදෙනුවක පැය හෝ ඊයේ උෂ්ණත්වය වැනි ප්‍රයෝජනවත් ලක්ෂණ නිර්මාණය කරනවා.</p>
+<p>මිල තීරුවක <code>1200</code>, <code>"1,200"</code>, හිස් කොටුවක් සහ වෙනත් මුදල් ඒකකයක අගයක් තිබෙනවා යැයි සිතන්න. ඒ සියල්ල සංඛ්‍යා බවට හැරවීම පමණක් ප්‍රමාණවත් නැහැ. ඒකක, හිස් කොටුවක අර්ථය සහ වලංගු අගයන් මොනවාද යන්නත් තේරුම් ගත යුතුයි.</p>
+<p>හොඳ preprocessing ක්‍රියාවලියක් ආදානවල අනුකූලතාව රකිනවා, අදාළ මොඩලවලට කාර්යක්ෂමව ඉගෙනීමට උපකාරී වෙනවා, සහ පුහුණුවේදීත් සැබෑ භාවිතයේදීත් එකම රීති යොදා ගැනීමට ඉඩ දෙනවා. දත්ත රැස් කිරීමේ දෝෂ කලින් හඳුනා ගැනීමටත් එය උපකාරීයි. නමුත් වැරදි ලේබල, දත්තවල නොමැති ජන කණ්ඩායම් හෝ පැහැදිලි නැති ගැටලුවක් එයින් පමණක් විසඳෙන්නේ නැහැ.</p>
+<div class="table-scroll" role="region" aria-label="දත්ත වර්ග අනුව පෙර සැකසුම්" tabindex="0"><table><caption>දත්ත වර්ග අනුව පෙර සැකසුම්</caption>
+<thead>
+<tr>
+<th scope="col">දත්ත වර්ගය</th>
+<th scope="col">සාමාන්‍ය සැකසුම්</th>
+<th scope="col">වළක්වා ගත යුතු වැරැද්ද</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>වගු</td>
+<td>හිස් අගයන් පිරවීම, encoding, scaling</td>
+<td>Test දත්ත මත සංඛ්‍යාන ඉගෙනීම</td>
+</tr>
+<tr>
+<td>පෙළ</td>
+<td>Unicode සැකසුම, tokenization, vectorization</td>
+<td>අධික පිරිසිදු කිරීමෙන් අර්ථය නැති කිරීම</td>
+</tr>
+<tr>
+<td>රූප</td>
+<td>දිශානතිය, වර්ණ ආකාරය, ප්‍රමාණය, pixel පරිවර්තනය</td>
+<td>පෙර පුහුණු මොඩලයට නොගැළපෙන සැකසුම්</td>
+</tr>
+<tr>
+<td>කාල ශ්‍රේණි</td>
+<td>වේලාවන් ගැළපීම, lag ලක්ෂණ, කාලය අනුව බෙදීම</td>
+<td>අනාගත තොරතුරු වර්තමාන ලක්ෂණවලට යොදා ගැනීම</td>
+</tr>
+<tr>
+<td>හඬ සහ වීඩියෝ</td>
+<td>Sample/frame rates, සමමුහුර්තකරණය, ලක්ෂණ උකහා ගැනීම</td>
+<td>එකම පටිගත කිරීමේ කොටස් train සහ test දෙකටම ඇතුළත් කිරීම</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="workflow"><span class="section-number">02</span>විශ්වාසදායක ඇගයීමක් සඳහා ක්‍රියාවලියක්</h2>
+<p>මුලින් දත්ත ව්‍යුහය පරීක්ෂා කර පුරෝකථනය කළ යුතු කාර්යය නිර්වචනය කරන්න. පුරෝකථනය කරන මොහොතේ ඇත්තටම තිබෙන තොරතුරු තීරණය කරන්න. හඳුනාගත් අනුපිටපත් නිවැරදි කර, එකම පුද්ගලයා, ලේඛනය හෝ පටිගත කිරීම දත්ත කොටස් අතර කාන්දු නොවන ලෙස සම්බන්ධ උදාහරණ කණ්ඩායම් කරන්න.</p>
+<p>ඊළඟට කාර්යයට ගැළපෙන training, validation සහ test කොටස් සාදන්න. ස්වාධීන උදාහරණ සඳහා අහඹු බෙදීමක් ගැළපිය හැකියි. සම්බන්ධ වාර්තා හෝ කාලයට අනුව ඇති දත්ත සඳහා කණ්ඩායම් හෝ කාලය පදනම් කරගත් බෙදීම් අවශ්‍ය වෙනවා.</p>
+<p><strong>දත්තවලින් ඉගෙනගන්නා preprocessing පරාමිතීන් training දත්ත මත පමණක් fit කරන්න.</strong> මධ්‍යස්ථ අගයන්, සාමාන්‍ය අගයන්, කාණ්ඩ ලැයිස්තු සහ ලක්ෂණ තේරීමේ රීති දත්තවලින් ඉගෙනගන්නවා. Validation, test සහ සැබෑ භාවිතයේදී නැවත භාවිත කළ යුත්තේ ඒ fitted transformations මයි. Cross-validation හි සෑම training fold එකක් තුළම මේවා නැවත fit කළ යුතුයි. Pipeline එකක් මඟින් සැකසුම් සහ මොඩලය එකට තබාගත හැකියි. <a href="https://scikit-learn.org/stable/common_pitfalls.html">scikit-learn හි data leakage මාර්ගෝපදේශය</a> බලන්න.</p>
+<p>උදාහරණ සඳහා Python සහ කුඩා ඉගෙනුම් දත්ත කට්ටල භාවිත කරනවා. <a download href="requirements.txt">requirements.txt</a> බාගත කර virtual environment එකක packages ස්ථාපනය කරන්න:</p>
+<pre tabindex="0"><code class="language-bash">python -m venv .venv
+# Linux / macOS:
+source .venv/bin/activate
+# Windows PowerShell: .venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+</code></pre>
+<p>අදාළ Python ගොනුව බාගත කර, උදාහරණයක් ලෙස <code>python tabular.py</code> ක්‍රියාත්මක කරන්න. මේවා සැකසුම් පෙන්වන උදාහරණයි; සැබෑ මොඩලයක ගුණාත්මකභාවය මනින පරීක්ෂණ නොවෙයි.</p>
+<h2 id="tabular"><span class="section-number">03</span>වගු දත්ත: හිස් අගයන්, කාණ්ඩ සහ පරිමාණය</h2>
+<p>දත්ත වර්ග, ඒකක, අගය පරාස සහ නැවත නැවත ඇති හඳුනාගැනීමේ අංක පරීක්ෂා කරන්න. Outliers මකා දැමීමට පෙර විමර්ශනය කරන්න. විශාල ගනුදෙනුවක් ඔබට හඳුනා ගැනීමට අවශ්‍ය සිදුවීමම විය හැකියි. හිස් අගයක් සඳහා මධ්‍යස්ථ අගය, “unknown” කාණ්ඩයක්, අගයක් නොමැති බව දක්වන ලක්ෂණයක් හෝ එවැනි දත්ත සෘජුව හසුරුවන මොඩලයක් භාවිත කළ හැකියි. තේරීම කළ යුත්තේ හිස් වීමේ අර්ථය අනුවයි.</p>
+<p>බොහෝ රේඛීය සහ දුර මැනීම් භාවිත කරන මොඩලවලට scaling වැදගත්. Standardization හිදී training සාමාන්‍යය අඩු කර training සම්මත අපගමනයෙන් බෙදනවා. Min–max scaling මඟින් training අගය පරාසය තෝරාගත් පරාසයකට මාරු කරනවා. Robust scaling මධ්‍යස්ථ අගය සහ අන්තර් චතුර්ථක පරාසය වැනි සංඛ්‍යාන භාවිත කරනවා. Tree-based මොඩලවලට සාමාන්‍යයෙන් එවැනි scaling අවශ්‍ය නැහැ. මේවා විකල්ප ක්‍රමයි; සියල්ල එකට යෙදිය යුතු නැහැ. <a href="https://scikit-learn.org/stable/modules/preprocessing.html">scikit-learn preprocessing මාර්ගෝපදේශය</a> බලන්න.</p>
+<p>One-hot encoding මඟින් කාණ්ඩවලට කෘත්‍රිම සංඛ්‍යාත්මක අනුපිළිවෙළක් නොදී වෙනම දර්ශක තීරු සාදනවා. Ordinal encoding යොදා ගන්නේ අනුපිළිවෙළට සැබෑ අර්ථයක් තිබෙන විටයි. ඉතා වැඩි කාණ්ඩ ගණනක් තිබේ නම් වෙනත් නිරූපණ අවශ්‍ය විය හැකියි. Target encoding හිදී leakage වළක්වා ගැනීමට විශේෂ සැලකිල්ලක් අවශ්‍යයි.</p>
+<p>පහත උදාහරණය සංඛ්‍යාත්මක තීරුවල හිස් අගයන් පුරවා scale කරනවා, නගර encode කරනවා, සහ classifier එකක් පුහුණු කරනවා. අලුත් නගරයක් ලැබුණත් pipeline එක දෝෂයක් නොදී ක්‍රියා කරනවා. නමුත් නොදන්නා කාණ්ඩයක් නොසලකා හැරීම හොඳ පුරෝකථනයක් සහතික කරන්නේ නැහැ. මෙය <a href="https://scikit-learn.org/stable/auto_examples/compose/plot_column_transformer_mixed_types.html">ColumnTransformer සහ Pipeline</a> භාවිත කරන ආකාරයක්.</p>
+<p><a download href="examples/tabular.py">tabular.py බාගත කරන්න</a></p>
+<pre tabindex="0"><code class="language-python">&quot;&quot;&quot;Small teaching example; predictions are not a quality benchmark.&quot;&quot;&quot;
+import numpy as np
+import pandas as pd
+from sklearn.compose import ColumnTransformer
+from sklearn.impute import SimpleImputer
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+
+X = pd.DataFrame({
+    &quot;age&quot;: [22, 45, np.nan, 31, 52, 27, 39, 24, 48, 35, 29, 56],
+    &quot;income&quot;: [30, 80, 45, np.nan, 95, 35, 65, 28, 88, 55, 40, 100],
+    &quot;city&quot;: [&quot;Kandy&quot;, &quot;Colombo&quot;, &quot;Galle&quot;] * 4,
+})
+y = [0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1]
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.25, stratify=y, random_state=42
+)
+
+numeric = Pipeline([
+    (&quot;fill&quot;, SimpleImputer(strategy=&quot;median&quot;)),
+    (&quot;scale&quot;, StandardScaler()),
+])
+categorical = Pipeline([
+    (&quot;fill&quot;, SimpleImputer(strategy=&quot;most_frequent&quot;)),
+    (&quot;encode&quot;, OneHotEncoder(handle_unknown=&quot;ignore&quot;)),
+])
+prepare = ColumnTransformer([
+    (&quot;numeric&quot;, numeric, [&quot;age&quot;, &quot;income&quot;]),
+    (&quot;category&quot;, categorical, [&quot;city&quot;]),
+])
+model = Pipeline([
+    (&quot;prepare&quot;, prepare),
+    (&quot;predict&quot;, LogisticRegression(max_iter=1000)),
+])
+model.fit(X_train, y_train)  # Learn every statistic on training data only.
+print(&quot;Test predictions:&quot;, model.predict(X_test))
+new_customer = pd.DataFrame({
+    &quot;age&quot;: [33], &quot;income&quot;: [50], &quot;city&quot;: [&quot;Jaffna&quot;]
+})
+print(&quot;New category prediction:&quot;, model.predict(new_customer))
+</code></pre>
+<h2 id="text"><span class="section-number">04</span>පෙළ දත්ත: සංඛ්‍යා සෑදීමට පෙර අර්ථය රකින්න</h2>
+<p>පෙළ සැකසුම කාර්යය අනුව වෙනස් වෙනවා. නිවැරදිව decode කිරීම, අනවශ්‍ය markup ඉවත් කිරීම, Unicode normalization සහ tokenization ප්‍රචලිත පියවරයි. කුඩා අකුරු බවට හැරවීම, stop words ඉවත් කිරීම, stemming සහ lemmatization අනිවාර්ය නැහැ. “not” ඉවත් කිරීමෙන් හැඟීමේ අර්ථය පෙරළිය හැකියි. විරාම ලකුණු මකා දැමීමෙන් වැදගත් සංඥා නැති විය හැකියි. ඉංග්‍රීසි නොවන සියලු අක්ෂර ඉවත් කළොත් සිංහල පෙළ විනාශ වෙනවා.</p>
+<p>සාම්ප්‍රදායික මොඩල සඳහා වචන ගණන් හෝ TF-IDF ලක්ෂණ භාවිත කළ හැකියි. මෙහි character n-grams මඟින් ඉංග්‍රීසි සහ සිංහල සඳහා සරල ආරම්භයක් ලබා ගන්නවා. ඉංග්‍රීසි word tokenizer එකක් භාෂා දෙකටම ගැළපේ යැයි උපකල්පනය කරන්නේ නැහැ. TF-IDF පුහුණු පෙළෙන් vocabulary එක සහ inverse-document-frequency බර ඉගෙනගන්නවා. Sparse matrix එකක් බොහෝ දුරට ශූන්‍ය නොවන අගයන් කාර්යක්ෂමව ගබඩා කරනවා. විකල්ප සඳහා <a href="https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html">TfidfVectorizer ලේඛනය</a> බලන්න.</p>
+<p><a download href="examples/text.py">text.py බාගත කරන්න</a></p>
+<pre tabindex="0"><code class="language-python">import unicodedata
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+
+def clean_text(text):
+    # Keep Sinhala characters, punctuation, and words such as &quot;not&quot;.
+    text = unicodedata.normalize(&quot;NFC&quot;, text)
+    return &quot; &quot;.join(text.split())
+
+
+train_texts = [
+    &quot;This service is good!&quot;, &quot;This service is not good.&quot;,
+    &quot;මෙම සේවාව හොඳයි&quot;, &quot;මෙම සේවාව හොඳ නැහැ&quot;,
+]
+test_texts = [&quot;  The service\n is good. &quot;, &quot;සේවාව හොඳයි&quot;]
+vectorizer = TfidfVectorizer(
+    analyzer=&quot;char_wb&quot;, ngram_range=(3, 5), lowercase=True
+)
+X_train = vectorizer.fit_transform([clean_text(t) for t in train_texts])
+X_test = vectorizer.transform([clean_text(t) for t in test_texts])
+print(&quot;Training shape:&quot;, X_train.shape)
+print(&quot;Test shape:&quot;, X_test.shape)
+# Both matrices use the vocabulary and IDF learned from train_texts.
+</code></pre>
+<p>Test matrix එකේ ලක්ෂණ තීරු ගණන training matrix එකට සමානයි. Test පණිවිඩවලින් අලුත් vocabulary එකක් ඉගෙනගන්නේ නැහැ. Character n-grams සම්පූර්ණ භාෂාමය tokenizer එකක් නොවෙයි. Transformer මොඩල සඳහා අදාළ checkpoint එකේ tokenizer එක සහ එහි padding, truncation හා attention-mask රීති භාවිත කරන්න. ඒ tokenizer එකට අවශ්‍ය තොරතුරු පිරිසිදු කිරීමේදී ඉවත් නොකරන්න.</p>
+<h2 id="images"><span class="section-number">05</span>රූප: ප්‍රමාණය, වර්ණය සහ pixel අගයන්</h2>
+<p>මුලින් රූප විවෘත කළ හැකිද සහ ලේබල නිවැරදිදැයි බලන්න. කැමරාවේ දිශානතිය නිවැරදි කර, එකම වර්ණ ආකාරයක් තෝරා, resize, crop හෝ pad කළ යුතුදැයි තීරණය කරන්න. ඇද විශාල කිරීමෙන් හැඩය වෙනස් වෙනවා. Crop කිරීමෙන් ප්‍රධාන වස්තුව කැපී යා හැකියි. Padding මඟින් මායිම් එකතු වෙනවා. සුදුසු තේරීම කාර්යය මත රඳා පවතිනවා.</p>
+<p>උදාහරණය දිග-පළල අනුපාතය රකිමින් රූපය වර්ගයකට pad කරනවා, RGB බවට පත් කරනවා, සහ 8-bit රූපය <code>[0, 1]</code> පරාසයේ float array එකක් බවට හරවනවා. ප්‍රතිදානයේ අනුපිළිවෙළ උස × පළල × channels. සමහර මොඩලවලට channels මුලින් තිබීම හෝ අමතර normalization අවශ්‍යයි. පෙර පුහුණු checkpoint එකක නියමිත සැකසුම් අනුගමනය කරන්න. <a href="https://pillow.readthedocs.io/en/stable/reference/ImageOps.html">Pillow image operations</a> සහ <a href="https://docs.pytorch.org/vision/stable/transforms.html">Torchvision transforms</a> බලන්න.</p>
+<p><a download href="examples/image.py">image.py බාගත කරන්න</a></p>
+<pre tabindex="0"><code class="language-python">import numpy as np
+from PIL import Image, ImageOps
+
+
+def prepare_image(image):
+    image = ImageOps.exif_transpose(image)  # Respect camera orientation.
+    image = image.convert(&quot;RGB&quot;)
+    image = ImageOps.pad(
+        image, (224, 224), method=Image.Resampling.BILINEAR,
+        color=(0, 0, 0),
+    )  # Preserve aspect ratio and add padding.
+    return np.asarray(image, dtype=np.float32) / 255.0
+
+
+# A synthetic input keeps the example runnable without downloading a photo.
+example = Image.new(&quot;RGB&quot;, (320, 180), color=(80, 160, 240))
+pixels = prepare_image(example)
+print(&quot;Shape:&quot;, pixels.shape)  # (224, 224, 3): height, width, channels
+print(&quot;Type:&quot;, pixels.dtype)  # float32
+print(&quot;Range:&quot;, pixels.min(), pixels.max())  # Within [0, 1]
+# For your photo:
+# with Image.open(&quot;photo.jpg&quot;) as photo:
+#     pixels = prepare_image(photo)
+</code></pre>
+<p>මෙය සාමාන්‍ය 8-bit RGB රූප සඳහායි. වෛද්‍ය ස්කෑන් හෝ වැඩි bit depth සහිත sensor දත්ත සඳහා සෑමවිටම ගැළපෙන්නේ නැහැ. 255 න් බෙදීම pixel scaling පියවරක්. Channel අනුව mean/std normalization වෙනම පියවරක්.</p>
+<p>Training augmentation මඟින් යථාර්ථයට ගැළපෙන crops, දීප්තියේ වෙනස්කම් හෝ flips එකතු කරනවා. පැහැදිලිව නිර්වචනය කළ test-time augmentation ක්‍රමයක් ඇගයීමට භාවිත කරන අවස්ථාවක් හැර, validation සහ test සැකසුම් අහඹු නොවන ලෙස තබන්න. බළලෙකුගේ රූපයක් හරස් අතට හැරවීමෙන් ලේබලය වෙනස් නොවුණත්, ලියූ පෙළක් එසේ හැරවීමෙන් එය විකෘති වෙනවා. Segmentation සහ detection සඳහා masks හෝ boxes ද රූපයට ගැළපෙන ලෙස වෙනස් කළ යුතුයි.</p>
+<h2 id="time-series"><span class="section-number">06</span>කාල ශ්‍රේණි: අතීතයෙන් ඉගෙන ගන්න</h2>
+<p>Timestamps කියවා, time zones එකම ආකාරයකට සකස් කර, දත්ත කාලය අනුව පෙළගස්වන්න. හිස් කාල පරාස සහ අසමාන නියැදි පරතර පරීක්ෂා කරන්න. Resampling මඟින් කියවීම් එකම කාල පරතරයකට ගෙන ආ හැකියි. මිනුමට ගැළපෙන එකතු කිරීමක් තෝරාගන්න. නොමැති කියවීමක් අනිවාර්යයෙන් බිංදුවක් නොවෙයි.</p>
+<p>Forecasting සඳහා prediction කරන මොහොතේ තිබෙන තොරතුරු පමණක් යොදා lag values සහ rolling statistics සාදන්න. පසුව ලැබෙන අගයන් භාවිත කරන backward fill හෝ interpolation මඟින් අනාගතය කාන්දු විය හැකියි. උදාහරණය කෙටි feature හිඩැස් පමණක් අතීතයෙන් පුරවනවා, නොමැති target අගයන් පුරවන්නේ නැහැ, සහ කාලය අනුව train/test වෙන් කරනවා. අදාළ API සඳහා <a href="https://pandas.pydata.org/docs/user_guide/timeseries.html">pandas time-series මාර්ගෝපදේශය</a> බලන්න.</p>
+<p><a download href="examples/time_series.py">time_series.py බාගත කරන්න</a></p>
+<pre tabindex="0"><code class="language-python">import numpy as np
+import pandas as pd
+
+readings = pd.Series(
+    [10, 12, np.nan, 14, 13, 15, 16, 18, 17, 19, 20, 21],
+    index=pd.date_range(&quot;2026-01-01&quot;, periods=12, freq=&quot;h&quot;, tz=&quot;UTC&quot;),
+    name=&quot;value&quot;,
+)
+# Keep the measured target separate. Do not invent evaluation labels.
+features = pd.DataFrame({
+    &quot;lag_1&quot;: readings.shift(1),
+    &quot;past_mean_3&quot;: readings.shift(1).rolling(3, min_periods=1).mean(),
+    &quot;hour&quot;: readings.index.hour,
+})
+features = features.ffill(limit=1)  # Only past values; fill short gaps.
+data = features.join(readings.rename(&quot;target&quot;)).dropna()
+cutoff = pd.Timestamp(&quot;2026-01-01 08:00&quot;, tz=&quot;UTC&quot;)
+train = data.loc[data.index &lt; cutoff]
+test = data.loc[data.index &gt;= cutoff]
+print(&quot;Training rows:&quot;, len(train), &quot;Test rows:&quot;, len(test))
+print(test.head())
+# This is rolling one-step prediction: earlier observations become available.
+# For a fixed multi-step forecast, future actual values cannot supply lags.
+</code></pre>
+<p>ප්‍රතිදානයේ training පේළි හයක් සහ test පේළි හතරක් ලැබෙනවා. මෙය <strong>rolling one-step</strong> ක්‍රමයක්: ඊළඟ කියවීම පුරෝකථනය කරන විට කලින් කියවීම් දැනටමත් ලැබී තිබෙනවා. මධ්‍යම රාත්‍රියේදීම ඊළඟ දවසම සඳහා forecast එකක් කරනවා නම්, ඒ දවසේ පසුව ලැබෙන සැබෑ අගයන් lag features සඳහා භාවිත කළ නොහැකියි. කේතය ඔබේ forecasting horizon එකට ගළපන්න.</p>
+<h2 id="other-data"><span class="section-number">07</span>හඬ, වීඩියෝ සහ අසමතුලිත දත්ත</h2>
+<p>හඬ සඳහා sample rate, channel ගණන, clipping සහ පටිගත කිරීමේ ගුණාත්මකභාවය පරීක්ෂා කරන්න. Resample කිරීම, channels තේරීම හෝ එකතු කිරීම, අදාළ නොවන නිශ්ශබ්ද කොටස් ඉවත් කිරීම, windows වලට බෙදීම, spectrograms හෝ MFCCs ගණනය කිරීම කළ හැකියි. Speech model එකක් මේ පියවරවලින් සමහරක් දැනටමත් කරනවා විය හැකියි. ස්ථානය හෝ දිශාව වැදගත් නම් channel තොරතුරු ඉවත් නොකරන්න. ශබ්ද ප්‍රබලතාව target එකට වැදගත් නම් එය normalize කර නැති නොකරන්න.</p>
+<p>වීඩියෝ සඳහා frames තෝරාගැනීමේ රීතියක් යොදා, ගැළපෙන image transforms භාවිත කර, කාල අනුපිළිවෙළ රකින්න. Audio, frames සහ labels සමමුහුර්තව තබන්න. ළඟ ළඟ clips train සහ test දෙකේම සමානව තිබීම වැළැක්වීමට මුල් පටිගත කිරීම හෝ පුද්ගලයා අනුව දත්ත වෙන් කරන්න.</p>
+<p>Class imbalance ද බොහෝ දත්ත වර්ගවල ගැටලුවක්. Class weights, සුදුසු metrics සහ අවශ්‍ය නම් training resampling සලකා බලන්න. Oversampling හෝ synthetic examples සාදනවා නම් ඒවා සෑම fold එකකම training කොටස තුළ පමණක් කරන්න. ලකුණු හොඳ කර පෙන්වීමට held-out test දත්තවල කාණ්ඩ අනුපාත වෙනස් නොකරන්න.</p>
+<h2 id="checklist"><span class="section-number">08</span>ප්‍රායෝගික පරීක්ෂණ ලැයිස්තුවක්</h2>
+<ul>
+<li>දත්ත වර්ග, ඒකක, හිස් අගයන්, අනුපිටපත්, ලේබල සහ අදාළ කණ්ඩායම් නියෝජනය පරීක්ෂා කරන්න.</li>
+<li>සැබෑ භාවිතයේදී නව දත්ත ලැබෙන ආකාරයට ගැළපෙන split එකක් තෝරාගන්න.</li>
+<li>ඉගෙනගන්නා සැකසුම් training දත්ත මත පමණක් fit කර fitted pipeline එක සුරකින්න.</li>
+<li>Shapes, ranges, අලුත් කාණ්ඩ, හිස් පෙළ, විවෘත නොවන ගොනු සහ නොමැති timestamps පරීක්ෂා කරන්න.</li>
+<li>Test කිරීමේදීත් deployment එකේදීත් එකම inference සැකසුම් භාවිත කරන්න.</li>
+<li>සරල baseline එකක් සමඟ සසඳා සෑම සැකසුමක්ම කාර්යයට උපකාරීදැයි බලන්න.</li>
+<li>Package versions සහ සැකසුම් තේරීම් මොඩලය සමඟ සටහන් කර තබන්න.</li>
+</ul>
+<p>Preprocessing මොඩලයේ හැසිරීමේ කොටසක්. එය පරීක්ෂා කළ හැකි, තේරුම් ගත හැකි සහ නැවත භාවිත කළ හැකි කේතයක් ලෙස සකස් කරන්න.</p>
+        </div>
+      </div>
+    </article>
+    <div class="article-end"><p>තවත් දැනගන්න.<span>AI සහ ඉංජිනේරුකරණය පිළිබඳ තවත් සටහන්.</span></p><a class="back" href="../../index.html#blog-page">← සියලු ලිපි</a></div>
+  </main>
+  <footer><div class="wrap">© 2026 Chanupa Deshan</div></footer>
+</body>
+</html>
