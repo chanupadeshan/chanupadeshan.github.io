@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Logistic Regression Explained: From Probability to Classification — Chanupa Deshan</title>
+  <meta name="description" content="A beginner-friendly explanation of Logistic Regression with sigmoid, probability, thresholds, decision boundaries, loss, evaluation metrics, and a practical Python example." />
+  <meta name="author" content="Chanupa Deshan" />
+  <link rel="canonical" href="https://chanupa.blog/blog/logistic-regression/logistic-regression.html" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Logistic Regression Explained: From Probability to Classification" />
+  <meta property="og:description" content="Understand Logistic Regression step by step with simple examples, probability, sigmoid, thresholds, evaluation metrics, and Python." />
+  <meta property="og:url" content="https://chanupa.blog/blog/logistic-regression/logistic-regression.html" />
+  <link rel="icon" type="image/png" href="../../favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../article.css" />
+  <link rel="stylesheet" href="../../styles/navigation.css" />
+</head>
+
+<body>
+  <a class="skip-link" href="#article">Skip to article</a>
+
+  <nav lang="en" aria-label="Main navigation">
+    <div class="wrap nav-inner">
+      <a class="logo" href="../../index.html#top" aria-label="Back to top">
+        <span class="prompt">&gt;&gt;&gt;</span> Chanupa <span class="full-name">Deshan Munasinghe</span>
+      </a>
+      <div class="nav-links">
+        <a href="../../index.html#experience" class="main-only">Experience</a>
+        <a href="../../index.html#open-source" class="main-only">Open Source</a>
+        <a href="../../index.html#education" class="main-only">Education</a>
+        <a href="../../index.html#certificates" class="main-only">Certificates</a>
+        <a href="../../index.html#projects" class="main-only">Projects</a>
+        <a href="../../index.html#contact" class="main-only">Contact</a>
+        <a href="../../index.html#blog-page" id="blog-link" class="nav-blog-link">Blog</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="article" class="wrap">
+    <div class="article-toolbar">
+      <a class="back" href="../../index.html#blog-page">← All posts</a>
+    </div>
+
+    <article>
+      <header class="article-hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Machine Learning · Classification</p>
+          <h1>Logistic Regression <span class="title-accent">explained.</span></h1>
+          <p class="dek">From a simple weighted score to probability, threshold, and final class prediction — step by step.</p>
+          <p class="meta">Chanupa Deshan · <time datetime="2026-09-21">September 21, 2026</time> · Beginner Guide + Python</p>
+        </div>
+
+        <figure class="learning-visual">
+          <figcaption>
+            <span class="figure-index">03 / LOGISTIC REGRESSION</span>
+            <span class="visual-dot" aria-hidden="true"></span>
+          </figcaption>
+
+          <div class="prep-flow">
+            <div class="prep-step"><span>01</span><p>Read the features</p></div>
+            <div class="prep-step"><span>02</span><p>Calculate a score</p></div>
+            <div class="prep-step"><span>03</span><p>Convert to probability</p></div>
+            <div class="prep-step"><span>04</span><p>Choose a class</p></div>
+          </div>
+
+          <p class="visual-note">Features → linear score → sigmoid probability → threshold → class.</p>
+        </figure>
+      </header>
+
+      <div class="reading-layout">
+        <aside class="contents" aria-label="ON THIS PAGE">
+          <p>ON THIS PAGE</p>
+          <a href="#what-is-it"><span>01</span> What is Logistic Regression?</a>
+          <a href="#why-not-linear"><span>02</span> Why not Linear Regression?</a>
+          <a href="#how-it-works"><span>03</span> How it works</a>
+          <a href="#sigmoid"><span>04</span> The sigmoid function</a>
+          <a href="#threshold"><span>05</span> Classification threshold</a>
+          <a href="#boundary"><span>06</span> Decision boundary</a>
+          <a href="#learning"><span>07</span> How the model learns</a>
+          <a href="#coefficients"><span>08</span> Coefficients and odds</a>
+          <a href="#evaluation"><span>09</span> How to evaluate it</a>
+          <a href="#python"><span>10</span> Python example</a>
+          <a href="#assumptions"><span>11</span> Assumptions & limitations</a>
+          <a href="#when-to-use"><span>12</span> When should you use it?</a>
+        </aside>
+
+        <div class="prose">
+          <div class="takeaway">
+            <span>THE CORE IDEA</span>
+            <p>Logistic Regression predicts the probability of a class. A threshold then converts that probability into a final class such as Yes/No, Fraud/Not Fraud, or Spam/Not Spam.</p>
+          </div>
+
+          <p>Suppose a bank wants to answer one simple question:</p>
+
+          <blockquote>
+            <p><strong>Is this transaction fraudulent?</strong></p>
+          </blockquote>
+
+          <p>The answer has two possibilities:</p>
+
+          <pre><code>Fraud
+Not Fraud</code></pre>
+
+          <p>Or imagine an email system asking:</p>
+
+          <pre><code>Spam
+Not Spam</code></pre>
+
+          <p>These are <strong>classification</strong> problems.</p>
+
+          <p>One of the simplest and most useful algorithms for this kind of problem is <strong>Logistic Regression</strong>.</p>
+
+          <h2 id="what-is-it"><span class="section-number">01</span>What is Logistic Regression?</h2>
+
+          <p>Logistic Regression is a supervised machine-learning algorithm mainly used for classification.</p>
+
+          <p>Despite the word <em>regression</em> in its name, Logistic Regression is commonly used to predict categories.</p>
+
+          <p>For binary classification, we usually represent the two classes as:</p>
+
+          <pre><code>0 → Negative class
+1 → Positive class</code></pre>
+
+          <p>For example:</p>
+
+          <div class="table-scroll" role="region" aria-label="Binary classification examples" tabindex="0">
+            <table>
+              <caption>Examples of binary classification</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Problem</th>
+                  <th scope="col">Class 0</th>
+                  <th scope="col">Class 1</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Email filtering</td><td>Not Spam</td><td>Spam</td></tr>
+                <tr><td>Fraud detection</td><td>Legitimate</td><td>Fraud</td></tr>
+                <tr><td>Customer churn</td><td>Stay</td><td>Leave</td></tr>
+                <tr><td>Loan default</td><td>No Default</td><td>Default</td></tr>
+                <tr><td>Quality control</td><td>Normal</td><td>Defective</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>The model does not immediately say:</p>
+
+          <pre><code>Fraud</code></pre>
+
+          <p>Instead, it first estimates something like:</p>
+
+          <pre><code>Probability of Fraud = 0.87</code></pre>
+
+          <p>Then we use a decision rule to turn that probability into a class.</p>
+
+          <h2 id="why-not-linear"><span class="section-number">02</span>Why not just use Linear Regression?</h2>
+
+          <p>Linear Regression predicts continuous numerical values.</p>
+
+          <p>For example:</p>
+
+          <pre><code>House price = Rs. 42,500,000
+Temperature = 28.7°C
+Delivery time = 36 minutes</code></pre>
+
+          <p>For classification, however, we often want a probability between:</p>
+
+          <pre><code>0 and 1</code></pre>
+
+          <p>If we tried ordinary Linear Regression, the prediction could theoretically be:</p>
+
+          <pre><code>-0.4
+1.3
+2.1</code></pre>
+
+          <p>Those values do not make sense as probabilities.</p>
+
+          <p>Logistic Regression solves this by taking a linear score and passing it through a function that keeps the output between 0 and 1.</p>
+
+          <p>That function is called the <strong>sigmoid function</strong>.</p>
+
+          <h2 id="how-it-works"><span class="section-number">03</span>How Logistic Regression works</h2>
+
+          <p>The complete idea can be understood in four steps.</p>
+
+          <pre><code>Input Features
+      ↓
+Calculate a Linear Score
+      ↓
+Apply Sigmoid
+      ↓
+Get Probability
+      ↓
+Apply Threshold
+      ↓
+Predict Class</code></pre>
+
+          <p>Let's use a simple example.</p>
+
+          <p>Suppose we want to predict whether a student passes an exam based only on the number of hours studied.</p>
+
+          <p>Our model might learn this score:</p>
+
+          <pre><code>z = -4 + 0.8 × study_hours</code></pre>
+
+          <p>Here:</p>
+
+          <ul>
+            <li><code>-4</code> is the intercept or bias.</li>
+            <li><code>0.8</code> is the coefficient for study hours.</li>
+            <li><code>study_hours</code> is the input feature.</li>
+          </ul>
+
+          <p>If the student studied for 2 hours:</p>
+
+          <pre><code>z = -4 + 0.8 × 2
+z = -2.4</code></pre>
+
+          <p>If the student studied for 8 hours:</p>
+
+          <pre><code>z = -4 + 0.8 × 8
+z = 2.4</code></pre>
+
+          <p>But these scores are still not probabilities.</p>
+
+          <p>We need the sigmoid function.</p>
+
+          <h2 id="sigmoid"><span class="section-number">04</span>The sigmoid function</h2>
+
+          <p>The sigmoid function converts any real number into a value between 0 and 1.</p>
+
+          <pre><code>sigmoid(z) = 1 / (1 + e^(-z))</code></pre>
+
+          <p>You do not need to memorize the equation immediately. The important idea is what it does.</p>
+
+          <pre><code>Very negative score → probability close to 0
+
+Score around 0      → probability around 0.5
+
+Very positive score → probability close to 1</code></pre>
+
+          <p>For our student example:</p>
+
+          <div class="table-scroll" role="region" aria-label="Sigmoid example" tabindex="0">
+            <table>
+              <caption>Study hours and predicted probability</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Study Hours</th>
+                  <th scope="col">Score z</th>
+                  <th scope="col">Probability of Passing</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>2</td><td>-2.4</td><td>0.083 or 8.3%</td></tr>
+                <tr><td>5</td><td>0.0</td><td>0.500 or 50%</td></tr>
+                <tr><td>8</td><td>2.4</td><td>0.917 or 91.7%</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>So the model says:</p>
+
+          <pre><code>2 hours → low estimated probability of passing
+
+5 hours → 50% estimated probability
+
+8 hours → high estimated probability of passing</code></pre>
+
+          <p>These are model-estimated probabilities, not guarantees.</p>
+
+          <h2 id="threshold"><span class="section-number">05</span>From probability to a class: the threshold</h2>
+
+          <p>Now suppose the model predicts:</p>
+
+          <pre><code>Probability of passing = 0.82</code></pre>
+
+          <p>We still need to turn that probability into a class:</p>
+
+          <pre><code>Pass
+or
+Fail</code></pre>
+
+          <p>A common starting threshold is <code>0.5</code>.</p>
+
+          <pre><code>If probability >= 0.5
+    Predict Class 1
+
+Otherwise
+    Predict Class 0</code></pre>
+
+          <p>So:</p>
+
+          <pre><code>Probability = 0.82
+Threshold   = 0.50
+
+0.82 >= 0.50
+
+Prediction → Pass</code></pre>
+
+          <p>Another example:</p>
+
+          <pre><code>Probability = 0.31
+Threshold   = 0.50
+
+0.31 < 0.50
+
+Prediction → Fail</code></pre>
+
+          <h3>The threshold does not have to be 0.5</h3>
+
+          <p>This is an important point.</p>
+
+          <p>A threshold of 0.5 is common, but it is not a rule that must always be used.</p>
+
+          <p>Imagine a medical-screening system where missing a positive case is very costly.</p>
+
+          <p>We might lower the threshold:</p>
+
+          <pre><code>Threshold = 0.30</code></pre>
+
+          <p>Now more examples will be classified as positive.</p>
+
+          <p>For example:</p>
+
+          <div class="table-scroll" role="region" aria-label="Threshold comparison" tabindex="0">
+            <table>
+              <caption>The same probability under different thresholds</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Probability</th>
+                  <th scope="col">Threshold</th>
+                  <th scope="col">Prediction</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>0.42</td><td>0.50</td><td>Class 0</td></tr>
+                <tr><td>0.42</td><td>0.30</td><td>Class 1</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>Lowering the threshold usually detects more actual positive examples, but it may also create more false alarms.</p>
+
+          <p>Raising the threshold makes the model more selective.</p>
+
+          <p>The correct threshold depends on the real-world cost of different mistakes.</p>
+
+          <h2 id="boundary"><span class="section-number">06</span>What is the decision boundary?</h2>
+
+          <p>The <strong>decision boundary</strong> is where the model changes from predicting one class to predicting the other.</p>
+
+          <p>Using our simple model:</p>
+
+          <pre><code>z = -4 + 0.8 × study_hours</code></pre>
+
+          <p>At the default threshold of 0.5, the sigmoid gives 0.5 when:</p>
+
+          <pre><code>z = 0</code></pre>
+
+          <p>So:</p>
+
+          <pre><code>-4 + 0.8 × study_hours = 0
+
+0.8 × study_hours = 4
+
+study_hours = 5</code></pre>
+
+          <p>That means five study hours is the decision boundary in this example.</p>
+
+          <pre><code>Less than 5 hours → Class 0
+5 hours or more   → Class 1</code></pre>
+
+          <p>Real models usually use several features at the same time.</p>
+
+          <p>For example:</p>
+
+          <pre><code>Exam result =
+    Study hours
+  + Attendance
+  + Previous grades
+  + Assignment score</code></pre>
+
+          <p>In that case, the model learns a boundary using all those features together.</p>
+
+          <h2 id="learning"><span class="section-number">07</span>How does Logistic Regression learn?</h2>
+
+          <p>At the beginning of training, the model does not know the best coefficients.</p>
+
+          <p>It might make poor predictions:</p>
+
+          <pre><code>Actual label     = 1
+Predicted prob.  = 0.10</code></pre>
+
+          <p>This is a bad prediction because the model is strongly predicting the wrong class.</p>
+
+          <p>Training needs a way to measure how bad each prediction is.</p>
+
+          <p>For Logistic Regression, a common loss function is <strong>Binary Cross-Entropy</strong>, also called <strong>Log Loss</strong>.</p>
+
+          <pre><code>Loss = -[y log(p) + (1-y) log(1-p)]</code></pre>
+
+          <p>The intuition is more important than memorizing the formula:</p>
+
+          <pre><code>Correct + confident prediction
+        ↓
+Small loss
+
+Wrong + confident prediction
+        ↓
+Large loss</code></pre>
+
+          <p>For example, if the true answer is class 1:</p>
+
+          <div class="table-scroll" role="region" aria-label="Log loss intuition" tabindex="0">
+            <table>
+              <caption>Intuition behind log loss</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Prediction</th>
+                  <th scope="col">Interpretation</th>
+                  <th scope="col">Loss</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>0.90</td><td>Correct and confident</td><td>Small</td></tr>
+                <tr><td>0.55</td><td>Correct but uncertain</td><td>Medium</td></tr>
+                <tr><td>0.10</td><td>Wrong and confident</td><td>Large</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>An optimization algorithm adjusts the model's coefficients to reduce this loss across the training data.</p>
+
+          <pre><code>Start with coefficients
+        ↓
+Make predictions
+        ↓
+Calculate loss
+        ↓
+Adjust coefficients
+        ↓
+Repeat</code></pre>
+
+          <h3>Regularization</h3>
+
+          <p>Logistic Regression can also use <strong>regularization</strong>.</p>
+
+          <p>Regularization discourages the model from relying on extremely large coefficients and can help reduce overfitting.</p>
+
+          <p>Common types include:</p>
+
+          <ul>
+            <li><strong>L1 regularization</strong></li>
+            <li><strong>L2 regularization</strong></li>
+          </ul>
+
+          <p>In scikit-learn, Logistic Regression uses regularization by default.</p>
+
+          <h2 id="coefficients"><span class="section-number">08</span>What do the coefficients mean?</h2>
+
+          <p>One reason Logistic Regression is popular is that its coefficients can be interpreted.</p>
+
+          <p>Suppose our model contains:</p>
+
+          <pre><code>z = -4 + 0.8 × study_hours</code></pre>
+
+          <p>The positive coefficient <code>0.8</code> means that increasing study hours pushes the model toward class 1.</p>
+
+          <p>If a coefficient is negative:</p>
+
+          <pre><code>coefficient = -1.2</code></pre>
+
+          <p>increasing that feature pushes the model toward class 0, assuming the other features stay fixed.</p>
+
+          <p>But there is an important detail:</p>
+
+          <blockquote>
+            <p><strong>A coefficient of 0.8 does not mean the probability increases by 80%.</strong></p>
+          </blockquote>
+
+          <p>Logistic Regression is linear in <strong>log-odds</strong>, not directly in probability.</p>
+
+          <p>The odds are:</p>
+
+          <pre><code>odds = p / (1 - p)</code></pre>
+
+          <p>and Logistic Regression models:</p>
+
+          <pre><code>log(odds) = b + w₁x₁ + w₂x₂ + ...</code></pre>
+
+          <p>For a beginner, the main takeaway is simple:</p>
+
+          <pre><code>Positive coefficient → pushes probability toward class 1
+
+Negative coefficient → pushes probability toward class 0
+
+Larger absolute value → stronger effect on the model's linear score,
+subject to feature scale and the other variables</code></pre>
+
+          <h2 id="evaluation"><span class="section-number">09</span>How do we evaluate Logistic Regression?</h2>
+
+          <p>Accuracy is useful, but it should not be the only metric we look at.</p>
+
+          <p>Imagine a fraud dataset containing:</p>
+
+          <pre><code>990 legitimate transactions
+10 fraudulent transactions</code></pre>
+
+          <p>A useless model could predict:</p>
+
+          <pre><code>Every transaction = Legitimate</code></pre>
+
+          <p>Its accuracy would be:</p>
+
+          <pre><code>990 / 1000 = 99%</code></pre>
+
+          <p>That sounds excellent — but the model detected zero fraud cases.</p>
+
+          <p>This is why classification evaluation often uses several metrics.</p>
+
+          <h3>Confusion Matrix</h3>
+
+          <div class="table-scroll" role="region" aria-label="Confusion matrix" tabindex="0">
+            <table>
+              <caption>Binary classification outcomes</caption>
+              <thead>
+                <tr>
+                  <th scope="col"></th>
+                  <th scope="col">Predicted Positive</th>
+                  <th scope="col">Predicted Negative</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Actually Positive</td><td>True Positive</td><td>False Negative</td></tr>
+                <tr><td>Actually Negative</td><td>False Positive</td><td>True Negative</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>Precision</h3>
+
+          <p>Precision asks:</p>
+
+          <blockquote>
+            <p>When the model predicts positive, how often is it correct?</p>
+          </blockquote>
+
+          <pre><code>Precision = TP / (TP + FP)</code></pre>
+
+          <h3>Recall</h3>
+
+          <p>Recall asks:</p>
+
+          <blockquote>
+            <p>Out of all the actual positive cases, how many did the model find?</p>
+          </blockquote>
+
+          <pre><code>Recall = TP / (TP + FN)</code></pre>
+
+          <h3>F1-score</h3>
+
+          <p>F1 combines precision and recall into one score.</p>
+
+          <pre><code>F1 = 2 × (Precision × Recall) / (Precision + Recall)</code></pre>
+
+          <h3>ROC-AUC</h3>
+
+          <p>ROC-AUC evaluates how well the model ranks positive examples above negative examples across many possible thresholds.</p>
+
+          <p>The best metric depends on the problem.</p>
+
+          <p>For example:</p>
+
+          <ul>
+            <li>In fraud detection, recall may be important because missing fraud can be costly.</li>
+            <li>In spam filtering, precision may matter because incorrectly blocking an important email is annoying.</li>
+            <li>For imbalanced datasets, accuracy alone is often not enough.</li>
+          </ul>
+
+          <h2 id="python"><span class="section-number">10</span>Logistic Regression in Python</h2>
+
+          <p>Let's train a simple Logistic Regression classifier using scikit-learn.</p>
+
+          <p>This example uses the built-in breast-cancer dataset only as a convenient public teaching dataset. The code demonstrates the machine-learning workflow; it is not medical advice or a clinical model.</p>
+
+          <pre tabindex="0"><code class="language-python">from sklearn.datasets import load_breast_cancer
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import (
+    accuracy_score,
+    classification_report,
+    confusion_matrix,
+    roc_auc_score,
+)
+from sklearn.model_selection import train_test_split
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+
+# 1. Load the dataset
+data = load_breast_cancer()
+
+X = data.data
+y = data.target
+
+# 2. Split the data
+X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    test_size=0.20,
+    stratify=y,
+    random_state=42
+)
+
+# 3. Build preprocessing + model pipeline
+model = Pipeline([
+    ("scale", StandardScaler()),
+    ("logistic_regression", LogisticRegression(max_iter=2000))
+])
+
+# 4. Train
+model.fit(X_train, y_train)
+
+# 5. Predict classes
+predictions = model.predict(X_test)
+
+# 6. Predict probabilities for class 1
+probabilities = model.predict_proba(X_test)[:, 1]
+
+# 7. Evaluate
+print("Accuracy:", accuracy_score(y_test, predictions))
+print("ROC-AUC:", roc_auc_score(y_test, probabilities))
+
+print("\nConfusion Matrix:")
+print(confusion_matrix(y_test, predictions))
+
+print("\nClassification Report:")
+print(classification_report(y_test, predictions))</code></pre>
+
+          <p>Notice that the pipeline contains:</p>
+
+          <pre><code>StandardScaler
+      ↓
+LogisticRegression</code></pre>
+
+          <p>The scaler learns only from the training data when the pipeline is fitted, helping us keep preprocessing consistent.</p>
+
+          <h3>Changing the decision threshold</h3>
+
+          <p>Scikit-learn's <code>predict()</code> normally uses the model's standard class-decision rule. If we want our own probability threshold, we can use <code>predict_proba()</code>.</p>
+
+          <pre tabindex="0"><code class="language-python">probabilities = model.predict_proba(X_test)[:, 1]
+
+threshold = 0.40
+
+custom_predictions = (
+    probabilities >= threshold
+).astype(int)</code></pre>
+
+          <p>Now:</p>
+
+          <pre><code>Probability >= 0.40 → Class 1
+Probability <  0.40 → Class 0</code></pre>
+
+          <p>The threshold should normally be selected using validation data and the real cost of false positives and false negatives — not by repeatedly tuning it against the final test set.</p>
+
+          <h2 id="assumptions"><span class="section-number">11</span>Assumptions and limitations</h2>
+
+          <p>Logistic Regression is simple, fast, and useful, but it is not perfect for every problem.</p>
+
+          <h3>1. The basic decision boundary is linear</h3>
+
+          <p>In the original feature space, ordinary Logistic Regression creates a linear boundary.</p>
+
+          <p>If the true pattern is highly nonlinear, a basic Logistic Regression model may struggle.</p>
+
+          <pre><code>Simple boundary
+───────────────
+Class A | Class B</code></pre>
+
+          <p>We can sometimes add nonlinear features, interactions, or choose a different model.</p>
+
+          <h3>2. Multicollinearity can make coefficients unstable</h3>
+
+          <p>If two input features contain almost the same information, interpreting their individual coefficients can become difficult.</p>
+
+          <p>For example:</p>
+
+          <pre><code>Feature 1 → Weight in kilograms
+Feature 2 → Weight in pounds</code></pre>
+
+          <p>These are basically two versions of the same information.</p>
+
+          <h3>3. Outliers can matter</h3>
+
+          <p>Extreme feature values can strongly influence the linear score, especially without appropriate preprocessing.</p>
+
+          <h3>4. Feature scaling is often helpful</h3>
+
+          <p>Scaling is especially useful when features have very different ranges and when regularization is used.</p>
+
+          <h3>5. Class imbalance requires careful evaluation</h3>
+
+          <p>If one class is extremely rare, accuracy may hide poor performance on the minority class.</p>
+
+          <p>Consider:</p>
+
+          <ul>
+            <li>Class weights</li>
+            <li>Threshold tuning</li>
+            <li>Precision and recall</li>
+            <li>PR-AUC or ROC-AUC where appropriate</li>
+            <li>Training-only resampling methods when justified</li>
+          </ul>
+
+          <h3>6. Logistic Regression can also handle multiple classes</h3>
+
+          <p>Although we used binary examples throughout this article, Logistic Regression is not limited to two classes.</p>
+
+          <p>For example:</p>
+
+          <pre><code>Image → Cat
+Image → Dog
+Image → Rabbit</code></pre>
+
+          <p>Multiclass versions can model several categories, although the exact formulation depends on the implementation and solver.</p>
+
+          <h2 id="when-to-use"><span class="section-number">12</span>When should you use Logistic Regression?</h2>
+
+          <p>Logistic Regression is often a strong first model when you have a classification problem.</p>
+
+          <p>It is particularly useful when you want:</p>
+
+          <ul>
+            <li>A fast baseline model</li>
+            <li>Predicted probabilities</li>
+            <li>A relatively interpretable model</li>
+            <li>A model that works well with many tabular datasets</li>
+            <li>A simple benchmark before trying more complex algorithms</li>
+          </ul>
+
+          <p>Examples include:</p>
+
+          <pre><code>Spam detection
+Customer churn
+Loan default
+Fraud screening
+Click prediction
+Subscription cancellation
+Quality classification</code></pre>
+
+          <p>It may be less suitable when the relationship between features and classes is extremely nonlinear and cannot be represented well with your chosen features.</p>
+
+          <h2 id="final-thoughts"><span class="section-number">13</span>Final thoughts</h2>
+
+          <p>Logistic Regression sounds complicated at first, but the basic idea is surprisingly simple.</p>
+
+          <pre><code>Input Features
+      ↓
+Weighted Linear Score
+      ↓
+Sigmoid Function
+      ↓
+Probability
+      ↓
+Decision Threshold
+      ↓
+Class Prediction</code></pre>
+
+          <p>The model first calculates a score from the features.</p>
+
+          <p>The sigmoid function converts that score into an estimated probability between 0 and 1.</p>
+
+          <p>A decision threshold then converts the probability into a class.</p>
+
+          <p>The model learns its coefficients by reducing a loss function such as binary cross-entropy.</p>
+
+          <p>And when we evaluate it, we should look beyond accuracy — especially when the classes are imbalanced.</p>
+
+          <div class="takeaway">
+            <span>REMEMBER</span>
+            <p><strong>Logistic Regression = linear score + sigmoid probability + decision threshold.</strong></p>
+          </div>
+
+          <div class="takeaway">
+            <span>NEXT ARTICLE</span>
+            <p><strong>Linear Regression:</strong> how a model learns a relationship between features and a continuous numerical target.</p>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <div class="article-end">
+      <p>Keep exploring.<span>More notes on AI and engineering.</span></p>
+      <a class="back" href="../../index.html#blog-page">← All posts</a>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">© 2026 Chanupa Deshan</div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>End-to-end NLP preprocessing: from raw text to predictions — Chanupa Deshan</title>
+  <meta name="description" content="A complete NLP preprocessing guide: Unicode, data splits, tokenization, TF-IDF, transformer inputs, evaluation, and a reusable Python pipeline." />
+  <meta name="author" content="Chanupa Deshan" />
+  <link rel="canonical" href="https://chanupa.blog/blog/nlp-preprocessing/nlp-preprocessing.html" />
+  <link rel="alternate" hreflang="en" href="https://chanupa.blog/blog/nlp-preprocessing/nlp-preprocessing.html" />
+  <link rel="alternate" hreflang="si" href="https://chanupa.blog/blog/nlp-preprocessing/nlp-preprocessing.si.html" />
+  <link rel="alternate" hreflang="x-default" href="https://chanupa.blog/blog/nlp-preprocessing/nlp-preprocessing.html" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:locale:alternate" content="si_LK" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="End-to-end NLP preprocessing: from raw text to predictions" />
+  <meta property="og:description" content="A complete NLP preprocessing guide: Unicode, data splits, tokenization, TF-IDF, transformer inputs, evaluation, and a reusable Python pipeline." />
+  <meta property="og:url" content="https://chanupa.blog/blog/nlp-preprocessing/nlp-preprocessing.html" />
+  <link rel="icon" type="image/png" href="../../favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../article.css" />
+  <link rel="stylesheet" href="../../styles/navigation.css" />
+</head>
+<body>
+  <a class="skip-link" href="#article">Skip to article</a>
+  <nav lang="en" aria-label="Main navigation">
+    <div class="wrap nav-inner">
+      <a class="logo" href="../../index.html#top" aria-label="Back to top"><span class="prompt">&gt;&gt;&gt;</span> Chanupa <span class="full-name">Deshan Munasinghe</span></a>
+      <div class="nav-links">
+        <a href="../../index.html#experience" class="main-only">Experience</a>
+        <a href="../../index.html#open-source" class="main-only">Open Source</a>
+        <a href="../../index.html#education" class="main-only">Education</a>
+        <a href="../../index.html#certificates" class="main-only">Certificates</a>
+        <a href="../../index.html#projects" class="main-only">Projects</a>
+        <a href="../../index.html#contact" class="main-only">Contact</a>
+        <a href="../../index.html#blog-page" id="blog-link" class="nav-blog-link">Blog</a>
+      </div>
+    </div>
+  </nav>
+  <main id="article" class="wrap">
+    <div class="article-toolbar">
+      <a class="back" href="../../index.html#blog-page">← All posts</a>
+      <div class="language-switch" role="group" aria-label="Article language"><a href="nlp-preprocessing.html" lang="en" hreflang="en" aria-current="page">English</a><a href="nlp-preprocessing.si.html" lang="si" hreflang="si">සිංහල</a></div>
+    </div>
+    <article>
+      <header class="article-hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Natural Language Processing · Practical guide</p>
+          <h1>Raw text.<br><span class="title-accent">Ready to learn.</span></h1>
+          <p class="dek">End-to-end NLP preprocessing: from raw text to predictions. Preserve meaning, build features, and ship one repeatable pipeline.</p>
+          <p class="meta">Chanupa Deshan · <time datetime="2026-09-06">September 6, 2026</time> · Guide + Python pipeline</p>
+        </div>
+        <figure class="learning-visual">
+          <figcaption><span class="figure-index">03 / NLP PREPROCESSING</span><span class="visual-dot" aria-hidden="true"></span></figcaption>
+          <div class="prep-flow"><div class="prep-step"><span>01</span><p>Inspect, deduplicate &amp; split</p></div><div class="prep-step"><span>02</span><p>Normalize without losing meaning</p></div><div class="prep-step"><span>03</span><p>TF-IDF or model tokenizer</p></div><div class="prep-step"><span>04</span><p>Evaluate, save &amp; reuse</p></div></div>
+          <p class="visual-note">“Not good” and “good” must stay different.</p>
+        </figure>
+      </header>
+      <div class="reading-layout">
+        <aside class="contents" aria-label="ON THIS PAGE"><p>ON THIS PAGE</p><a href="#contract"><span>01</span>Define the task and input contract</a><a href="#split"><span>02</span>Inspect, deduplicate, and split</a><a href="#normalize"><span>03</span>Normalize without erasing meaning</a><a href="#features"><span>04</span>Tokenize and choose a representation</a><a href="#pipeline"><span>05</span>Run the complete classical pipeline</a><a href="#transformers"><span>06</span>The transformer branch</a><a href="#inference"><span>07</span>Package the pipeline for inference</a><a href="#monitor"><span>08</span>Monitor and improve deliberately</a></aside>
+        <div class="prose">
+          <div class="takeaway"><span>THE CORE IDEA</span><p>Preserve the information your task needs. Learn features on training data, then reuse the same pipeline for every prediction.</p></div>
+          <p>Preprocessing decides what an NLP model gets to see. A cleaner sentence is not always a better input: remove “not” from “not good” and you change the label the sentence should receive.</p>
+<p>In the <a href="../data-preprocessing/data-preprocessing.html">data preprocessing guide</a>, we introduced text features. Here we build the complete path for document classification: inspect records, preserve meaning, prevent leakage, create features, evaluate, and reuse the fitted pipeline. We also explain where transformer preprocessing takes a different route.</p>
+<h2 id="contract"><span class="section-number">01</span>Define the task and input contract</h2>
+<p>Start with the prediction: for example, classify a customer message as positive or negative. Decide whether the model receives a whole document, a sentence, or a conversation. A sentiment classifier, search engine, and named-entity recognizer need different preprocessing choices.</p>
+<p>Keep the raw text and a stable record ID. Useful fields include <code>text</code>, <code>label</code>, <code>source_id</code>, <code>language</code>, and <code>created_at</code>. Retain only metadata you are authorized to use, and separate audit metadata from model features. A review rating used to create a sentiment label must not also become an input feature.</p>
+<p>Specify the contract before cleaning: text must be a decoded string, labels must belong to the supported set, and missing or blank inputs need an explicit policy. Do not convert <code>None</code> into the literal word “None.” For the example below, invalid or empty text raises an error so it can be reviewed.</p>
+<h2 id="split"><span class="section-number">02</span>Inspect, deduplicate, and split</h2>
+<p>Inspect missing values, label counts, text lengths, languages, repeated records, and annotation disagreements. Check representative examples from every source. Broken decoding, copied templates, and automatically generated signatures can dominate a corpus without being useful signals.</p>
+<p>Decode files using their documented encoding, commonly UTF-8. Investigate decoding errors instead of silently discarding bytes. Extract fields from JSON or CSV with their proper parsers. For HTML documents, use an HTML parser to extract the intended visible content; regular expressions are not a general HTML parser. Preserve paragraph boundaries when they matter.</p>
+<p>Resolve exact duplicates and conflicting labels using a documented policy. Group near-duplicates, messages from one conversation, or documents from the same source so related content cannot cross partitions. Deterministic normalization can help identify duplicates before splitting; it must not learn vocabulary or statistics from the held-out text.</p>
+<p>Use training data to fit the system, validation data to choose settings, and a test set for the final evaluation. Split by customer or conversation when samples are related; split by time when deployment predicts future messages. Stratified random splitting is appropriate only for sufficiently independent examples with enough records per class.</p>
+<p>Keep learned preprocessing inside the model pipeline, including during cross-validation. This prevents validation text from influencing feature learning. See the <a href="https://scikit-learn.org/stable/common_pitfalls.html">scikit-learn data leakage guide</a>.</p>
+<h2 id="normalize"><span class="section-number">03</span>Normalize without erasing meaning</h2>
+<p>A conservative starting point is Unicode NFC normalization plus whitespace cleanup. NFC reconciles canonically equivalent character sequences; it does not translate text or repair incorrect decoding. Compatibility normalization, NFKC, can change distinctions such as full-width characters, so choose it deliberately. See <a href="https://docs.python.org/3/library/unicodedata.html">Python’s Unicode normalization documentation</a>.</p>
+<pre tabindex="0"><code class="language-python">import unicodedata
+
+
+def normalize_text(text):
+    if not isinstance(text, str):
+        raise TypeError(&quot;Expected a string&quot;)
+    text = &quot; &quot;.join(unicodedata.normalize(&quot;NFC&quot;, text).split())
+    if not text:
+        raise ValueError(&quot;Empty text requires review&quot;)
+    return text
+
+
+print(normalize_text(&quot;  This is not good!\n&quot;))
+# This is not good!
+print(normalize_text(&quot;  මෙම සේවාව හොඳ නැහැ  &quot;))
+# මෙම සේවාව හොඳ නැහැ
+</code></pre>
+<p>Whitespace collapse suits this document-classification example. It would destroy layout information in poetry, source code, or a document extraction task. Likewise, do not strip non-ASCII characters: that removes Sinhala and many other writing systems. Avoid deleting combining marks or zero-width characters indiscriminately.</p>
+<p>Treat every additional transform as a hypothesis to evaluate on validation data:</p>
+<div class="table-scroll" role="region" aria-label="Comparison table" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Choice</th>
+<th scope="col">When it may help</th>
+<th scope="col">What it can lose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lowercasing</td>
+<td>Reducing vocabulary variation in a classical model</td>
+<td>Names, acronyms, emphasis, case distinctions</td>
+</tr>
+<tr>
+<td>URL or username placeholders</td>
+<td>Reducing incidental identifiers</td>
+<td>Domains or mentions useful for the task</td>
+</tr>
+<tr>
+<td>Number normalization</td>
+<td>Grouping variable numeric values</td>
+<td>Prices, dates, quantities, version numbers</td>
+</tr>
+<tr>
+<td>Punctuation or emoji removal</td>
+<td>Removing known extraction noise</td>
+<td>Sentiment, sentence boundaries, expressive cues</td>
+</tr>
+<tr>
+<td>Spelling correction</td>
+<td>A domain with verified correction rules</td>
+<td>Names, dialects, transliteration, technical terms</td>
+</tr>
+<tr>
+<td>Stop-word removal</td>
+<td>Some retrieval or topic baselines</td>
+<td>Negation and useful phrase structure</td>
+</tr>
+<tr>
+<td>Stemming or lemmatization</td>
+<td>Reducing word-form variation</td>
+<td>Meaning distinctions and language-specific detail</td>
+</tr>
+</tbody>
+</table></div>
+<p>Stemming uses rules to shorten word forms and can produce nonwords. Lemmatization aims for a dictionary form and may require language and part-of-speech information. Neither is mandatory. Do not apply an English stemmer to Sinhala. Mixed-language text needs suitable multilingual tools or a tested language-routing policy.</p>
+<h2 id="features"><span class="section-number">04</span>Tokenize and choose a representation</h2>
+<p>Tokenization divides text into units. Word tokens are easy to inspect, character n-grams capture short character sequences, and subword tokenizers split text using a model vocabulary. Splitting on spaces alone is not a universal linguistic tokenizer.</p>
+<p>For a classical baseline, word unigrams and bigrams can represent terms and phrases such as “not good.” Character n-grams offer another starting point for spelling variation and multilingual text without an English word segmenter. They still require evaluation for each language; preserving Sinhala characters does not make a model trained only on English reliable in Sinhala.</p>
+<p>TF-IDF combines term frequency with inverse document frequency, reducing the relative weight of terms appearing across many training documents. The vectorizer learns its vocabulary and IDF on training text; <code>transform</code> reuses those columns for validation and inference. Keep the resulting sparse matrix sparse instead of converting a large corpus to a dense array. The <a href="https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html">TfidfVectorizer reference</a> documents these options.</p>
+<p>Our baseline uses <code>char_wb</code> n-grams of length 3–5, which work within whitespace-delimited words with boundary padding. It preserves case and does not remove stop words. <code>min_df=1</code> accommodates the tiny example; larger corpora may benefit from vocabulary limits selected on validation data. Unknown character sequences add no new feature columns; an input with no known features produces an all-zero vector, whose prediction is driven by the classifier’s intercept.</p>
+<h2 id="pipeline"><span class="section-number">05</span>Run the complete classical pipeline</h2>
+<p>Download <a href="examples/nlp_pipeline.py">nlp_pipeline.py</a> and <a href="requirements.txt">requirements.txt</a> into the same folder. The script includes 40 synthetic English messages, validates records, removes normalized exact duplicates, creates a 24/8/8 split, fits TF-IDF and logistic regression, reports metrics, and saves and reloads the model. These small, related teaching phrases demonstrate execution, not a credible estimate of real-world accuracy.</p>
+<pre tabindex="0"><code class="language-bash">python -m venv .venv
+# Linux / macOS:
+source .venv/bin/activate
+# Windows PowerShell: .venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+python nlp_pipeline.py --output-dir artifacts
+</code></pre>
+<p>The central training code is below. <code>normalize_text</code> is the function from the previous section; the downloaded script supplies the records and split variables.</p>
+<pre tabindex="0"><code class="language-python">from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
+from sklearn.pipeline import Pipeline
+
+model = Pipeline([
+    (&quot;tfidf&quot;, TfidfVectorizer(
+        preprocessor=normalize_text, lowercase=False,
+        analyzer=&quot;char_wb&quot;, ngram_range=(3, 5), min_df=1,
+        sublinear_tf=True,
+    )),
+    (&quot;classifier&quot;, LogisticRegression(max_iter=1000, random_state=42)),
+])
+model.fit(train_x, train_y)
+validation_predictions = model.predict(val_x)
+new_predictions = model.predict([&quot;  This is not good!\n&quot;])
+</code></pre>
+<p>Supplying a custom vectorizer preprocessor replaces its built-in preprocessing, so casing and normalization belong in that function. The same function runs during training and prediction. Dataset validation and duplicate resolution happen separately before the split; they are not learned feature transformations.</p>
+<p>The script reports per-class precision, recall, F1, and support. Compare against a majority-class baseline on real data, and inspect the confusion matrix and errors. Use validation results to compare character versus word features or optional cleaning. Freeze choices before inspecting test results; repeatedly changing rules to improve test scores turns the test set into development data.</p>
+<p>For a real dataset, replace the synthetic records with parsed <code>(text, label)</code> pairs and implement the group or time split appropriate to the source. Review near-duplicates, multilingual coverage, and label quality before treating a score as useful evidence.</p>
+<h2 id="transformers"><span class="section-number">06</span>The transformer branch</h2>
+<p>A pretrained transformer needs the tokenizer associated with its checkpoint. Feed minimally processed text into that tokenizer instead of applying TF-IDF or an unrelated stemmer. Its normalization, vocabulary, special tokens, and token IDs are part of the model contract.</p>
+<p>This separate illustration requires <code>transformers</code> and internet access for the first tokenizer download. It prepares inputs only; it does not train a sentiment classifier. The BERT checkpoint shown is an English uncased example, not a Sinhala model.</p>
+<pre tabindex="0"><code class="language-python">from transformers import AutoTokenizer
+
+checkpoint = &quot;google-bert/bert-base-uncased&quot;
+tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+encoded = tokenizer(
+    [&quot;This is not good!&quot;, &quot;Excellent service.&quot;],
+    padding=True,
+    truncation=True,
+    max_length=128,
+    return_attention_mask=True,
+)
+print(encoded[&quot;input_ids&quot;])
+print(encoded[&quot;attention_mask&quot;])
+</code></pre>
+<p>Padding makes sequences within this batch equal in length; truncation caps long inputs at the chosen token limit. Here, 128 is a demonstration budget, not a universal optimum. Attention masks identify padding positions. Follow the model’s supported context length and the <a href="https://huggingface.co/docs/transformers/main/pad_truncation">Hugging Face padding and truncation guide</a>.</p>
+<p>Measure truncation rates and inspect whether important content falls off the end. For long documents, consider overlapping chunks or a suitable longer-context model, then define how chunk predictions combine. Split source documents before chunking so overlapping passages cannot leak across sets. For token classification, preserve character offsets and align labels with subwords; document labels cannot simply be reused as token labels.</p>
+<p>Save the tokenizer alongside the trained model, record the checkpoint revision, and reuse the same special-token and length settings at inference. A pretrained tokenizer normally uses its existing vocabulary; training a new tokenizer on your corpus should use only the training partition.</p>
+<h2 id="inference"><span class="section-number">07</span>Package the pipeline for inference</h2>
+<p>The runnable example saves <code>sentiment.joblib</code> and <code>metadata.json</code> in the output directory. It reloads the artifact and checks that predictions match. Keep the exact source and dependency versions with the artifact; the provided requirements specify compatible ranges, not a reproducible lockfile. Capture the tested environment with <code>python -m pip freeze &gt; environment.txt</code>.</p>
+<p>Python serialization references the custom normalization function. The example reloads in the same script, where that function is available. For a separate serving application, place it in an importable, versioned module shared by training and serving, then regenerate the artifact. Load only artifacts from a trusted source because pickle-based loading can execute code.</p>
+<p>A service should validate request types and sizes, route empty inputs to the documented fallback, and pass accepted raw strings to the fitted pipeline. Do not fit a new vectorizer per request. Test unseen words, negation, punctuation-only input, Unicode variants, and unusually long messages. Treat an all-zero feature vector as an observable condition rather than evidence that a prediction is meaningful.</p>
+<h2 id="monitor"><span class="section-number">08</span>Monitor and improve deliberately</h2>
+<p>Track empty-input and rejection rates, input length distributions, language mix, zero-feature rates for TF-IDF, and truncation rates for transformers. Monitor these by source where possible. Avoid logging raw private messages when aggregate measurements are sufficient.</p>
+<p>Prediction drift alone does not tell you whether accuracy changed. Collect reviewed labels and evaluate per-class and per-language performance over time. Version changes to the corpus, split policy, normalization, vocabulary or tokenizer, and model together so results can be reproduced and rolled back.</p>
+<p>Before using the pipeline, check:</p>
+<ul>
+<li>The input contract and empty-text policy are explicit.</li>
+<li>Related records remain in the same split, and future data does not leak backward.</li>
+<li>Unicode, negation, and task-relevant information survive cleaning.</li>
+<li>Learned transformations fit only on training data.</li>
+<li>The representation matches the model and the languages being served.</li>
+<li>Validation guides changes, and the final test set remains held out.</li>
+<li>Reloaded artifacts reproduce predictions with the shared preprocessing code.</li>
+<li>Monitoring can reveal new input patterns and preprocessing failures.</li>
+</ul>
+<p>An end-to-end pipeline is a repeatable path from an accepted raw input to a prediction. The useful measure of a cleaning step is whether it improves that system on representative held-out data while preserving the information the task needs.</p>
+        </div>
+      </div>
+    </article>
+    <div class="article-end"><p>Keep exploring.<span>More notes on AI and engineering.</span></p><a class="back" href="../../index.html#blog-page">← All posts</a></div>
+  </main>
+  <footer><div class="wrap">© 2026 Chanupa Deshan</div></footer>
+</body>
+</html>

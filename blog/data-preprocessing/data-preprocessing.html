@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Data preprocessing: from raw data to model-ready inputs — Chanupa Deshan</title>
-  <meta name="description" content="What data preprocessing is, why it matters, and practical Python examples for tables, text, images, and time series." />
+  <title>Data Preprocessing: From Raw Data to Model-Ready Inputs — Chanupa Deshan</title>
+  <meta name="description" content="A beginner-friendly guide to data preprocessing with clear examples for tabular data, text, images, time series, and practical Python code." />
   <meta name="author" content="Chanupa Deshan" />
   <link rel="canonical" href="https://chanupa.blog/blog/data-preprocessing/data-preprocessing.html" />
   <link rel="alternate" hreflang="en" href="https://chanupa.blog/blog/data-preprocessing/data-preprocessing.html" />
@@ -13,8 +13,8 @@
   <meta property="og:locale" content="en_US" />
   <meta property="og:locale:alternate" content="si_LK" />
   <meta property="og:type" content="article" />
-  <meta property="og:title" content="Data preprocessing: from raw data to model-ready inputs" />
-  <meta property="og:description" content="What data preprocessing is, why it matters, and practical Python examples for tables, text, images, and time series." />
+  <meta property="og:title" content="Data Preprocessing: From Raw Data to Model-Ready Inputs" />
+  <meta property="og:description" content="Learn how raw data becomes usable machine-learning input through cleaning, missing-value handling, encoding, scaling, and safe preprocessing workflows." />
   <meta property="og:url" content="https://chanupa.blog/blog/data-preprocessing/data-preprocessing.html" />
   <link rel="icon" type="image/png" href="../../favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -23,252 +23,806 @@
   <link rel="stylesheet" href="../article.css" />
   <link rel="stylesheet" href="../../styles/navigation.css" />
 </head>
+
 <body>
   <a class="skip-link" href="#article">Skip to article</a>
-<nav lang="en" aria-label="Main navigation">
-  <div class="wrap nav-inner">
-    <a class="logo" href="../../index.html#top" aria-label="Back to top"><span class="prompt">&gt;&gt;&gt;</span> Chanupa <span class="full-name">Deshan Munasinghe</span></a>
-    <div class="nav-links">
-      <a href="../../index.html#experience" class="main-only">Experience</a>
-      <a href="../../index.html#open-source" class="main-only">Open Source</a>
-      <a href="../../index.html#education" class="main-only">Education</a>
-      <a href="../../index.html#certificates" class="main-only">Certificates</a>
-      <a href="../../index.html#projects" class="main-only">Projects</a>
-      <a href="../../index.html#contact" class="main-only">Contact</a>
-      <a href="../../index.html#blog-page" id="blog-link" class="nav-blog-link">Blog</a>
+
+  <nav lang="en" aria-label="Main navigation">
+    <div class="wrap nav-inner">
+      <a class="logo" href="../../index.html#top" aria-label="Back to top">
+        <span class="prompt">&gt;&gt;&gt;</span> Chanupa <span class="full-name">Deshan Munasinghe</span>
+      </a>
+      <div class="nav-links">
+        <a href="../../index.html#experience" class="main-only">Experience</a>
+        <a href="../../index.html#open-source" class="main-only">Open Source</a>
+        <a href="../../index.html#education" class="main-only">Education</a>
+        <a href="../../index.html#certificates" class="main-only">Certificates</a>
+        <a href="../../index.html#projects" class="main-only">Projects</a>
+        <a href="../../index.html#contact" class="main-only">Contact</a>
+        <a href="../../index.html#blog-page" id="blog-link" class="nav-blog-link">Blog</a>
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
+
   <main id="article" class="wrap">
     <div class="article-toolbar">
-    <a class="back" href="../../index.html#blog-page">← All posts</a>
-      <div class="language-switch" role="group" aria-label="Article language"><a href="data-preprocessing.html" lang="en" hreflang="en" aria-current="page">English</a><a href="data-preprocessing.si.html" lang="si" hreflang="si">සිංහල</a></div>
+      <a class="back" href="../../index.html#blog-page">← All posts</a>
+      <div class="language-switch" role="group" aria-label="Article language">
+        <a href="data-preprocessing.html" lang="en" hreflang="en" aria-current="page">English</a>
+        <a href="data-preprocessing.si.html" lang="si" hreflang="si">සිංහල</a>
+      </div>
     </div>
+
     <article>
       <header class="article-hero">
         <div class="hero-copy">
-        <p class="eyebrow">Machine Learning · Foundations</p>
-        <h1>Data <span class="title-accent">preprocessing.</span></h1>
-        <p class="dek">From raw inputs to useful features. A practical guide to tables, text, images, and more—with Python.</p>
-        <p class="meta">Chanupa Deshan · <time datetime="2026-09-05">September 5, 2026</time> · Guide + 4 Python examples</p>
-
+          <p class="eyebrow">Machine Learning · Foundations</p>
+          <h1>Data <span class="title-accent">preprocessing.</span></h1>
+          <p class="dek">How messy real-world data becomes clean, consistent, model-ready input — with simple examples and Python.</p>
+          <p class="meta">Chanupa Deshan · <time datetime="2026-09-05">September 5, 2026</time> · Beginner Guide</p>
         </div>
-        <figure class="learning-visual"><figcaption><span class="figure-index">02 / DATA PREPROCESSING</span><span class="visual-dot" aria-hidden="true"></span></figcaption><div class="prep-flow"><div class="prep-step"><span>01</span><p>Inspect the inputs</p></div><div class="prep-step"><span>02</span><p>Split the data</p></div><div class="prep-step"><span>03</span><p>Fit on training data</p></div><div class="prep-step"><span>04</span><p>Transform new inputs</p></div></div><p class="visual-note">One repeatable process, from training to prediction.</p></figure>
+
+        <figure class="learning-visual">
+          <figcaption>
+            <span class="figure-index">02 / DATA PREPROCESSING</span>
+            <span class="visual-dot" aria-hidden="true"></span>
+          </figcaption>
+
+          <div class="prep-flow">
+            <div class="prep-step"><span>01</span><p>Inspect the data</p></div>
+            <div class="prep-step"><span>02</span><p>Clean problems</p></div>
+            <div class="prep-step"><span>03</span><p>Transform features</p></div>
+            <div class="prep-step"><span>04</span><p>Feed the model</p></div>
+          </div>
+
+          <p class="visual-note">Raw data → clean data → useful features → machine learning model.</p>
+        </figure>
       </header>
+
       <div class="reading-layout">
-        <aside class="contents" aria-label="ON THIS PAGE"><p>ON THIS PAGE</p><a href="#overview"><span>01</span> What & why</a><a href="#workflow"><span>02</span> A safe workflow</a><a href="#tabular"><span>03</span> Tabular data</a><a href="#text"><span>04</span> Text</a><a href="#images"><span>05</span> Images</a><a href="#time-series"><span>06</span> Time series</a><a href="#other-data"><span>07</span> Audio, video & more</a><a href="#checklist"><span>08</span> Checklist</a></aside>
-<div class="prose"><div class="takeaway"><span>THE CORE IDEA</span><p>Fit learned preprocessing on training data. Reuse it for validation, testing, and real-world predictions.</p></div>
-<p>A model does not see a customer, a sentence, or a photograph the way we do. It receives a representation of that information. Data preprocessing is how we turn raw observations into consistent inputs that a model can use.</p>
-<p>In the <a href="../supervisedVSunsupervised/supervised-vs-unsupervised-learning.html">previous post</a>, we compared supervised and unsupervised learning. Both depend on the quality of those inputs. Here, we will prepare several kinds of data and write the Python code behind each step.</p>
-<h2 id="overview"><span class="section-number">01</span>What is preprocessing, and why does it matter?</h2>
-<p>Preprocessing includes checking data types, correcting known errors, handling missing values, and converting inputs into a useful representation. Feature engineering is closely related: it creates useful signals, such as the hour of a transaction or yesterday’s temperature.</p>
-<p>Imagine a price column containing <code>1200</code>, <code>"1,200"</code>, an empty cell, and an amount recorded in a different currency. Converting everything to a number is not enough. You also need to understand units, what a blank means, and which values are valid.</p>
-<p>Good preprocessing makes inputs consistent, helps suitable models learn efficiently, and makes training and real-world prediction follow the same rules. It can also expose collection errors before they become model errors. It does not fix incorrect labels, missing populations, or a poorly defined problem on its own.</p>
-<div class="table-scroll" role="region" aria-label="Preprocessing by data type" tabindex="0"><table><caption>Preprocessing by data type</caption>
-<thead>
-<tr>
-<th scope="col">Data type</th>
-<th scope="col">Typical preparation</th>
-<th scope="col">A mistake to avoid</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Tables</td>
-<td>Imputation, encoding, scaling</td>
-<td>Fitting statistics on the test set</td>
-</tr>
-<tr>
-<td>Text</td>
-<td>Unicode handling, tokenization, vectorization</td>
-<td>Removing meaning with aggressive cleaning</td>
-</tr>
-<tr>
-<td>Images</td>
-<td>Orientation, color mode, resizing, pixel conversion</td>
-<td>Applying the wrong pretrained-model transform</td>
-</tr>
-<tr>
-<td>Time series</td>
-<td>Timestamp alignment, lags, temporal splits</td>
-<td>Using future observations in current features</td>
-</tr>
-<tr>
-<td>Audio and video</td>
-<td>Sample/frame rates, alignment, feature extraction</td>
-<td>Splitting clips from one recording across train and test</td>
-</tr>
-</tbody>
-</table></div>
-<h2 id="workflow"><span class="section-number">02</span>A workflow that keeps evaluation honest</h2>
-<p>Inspect the schema and define the prediction task first. Decide which information will actually exist when the prediction is made. Resolve known duplicate records and group related samples so the same person, document, or recording does not leak across splits.</p>
-<p>Then create training, validation, and test sets suited to the task. A random split can work for independent examples; grouped or chronological splits are needed when records are related or ordered in time.</p>
-<p><strong>Fit learned preprocessing on training data only.</strong> Medians, means, category vocabularies, and feature-selection rules all learn from data. Reuse those fitted transformations for validation, testing, and production. In cross-validation, fit them again inside each training fold. A pipeline helps keep preprocessing and the model together. See scikit-learn’s <a href="https://scikit-learn.org/stable/common_pitfalls.html">guide to data leakage</a>.</p>
-<p>The examples use Python and small teaching datasets. Download <a download href="requirements.txt">requirements.txt</a>, then install the packages in a virtual environment:</p>
-<pre tabindex="0"><code class="language-bash">python -m venv .venv
-# Linux / macOS:
-source .venv/bin/activate
-# Windows PowerShell: .venv\Scripts\Activate.ps1
-python -m pip install -r requirements.txt
-</code></pre>
-<p>Download each linked Python file and run it, for example <code>python tabular.py</code>. These examples demonstrate transformations, not production model quality.</p>
-<h2 id="tabular"><span class="section-number">03</span>Tabular data: missing values, categories, and scale</h2>
-<p>Start by validating types, units, ranges, and duplicate identifiers. Investigate outliers before deleting them: a large transaction may be the very event you want to detect. Missing values may require a median, a category such as “unknown,” a missingness indicator, or a model that handles them directly. Choose based on what absence means.</p>
-<p>For many linear and distance-based models, numeric scaling matters. Standardization subtracts the training mean and divides by the training standard deviation; min–max scaling maps the training range to a chosen interval. Robust scaling uses statistics such as the median and interquartile range. Tree-based models usually do not need the same scaling. These are alternatives, not a checklist to apply together. See <a href="https://scikit-learn.org/stable/modules/preprocessing.html">scikit-learn’s preprocessing guide</a>.</p>
-<p>One-hot encoding represents categories as indicator columns without inventing a numeric order. Use ordinal encoding only when the order is meaningful. High-cardinality categories may need a different representation; target encoding needs particular care to avoid leakage.</p>
-<p>This example imputes and scales numeric columns, encodes cities, and trains a classifier. The pipeline accepts an unseen city without crashing, but ignoring an unknown category does not guarantee a good prediction. The pattern uses <a href="https://scikit-learn.org/stable/auto_examples/compose/plot_column_transformer_mixed_types.html">ColumnTransformer and Pipeline</a>.</p>
-<p><a download href="examples/tabular.py">Download tabular.py</a></p>
-<pre tabindex="0"><code class="language-python">&quot;&quot;&quot;Small teaching example; predictions are not a quality benchmark.&quot;&quot;&quot;
-import numpy as np
-import pandas as pd
-from sklearn.compose import ColumnTransformer
+        <aside class="contents" aria-label="ON THIS PAGE">
+          <p>ON THIS PAGE</p>
+          <a href="#overview"><span>01</span> What is preprocessing?</a>
+          <a href="#why"><span>02</span> Why it matters</a>
+          <a href="#workflow"><span>03</span> A safe workflow</a>
+          <a href="#missing"><span>04</span> Missing values</a>
+          <a href="#categorical"><span>05</span> Categorical data</a>
+          <a href="#scaling"><span>06</span> Feature scaling</a>
+          <a href="#outliers"><span>07</span> Outliers</a>
+          <a href="#text"><span>08</span> Text data</a>
+          <a href="#images"><span>09</span> Image data</a>
+          <a href="#time-series"><span>10</span> Time series</a>
+          <a href="#leakage"><span>11</span> Data leakage</a>
+          <a href="#checklist"><span>12</span> Checklist</a>
+        </aside>
+
+        <div class="prose">
+          <div class="takeaway">
+            <span>THE CORE IDEA</span>
+            <p>Machine-learning models work with numbers and structured representations. Data preprocessing is the process of turning messy real-world data into inputs the model can actually learn from.</p>
+          </div>
+
+          <p>Real-world data is rarely clean.</p>
+
+          <p>You may have empty cells, duplicated rows, text where numbers should be, different units, inconsistent categories, huge outliers, images with different sizes, or dates stored as plain strings.</p>
+
+          <p>A machine-learning model does not automatically understand what these problems mean.</p>
+
+          <p>That is why preprocessing is such an important part of machine learning.</p>
+
+          <p>In the <a href="../supervisedVSunsupervised/supervised-vs-unsupervised-learning.html">previous article</a>, we looked at supervised and unsupervised learning. Before either type of model can learn properly, we usually need to prepare the data first.</p>
+
+          <h2 id="overview"><span class="section-number">01</span>What is data preprocessing?</h2>
+
+          <p><strong>Data preprocessing</strong> is the process of cleaning, organizing, and transforming raw data before giving it to a machine-learning model.</p>
+
+          <p>Think about cooking.</p>
+
+          <p>You normally do not take vegetables directly from the market and throw them into a finished dish. You wash them, remove damaged parts, cut them, measure them, and prepare them first.</p>
+
+          <p>Machine-learning data is similar.</p>
+
+          <pre><code>Raw Data
+   ↓
+Clean the data
+   ↓
+Handle missing values
+   ↓
+Convert categories
+   ↓
+Scale or transform features
+   ↓
+Model-ready data</code></pre>
+
+          <p>For example, imagine a customer dataset:</p>
+
+          <div class="table-scroll" role="region" aria-label="Messy customer dataset" tabindex="0">
+            <table>
+              <caption>Example of raw data</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Age</th>
+                  <th scope="col">Income</th>
+                  <th scope="col">City</th>
+                  <th scope="col">Purchased</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>25</td><td>50000</td><td>Colombo</td><td>Yes</td></tr>
+                <tr><td>?</td><td>65000</td><td>Kandy</td><td>No</td></tr>
+                <tr><td>31</td><td></td><td>colombo</td><td>Yes</td></tr>
+                <tr><td>999</td><td>72000</td><td>Galle</td><td>No</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>Immediately, we can see several problems:</p>
+
+          <ul>
+            <li>One age value is missing.</li>
+            <li>One income value is missing.</li>
+            <li><code>Colombo</code> and <code>colombo</code> may represent the same city.</li>
+            <li>An age of <code>999</code> is probably invalid.</li>
+            <li>The text values must eventually be represented in a form the model can use.</li>
+          </ul>
+
+          <p>Preprocessing deals with these issues before training.</p>
+
+          <h2 id="why"><span class="section-number">02</span>Why does preprocessing matter?</h2>
+
+          <p>A model can only learn from the information we give it.</p>
+
+          <p>If the input data is inconsistent, misleading, or badly formatted, the model may learn the wrong patterns.</p>
+
+          <blockquote>
+            <p><strong>Good model + bad data = bad result.</strong></p>
+          </blockquote>
+
+          <p>Suppose we are predicting house prices.</p>
+
+          <p>One row stores area in square feet:</p>
+
+          <pre><code>1200</code></pre>
+
+          <p>Another row stores area in square meters:</p>
+
+          <pre><code>120</code></pre>
+
+          <p>If we treat those numbers as the same unit, the model receives incorrect information.</p>
+
+          <p>Another common example is missing values:</p>
+
+          <pre><code>Age = 25
+Age = 42
+Age = ?
+Age = 31</code></pre>
+
+          <p>Many algorithms cannot work directly with a missing value, so we need to decide how to handle it.</p>
+
+          <p>Preprocessing can help make data:</p>
+
+          <ul>
+            <li>Consistent</li>
+            <li>Numerically usable</li>
+            <li>Easier for a model to learn from</li>
+            <li>Safer to evaluate</li>
+            <li>More similar between training and real-world prediction</li>
+          </ul>
+
+          <h2 id="workflow"><span class="section-number">03</span>A simple and safe preprocessing workflow</h2>
+
+          <p>A beginner-friendly workflow looks like this:</p>
+
+          <pre><code>1. Understand the problem
+2. Inspect the data
+3. Split into training and test data
+4. Learn preprocessing from training data
+5. Apply the same preprocessing to test data
+6. Train and evaluate the model</code></pre>
+
+          <p>The order matters.</p>
+
+          <p>For example, if we calculate the mean of a feature using both training and test data, information from the test set has already influenced the training process.</p>
+
+          <p>This can make evaluation look better than it really is.</p>
+
+          <p>A safer pattern is:</p>
+
+          <pre><code>Training Data
+     ↓
+Learn mean / median / scaling / categories
+     ↓
+Store the transformation
+
+Test Data
+     ↓
+Reuse the transformation learned from training data</code></pre>
+
+          <p>This idea becomes especially important when we discuss <strong>data leakage</strong> later.</p>
+
+          <h2 id="missing"><span class="section-number">04</span>Handling missing values</h2>
+
+          <p>Missing values are extremely common.</p>
+
+          <p>For example:</p>
+
+          <div class="table-scroll" role="region" aria-label="Missing value example" tabindex="0">
+            <table>
+              <caption>Customer ages</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Customer</th>
+                  <th scope="col">Age</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>A</td><td>22</td></tr>
+                <tr><td>B</td><td>28</td></tr>
+                <tr><td>C</td><td>Missing</td></tr>
+                <tr><td>D</td><td>34</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>There are several possible approaches.</p>
+
+          <h3>Option 1: Remove the row</h3>
+
+          <p>If only a tiny number of rows are missing and losing them will not hurt the dataset, removing those rows may be reasonable.</p>
+
+          <pre><code>22
+28
+Missing  ← remove
+34</code></pre>
+
+          <p>But if many values are missing, deleting rows may throw away too much useful information.</p>
+
+          <h3>Option 2: Fill with the mean</h3>
+
+          <p>For numeric values, one simple method is to replace the missing value with the average.</p>
+
+          <pre><code>22 + 28 + 34 = 84
+
+84 / 3 = 28
+
+Missing value → 28</code></pre>
+
+          <h3>Option 3: Fill with the median</h3>
+
+          <p>The median is often useful when the data contains extreme values.</p>
+
+          <pre><code>20, 22, 25, 27, 200
+
+Median = 25
+Mean   = 58.8</code></pre>
+
+          <p>Here, the extreme value <code>200</code> changes the mean heavily, while the median stays near the center of the normal values.</p>
+
+          <h3>Python example</h3>
+
+          <pre tabindex="0"><code class="language-python">import pandas as pd
 from sklearn.impute import SimpleImputer
-from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import train_test_split
-from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
-X = pd.DataFrame({
-    &quot;age&quot;: [22, 45, np.nan, 31, 52, 27, 39, 24, 48, 35, 29, 56],
-    &quot;income&quot;: [30, 80, 45, np.nan, 95, 35, 65, 28, 88, 55, 40, 100],
-    &quot;city&quot;: [&quot;Kandy&quot;, &quot;Colombo&quot;, &quot;Galle&quot;] * 4,
+data = pd.DataFrame({
+    "age": [22, 28, None, 34]
 })
-y = [0, 1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1]
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.25, stratify=y, random_state=42
-)
 
-numeric = Pipeline([
-    (&quot;fill&quot;, SimpleImputer(strategy=&quot;median&quot;)),
-    (&quot;scale&quot;, StandardScaler()),
-])
-categorical = Pipeline([
-    (&quot;fill&quot;, SimpleImputer(strategy=&quot;most_frequent&quot;)),
-    (&quot;encode&quot;, OneHotEncoder(handle_unknown=&quot;ignore&quot;)),
-])
-prepare = ColumnTransformer([
-    (&quot;numeric&quot;, numeric, [&quot;age&quot;, &quot;income&quot;]),
-    (&quot;category&quot;, categorical, [&quot;city&quot;]),
-])
-model = Pipeline([
-    (&quot;prepare&quot;, prepare),
-    (&quot;predict&quot;, LogisticRegression(max_iter=1000)),
-])
-model.fit(X_train, y_train)  # Learn every statistic on training data only.
-print(&quot;Test predictions:&quot;, model.predict(X_test))
-new_customer = pd.DataFrame({
-    &quot;age&quot;: [33], &quot;income&quot;: [50], &quot;city&quot;: [&quot;Jaffna&quot;]
+imputer = SimpleImputer(strategy="median")
+
+data["age"] = imputer.fit_transform(data[["age"]])
+
+print(data)</code></pre>
+
+          <p>For categorical data, we might instead use the most common category or an explicit category such as <code>Unknown</code>.</p>
+
+          <h2 id="categorical"><span class="section-number">05</span>Converting categorical data into numbers</h2>
+
+          <p>Many datasets contain text categories.</p>
+
+          <p>For example:</p>
+
+          <pre><code>City = Colombo
+City = Kandy
+City = Galle</code></pre>
+
+          <p>Most machine-learning algorithms expect numerical inputs, so we need a way to represent these categories.</p>
+
+          <h3>Why not simply use 1, 2, and 3?</h3>
+
+          <pre><code>Colombo = 1
+Kandy   = 2
+Galle   = 3</code></pre>
+
+          <p>This may accidentally suggest an order:</p>
+
+          <pre><code>Galle &gt; Kandy &gt; Colombo</code></pre>
+
+          <p>But cities do not have that kind of numerical order.</p>
+
+          <p>A common solution is <strong>One-Hot Encoding</strong>.</p>
+
+          <div class="table-scroll" role="region" aria-label="One hot encoding example" tabindex="0">
+            <table>
+              <caption>One-hot encoding</caption>
+              <thead>
+                <tr>
+                  <th scope="col">City</th>
+                  <th scope="col">Colombo</th>
+                  <th scope="col">Kandy</th>
+                  <th scope="col">Galle</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Colombo</td><td>1</td><td>0</td><td>0</td></tr>
+                <tr><td>Kandy</td><td>0</td><td>1</td><td>0</td></tr>
+                <tr><td>Galle</td><td>0</td><td>0</td><td>1</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>Now each city is represented without creating a fake ranking.</p>
+
+          <h3>Python example</h3>
+
+          <pre tabindex="0"><code class="language-python">import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
+
+data = pd.DataFrame({
+    "city": ["Colombo", "Kandy", "Galle", "Colombo"]
 })
-print(&quot;New category prediction:&quot;, model.predict(new_customer))
-</code></pre>
-<h2 id="text"><span class="section-number">04</span>Text: preserve meaning before creating numbers</h2>
-<p>Text preprocessing is task-dependent. Common steps include decoding correctly, removing unwanted markup, normalizing Unicode, and tokenization. Lowercasing, stop-word removal, stemming, and lemmatization are optional. Removing “not” can reverse sentiment; deleting punctuation can lose useful signals. Stripping every non-English character would destroy Sinhala text.</p>
-<p>Traditional models can use counts or TF-IDF features. Here, character n-grams provide a simple baseline for English and Sinhala without assuming that an English word tokenizer works for both. TF-IDF learns a vocabulary and inverse-document-frequency weights from the training corpus. A sparse output matrix stores mostly nonzero entries efficiently. The <a href="https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html">TfidfVectorizer documentation</a> explains its options.</p>
-<p><a download href="examples/text.py">Download text.py</a></p>
-<pre tabindex="0"><code class="language-python">import unicodedata
-from sklearn.feature_extraction.text import TfidfVectorizer
 
+encoder = OneHotEncoder(sparse_output=False)
 
-def clean_text(text):
-    # Keep Sinhala characters, punctuation, and words such as &quot;not&quot;.
-    text = unicodedata.normalize(&quot;NFC&quot;, text)
-    return &quot; &quot;.join(text.split())
+encoded = encoder.fit_transform(data[["city"]])
 
+print(encoded)</code></pre>
 
-train_texts = [
-    &quot;This service is good!&quot;, &quot;This service is not good.&quot;,
-    &quot;මෙම සේවාව හොඳයි&quot;, &quot;මෙම සේවාව හොඳ නැහැ&quot;,
+          <p>When categories have a real order, such as:</p>
+
+          <pre><code>Low
+Medium
+High</code></pre>
+
+          <p>an ordinal representation may make more sense because the order actually contains meaning.</p>
+
+          <h2 id="scaling"><span class="section-number">06</span>Feature scaling</h2>
+
+          <p>Now imagine a dataset with two features:</p>
+
+          <pre><code>Age       → 18 to 70
+Income    → 25,000 to 500,000</code></pre>
+
+          <p>The income values are much larger than the age values.</p>
+
+          <p>For algorithms that depend on distance or gradient-based optimization, this difference in scale can matter.</p>
+
+          <p>Suppose two customers are:</p>
+
+          <pre><code>Customer A
+Age = 25
+Income = 50,000
+
+Customer B
+Age = 30
+Income = 150,000</code></pre>
+
+          <p>The numerical difference in income completely dominates the difference in age.</p>
+
+          <p>Scaling puts features onto more comparable numerical scales.</p>
+
+          <h3>Standardization</h3>
+
+          <p>Standardization transforms a feature so that it is centered around its training-set mean and measured relative to its standard deviation.</p>
+
+          <p>You do not need to memorize the formula immediately. The practical idea is:</p>
+
+          <pre><code>Before scaling:
+Age    → 18, 25, 40, 70
+Income → 25000, 60000, 120000, 500000
+
+After standardization:
+Both features are represented on comparable scales.</code></pre>
+
+          <h3>Python example</h3>
+
+          <pre tabindex="0"><code class="language-python">from sklearn.preprocessing import StandardScaler
+
+X_train = [[22, 30000],
+           [35, 60000],
+           [50, 120000]]
+
+scaler = StandardScaler()
+
+X_train_scaled = scaler.fit_transform(X_train)
+
+print(X_train_scaled)</code></pre>
+
+          <p><strong>Important:</strong> not every model requires scaling.</p>
+
+          <p>Scaling is especially relevant for algorithms such as:</p>
+
+          <ul>
+            <li>K-Nearest Neighbors</li>
+            <li>Support Vector Machines</li>
+            <li>Logistic Regression</li>
+            <li>Neural Networks</li>
+            <li>K-Means</li>
+          </ul>
+
+          <p>Tree-based models such as Decision Trees and Random Forests usually do not depend on feature scale in the same way.</p>
+
+          <h2 id="outliers"><span class="section-number">07</span>What about outliers?</h2>
+
+          <p>An <strong>outlier</strong> is a value that is very different from most other values.</p>
+
+          <p>Suppose customer ages are:</p>
+
+          <pre><code>21
+23
+25
+28
+31
+999</code></pre>
+
+          <p>The value <code>999</code> is suspicious.</p>
+
+          <p>But not every unusual value is an error.</p>
+
+          <p>Consider transaction amounts:</p>
+
+          <pre><code>Rs. 2,500
+Rs. 4,000
+Rs. 3,200
+Rs. 850,000</code></pre>
+
+          <p>The large transaction may be completely valid — and in a fraud-detection problem it might even be one of the most important observations.</p>
+
+          <blockquote>
+            <p><strong>Do not automatically delete every outlier.</strong></p>
+          </blockquote>
+
+          <p>Instead ask:</p>
+
+          <ul>
+            <li>Is the value impossible?</li>
+            <li>Was it entered incorrectly?</li>
+            <li>Is it rare but valid?</li>
+            <li>Is the unusual value important for the problem?</li>
+          </ul>
+
+          <h2 id="text"><span class="section-number">08</span>Preprocessing text data</h2>
+
+          <p>Machine-learning models cannot directly work with a sentence in the same way humans read it.</p>
+
+          <p>Consider:</p>
+
+          <pre><code>"This product is really good!"</code></pre>
+
+          <p>Depending on the model, text preprocessing may include:</p>
+
+          <ul>
+            <li>Fixing Unicode</li>
+            <li>Removing unwanted HTML</li>
+            <li>Tokenization</li>
+            <li>Lowercasing</li>
+            <li>Converting text into numerical vectors</li>
+          </ul>
+
+          <p>But cleaning text too aggressively can destroy meaning.</p>
+
+          <p>For example:</p>
+
+          <pre><code>"This product is good."
+"This product is NOT good."</code></pre>
+
+          <p>If we remove the word <code>not</code>, the meaning changes completely.</p>
+
+          <p>This is especially important for multilingual data. A preprocessing function that keeps only English characters would destroy Sinhala text.</p>
+
+          <h3>A simple TF-IDF example</h3>
+
+          <pre tabindex="0"><code class="language-python">from sklearn.feature_extraction.text import TfidfVectorizer
+
+texts = [
+    "machine learning is useful",
+    "deep learning is powerful",
+    "machine learning uses data"
 ]
-test_texts = [&quot;  The service\n is good. &quot;, &quot;සේවාව හොඳයි&quot;]
-vectorizer = TfidfVectorizer(
-    analyzer=&quot;char_wb&quot;, ngram_range=(3, 5), lowercase=True
-)
-X_train = vectorizer.fit_transform([clean_text(t) for t in train_texts])
-X_test = vectorizer.transform([clean_text(t) for t in test_texts])
-print(&quot;Training shape:&quot;, X_train.shape)
-print(&quot;Test shape:&quot;, X_test.shape)
-# Both matrices use the vocabulary and IDF learned from train_texts.
-</code></pre>
-<p>The test matrix has the same number of feature columns as the training matrix. It does not grow a new vocabulary from the test messages. Character n-grams are not a complete linguistic tokenizer. For transformer models, use the tokenizer associated with the checkpoint, including its padding, truncation, and attention-mask conventions. Avoid cleaning away information that tokenizer expects.</p>
-<h2 id="images"><span class="section-number">05</span>Images: consistent shape, color, and pixel values</h2>
-<p>First check that images decode and that labels are correct. Respect camera orientation, choose a consistent color mode, and decide whether to resize, crop, or pad. Stretching changes geometry; cropping can remove the subject; padding adds borders. The best choice depends on the task.</p>
-<p>The example preserves aspect ratio, pads to a square, converts to RGB, and maps an 8-bit image into a float array in <code>[0, 1]</code>. Its output layout is height × width × channels. Some models expect channels first or additional normalization. Follow the exact preprocessing of a pretrained checkpoint. See <a href="https://pillow.readthedocs.io/en/stable/reference/ImageOps.html">Pillow’s image operations</a> and <a href="https://docs.pytorch.org/vision/stable/transforms.html">Torchvision’s transform guide</a>.</p>
-<p><a download href="examples/image.py">Download image.py</a></p>
-<pre tabindex="0"><code class="language-python">import numpy as np
-from PIL import Image, ImageOps
 
+vectorizer = TfidfVectorizer()
 
-def prepare_image(image):
-    image = ImageOps.exif_transpose(image)  # Respect camera orientation.
-    image = image.convert(&quot;RGB&quot;)
-    image = ImageOps.pad(
-        image, (224, 224), method=Image.Resampling.BILINEAR,
-        color=(0, 0, 0),
-    )  # Preserve aspect ratio and add padding.
-    return np.asarray(image, dtype=np.float32) / 255.0
+X = vectorizer.fit_transform(texts)
 
+print(vectorizer.get_feature_names_out())
+print(X.shape)</code></pre>
 
-# A synthetic input keeps the example runnable without downloading a photo.
-example = Image.new(&quot;RGB&quot;, (320, 180), color=(80, 160, 240))
-pixels = prepare_image(example)
-print(&quot;Shape:&quot;, pixels.shape)  # (224, 224, 3): height, width, channels
-print(&quot;Type:&quot;, pixels.dtype)  # float32
-print(&quot;Range:&quot;, pixels.min(), pixels.max())  # Within [0, 1]
-# For your photo:
-# with Image.open(&quot;photo.jpg&quot;) as photo:
-#     pixels = prepare_image(photo)
-</code></pre>
-<p>This conversion is for ordinary 8-bit RGB images, not a universal recipe for medical scans or high-bit-depth sensor data. Dividing by 255 is pixel scaling; per-channel mean/std normalization is a separate operation.</p>
-<p>Training-time augmentation adds plausible variations such as crops, brightness changes, or flips. Keep validation/test preprocessing deterministic unless you deliberately evaluate a defined test-time augmentation scheme. A horizontal flip may preserve a cat label but corrupt written text. For segmentation and detection, transform masks or boxes consistently with the image.</p>
-<h2 id="time-series"><span class="section-number">06</span>Time series: prepare the past, not the future</h2>
-<p>Parse timestamps, standardize time zones, sort observations, and check gaps or irregular sampling. Resampling can place readings on a shared interval; use an aggregation suited to the measurement. Missing observations are not automatically zeros.</p>
-<p>For forecasting, create lagged values and rolling statistics that use only information available at the prediction time. Backward filling or interpolation using later observations can leak the future. The example below fills only short feature gaps from the past, leaves missing targets unfilled, and separates training from testing by time. Relevant APIs are covered in the <a href="https://pandas.pydata.org/docs/user_guide/timeseries.html">pandas time-series guide</a>.</p>
-<p><a download href="examples/time_series.py">Download time_series.py</a></p>
-<pre tabindex="0"><code class="language-python">import numpy as np
-import pandas as pd
+          <p>Modern transformer models such as BERT normally use their own tokenizer. In that case, it is usually better to follow the preprocessing expected by the model instead of manually removing large parts of the text.</p>
 
-readings = pd.Series(
-    [10, 12, np.nan, 14, 13, 15, 16, 18, 17, 19, 20, 21],
-    index=pd.date_range(&quot;2026-01-01&quot;, periods=12, freq=&quot;h&quot;, tz=&quot;UTC&quot;),
-    name=&quot;value&quot;,
-)
-# Keep the measured target separate. Do not invent evaluation labels.
-features = pd.DataFrame({
-    &quot;lag_1&quot;: readings.shift(1),
-    &quot;past_mean_3&quot;: readings.shift(1).rolling(3, min_periods=1).mean(),
-    &quot;hour&quot;: readings.index.hour,
-})
-features = features.ffill(limit=1)  # Only past values; fill short gaps.
-data = features.join(readings.rename(&quot;target&quot;)).dropna()
-cutoff = pd.Timestamp(&quot;2026-01-01 08:00&quot;, tz=&quot;UTC&quot;)
-train = data.loc[data.index &lt; cutoff]
-test = data.loc[data.index &gt;= cutoff]
-print(&quot;Training rows:&quot;, len(train), &quot;Test rows:&quot;, len(test))
-print(test.head())
-# This is rolling one-step prediction: earlier observations become available.
-# For a fixed multi-step forecast, future actual values cannot supply lags.
-</code></pre>
-<p>The output has six training rows and four test rows. This is a <strong>rolling one-step</strong> setup: by the time you predict the next reading, earlier readings are observed. For a forecast of the entire next day made at midnight, actual values from later that day cannot supply lag features. Match the code to your forecasting horizon.</p>
-<h2 id="other-data"><span class="section-number">07</span>What about audio, video, and imbalanced data?</h2>
-<p>For audio, check the sample rate, channel count, clipping, and recording quality. You may resample, select or combine channels, trim irrelevant silence, divide recordings into windows, or compute spectrograms and MFCCs. A speech model may already include some of these steps. Do not discard channel information if location or direction matters, and do not normalize away loudness when it carries the target signal.</p>
-<p>For video, choose a frame-sampling policy, apply compatible image transforms, and preserve temporal order. Keep synchronized audio, frames, and labels aligned. Split by source recording or subject when nearby clips would otherwise be nearly identical across train and test.</p>
-<p>Class imbalance is another concern across data types. Consider class weights, suitable metrics, and possibly training-set resampling. If you oversample or create synthetic examples, do it only within the training partition of each fold. Do not rebalance the held-out test set just to make scores look better.</p>
-<h2 id="checklist"><span class="section-number">08</span>A practical checklist</h2>
-<ul>
-<li>Check types, units, missingness, duplicates, label quality, and representation of relevant groups.</li>
-<li>Choose a split that matches the way the model will encounter new data.</li>
-<li>Fit learned transformations on training data only; preserve the fitted pipeline.</li>
-<li>Validate shapes, ranges, unknown categories, empty text, broken files, and missing timestamps.</li>
-<li>Apply the same inference preprocessing during testing and deployment.</li>
-<li>Compare against a simple baseline and check whether each transformation helps the actual task.</li>
-<li>Record package versions and preprocessing choices alongside the model.</li>
-</ul>
-<p>Preprocessing is part of the model’s behavior. Treat it as code you can inspect, test, and reuse—not a collection of cleaning steps you have to repeat manually.</p>
+          <h2 id="images"><span class="section-number">09</span>Preprocessing image data</h2>
+
+          <p>Images can also arrive in many different forms.</p>
+
+          <p>One image may be:</p>
+
+          <pre><code>1920 × 1080</code></pre>
+
+          <p>another:</p>
+
+          <pre><code>640 × 480</code></pre>
+
+          <p>and another:</p>
+
+          <pre><code>224 × 224</code></pre>
+
+          <p>Many neural networks expect a consistent input size.</p>
+
+          <p>Common image preprocessing steps include:</p>
+
+          <ul>
+            <li>Correcting orientation</li>
+            <li>Converting to RGB</li>
+            <li>Resizing or padding</li>
+            <li>Converting pixels to numeric arrays</li>
+            <li>Scaling or normalizing pixel values</li>
+          </ul>
+
+          <p>For a normal 8-bit RGB image, pixel values are usually between:</p>
+
+          <pre><code>0 and 255</code></pre>
+
+          <p>We may scale them to:</p>
+
+          <pre><code>0.0 to 1.0</code></pre>
+
+          <h3>Python example</h3>
+
+          <pre tabindex="0"><code class="language-python">import numpy as np
+from PIL import Image
+
+image = Image.open("photo.jpg")
+image = image.convert("RGB")
+image = image.resize((224, 224))
+
+pixels = np.asarray(image, dtype=np.float32) / 255.0
+
+print(pixels.shape)
+print(pixels.min(), pixels.max())</code></pre>
+
+          <p>If you use a pretrained model, follow the exact preprocessing expected by that model. Some models require particular image sizes, normalization values, or channel ordering.</p>
+
+          <h3>Data augmentation</h3>
+
+          <p>During training, we can sometimes create slightly modified versions of images:</p>
+
+          <pre><code>Original image
+   ↓
+Flip
+Rotate slightly
+Crop
+Change brightness
+   ↓
+More training variation</code></pre>
+
+          <p>This is called <strong>data augmentation</strong>.</p>
+
+          <p>But transformations must still make sense for the task. Flipping a cat image may be fine. Flipping an image containing readable text may change or destroy useful information.</p>
+
+          <h2 id="time-series"><span class="section-number">10</span>Preprocessing time-series data</h2>
+
+          <p>Time-series data is data where order matters.</p>
+
+          <p>Examples include:</p>
+
+          <ul>
+            <li>Daily sales</li>
+            <li>Temperature readings</li>
+            <li>Stock prices</li>
+            <li>Sensor measurements</li>
+            <li>Traffic volume</li>
+          </ul>
+
+          <p>Suppose we have daily sales:</p>
+
+          <pre><code>Monday    → 100
+Tuesday   → 120
+Wednesday → 115
+Thursday  → 140</code></pre>
+
+          <p>For forecasting, the past can be used to predict the future.</p>
+
+          <p>We might create a <strong>lag feature</strong>:</p>
+
+          <div class="table-scroll" role="region" aria-label="Time series lag example" tabindex="0">
+            <table>
+              <caption>Lag feature example</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Day</th>
+                  <th scope="col">Yesterday's Sales</th>
+                  <th scope="col">Today's Sales</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Tuesday</td><td>100</td><td>120</td></tr>
+                <tr><td>Wednesday</td><td>120</td><td>115</td></tr>
+                <tr><td>Thursday</td><td>115</td><td>140</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>The key rule is simple:</p>
+
+          <blockquote>
+            <p><strong>Do not use future information to predict the past.</strong></p>
+          </blockquote>
+
+          <p>For this reason, time-series datasets are usually split chronologically.</p>
+
+          <pre><code>Past data        → Training
+More recent data → Validation
+Newest data      → Test</code></pre>
+
+          <p>A random split can accidentally allow information from the future to influence training.</p>
+
+          <h2 id="leakage"><span class="section-number">11</span>One of the biggest mistakes: data leakage</h2>
+
+          <p><strong>Data leakage</strong> happens when information that should not be available during training somehow enters the model-building process.</p>
+
+          <p>This can produce excellent-looking evaluation scores that disappear when the model is used in the real world.</p>
+
+          <p>Here is a simple example.</p>
+
+          <p>Suppose we want to predict whether a student will pass an exam.</p>
+
+          <p>Useful features might be:</p>
+
+          <pre><code>Attendance
+Study hours
+Previous grades</code></pre>
+
+          <p>But imagine we accidentally include:</p>
+
+          <pre><code>Final exam mark</code></pre>
+
+          <p>The model can easily predict whether the student passed because the answer is already hidden inside the input.</p>
+
+          <p>That is leakage.</p>
+
+          <h3>Leakage during preprocessing</h3>
+
+          <p>Leakage can also happen more subtly.</p>
+
+          <p>Wrong approach:</p>
+
+          <pre><code>Entire dataset
+     ↓
+Calculate mean and standard deviation
+     ↓
+Scale everything
+     ↓
+Split into train and test</code></pre>
+
+          <p>Better approach:</p>
+
+          <pre><code>Split data first
+
+Training data
+     ↓
+Learn preprocessing values
+     ↓
+Transform training data
+
+Test data
+     ↓
+Reuse values learned from training data</code></pre>
+
+          <p>This is why tools such as scikit-learn's <strong>Pipeline</strong> are useful.</p>
+
+          <h3>A practical pipeline example</h3>
+
+          <pre tabindex="0"><code class="language-python">from sklearn.pipeline import Pipeline
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+
+model = Pipeline([
+    ("fill_missing", SimpleImputer(strategy="median")),
+    ("scale", StandardScaler()),
+    ("classifier", LogisticRegression())
+])
+
+model.fit(X_train, y_train)
+
+predictions = model.predict(X_test)</code></pre>
+
+          <p>The pipeline helps keep preprocessing and the model together, which makes training and prediction more consistent.</p>
+
+          <h2 id="checklist"><span class="section-number">12</span>A practical preprocessing checklist</h2>
+
+          <p>Before training a model, I like to ask these questions:</p>
+
+          <ul>
+            <li>Are the column types correct?</li>
+            <li>Are the units consistent?</li>
+            <li>Are there missing values?</li>
+            <li>Are there duplicate rows?</li>
+            <li>Are categories written consistently?</li>
+            <li>Are there impossible or suspicious values?</li>
+            <li>Do categorical variables need encoding?</li>
+            <li>Does the model require feature scaling?</li>
+            <li>Was preprocessing learned only from training data?</li>
+            <li>Could any feature reveal information from the future?</li>
+            <li>Will the same preprocessing be used when the model is deployed?</li>
+          </ul>
+
+          <h3>Different data types need different preprocessing</h3>
+
+          <div class="table-scroll" role="region" aria-label="Preprocessing by data type" tabindex="0">
+            <table>
+              <caption>Common preprocessing by data type</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Data Type</th>
+                  <th scope="col">Common Steps</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Tabular</td><td>Missing values, encoding, scaling, duplicates, outliers</td></tr>
+                <tr><td>Text</td><td>Unicode handling, tokenization, vectorization</td></tr>
+                <tr><td>Images</td><td>Resize, crop/pad, pixel conversion, normalization</td></tr>
+                <tr><td>Time Series</td><td>Sort by time, lags, rolling features, chronological split</td></tr>
+                <tr><td>Audio</td><td>Sample rate, channels, windows, spectrograms or learned features</td></tr>
+                <tr><td>Video</td><td>Frame sampling, resizing, temporal alignment</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 id="final-thoughts"><span class="section-number">13</span>Final thoughts</h2>
+
+          <p>Data preprocessing is not just about making a dataset look clean.</p>
+
+          <p>It directly affects what the model sees and therefore what the model can learn.</p>
+
+          <p>The main idea is:</p>
+
+          <pre><code>Raw Data
+   ↓
+Understand it
+   ↓
+Clean it
+   ↓
+Transform it safely
+   ↓
+Train the model
+   ↓
+Use the same preprocessing in production</code></pre>
+
+          <p>The exact preprocessing steps depend on the data and the model.</p>
+
+          <p>A Decision Tree may not need the same scaling as Logistic Regression. A BERT model may need very different text preparation from a TF-IDF model. A pretrained image model may expect a very specific normalization process.</p>
+
+          <p>So the goal is not to apply every preprocessing technique you know.</p>
+
+          <blockquote>
+            <p><strong>The goal is to apply the right preprocessing for the data, the model, and the problem.</strong></p>
+          </blockquote>
+
+          <div class="takeaway">
+            <span>NEXT ARTICLE</span>
+            <p><strong>Logistic Regression:</strong> how probability, the sigmoid function, and a decision threshold turn data into a classification.</p>
+          </div>
         </div>
       </div>
     </article>
-    <div class="article-end"><p>Keep exploring.<span>More notes on AI and engineering.</span></p><a class="back" href="../../index.html#blog-page">← All posts</a></div>
+
+    <div class="article-end">
+      <p>Keep exploring.<span>More notes on AI and engineering.</span></p>
+      <a class="back" href="../../index.html#blog-page">← All posts</a>
+    </div>
   </main>
-  <footer><div class="wrap">© 2026 Chanupa Deshan</div></footer>
+
+  <footer>
+    <div class="wrap">© 2026 Chanupa Deshan</div>
+  </footer>
 </body>
 </html>

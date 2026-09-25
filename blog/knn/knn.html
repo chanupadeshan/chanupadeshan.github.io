@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>K-Nearest Neighbors (KNN) Explained — Chanupa Deshan</title>
+  <meta name="description" content="Understand how KNN uses distance, neighbor votes, feature scaling, and the choice of k for classification and regression." />
+  <meta name="author" content="Chanupa Deshan" />
+  <link rel="canonical" href="https://chanupa.blog/blog/knn/knn.html" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:url" content="https://chanupa.blog/blog/knn/knn.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="K-Nearest Neighbors (KNN) Explained" />
+  <meta property="og:description" content="Understand how KNN uses distance, neighbor votes, feature scaling, and the choice of k for classification and regression." />
+  <link rel="icon" type="image/png" href="../../favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../article.css" />
+  <link rel="stylesheet" href="../../styles/navigation.css" />
+</head>
+<body>
+  <a class="skip-link" href="#article">Skip to article</a>
+  <nav lang="en" aria-label="Main navigation">
+    <div class="wrap nav-inner">
+      <a class="logo" href="../../index.html#top" aria-label="Back to top"><span class="prompt">&gt;&gt;&gt;</span> Chanupa <span class="full-name">Deshan Munasinghe</span></a>
+      <div class="nav-links">
+        <a href="../../index.html#experience" class="main-only">Experience</a>
+        <a href="../../index.html#open-source" class="main-only">Open Source</a>
+        <a href="../../index.html#education" class="main-only">Education</a>
+        <a href="../../index.html#certificates" class="main-only">Certificates</a>
+        <a href="../../index.html#projects" class="main-only">Projects</a>
+        <a href="../../index.html#contact" class="main-only">Contact</a>
+        <a href="../../index.html#blog-page" id="blog-link" class="nav-blog-link">Blog</a>
+      </div>
+    </div>
+  </nav>
+  <main id="article" class="wrap">
+    <div class="article-toolbar"><a class="back" href="../../index.html#blog-page">← All posts</a></div>
+    <article>
+      <header class="article-hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Machine Learning · Nearest neighbors</p>
+          <h1>K-Nearest Neighbors (KNN) Explained</h1>
+          <p class="dek">Understand how KNN uses distance, neighbor votes, feature scaling, and the choice of k for classification and regression.</p>
+          <p class="meta">Chanupa Deshan · <time datetime="2026-09-21">September 21, 2026</time> · Python example</p>
+        </div>
+        <figure class="learning-visual">
+          <figcaption><span class="figure-index">07 / MACHINE LEARNING</span><span class="visual-dot" aria-hidden="true"></span></figcaption>
+          <div class="prep-flow"><div class="prep-step"><span>01</span><p>Scale the features</p></div><div class="prep-step"><span>02</span><p>Measure distances</p></div><div class="prep-step"><span>03</span><p>Choose the k nearest examples</p></div><div class="prep-step"><span>04</span><p>Vote or average</p></div></div>
+          <p class="visual-note">KNN predicts a new example from the answers of its nearest training examples.</p>
+        </figure>
+      </header>
+      <div class="reading-layout">
+        <aside class="contents" aria-label="ON THIS PAGE"><p>ON THIS PAGE</p><a href="#section-1"><span>01</span>KNN in one minute</a><a href="#section-2"><span>02</span>How one prediction works</a><a href="#section-3"><span>03</span>What does “near” mean?</a><a href="#section-4"><span>04</span>Why feature scaling matters</a><a href="#section-5"><span>05</span>Choosing k: local detail versus smoothing</a><a href="#section-6"><span>06</span>KNN can predict continuous values too</a><a href="#section-7"><span>07</span>Try classification in Python</a><a href="#section-8"><span>08</span>When KNN is useful—and where it struggles</a></aside>
+        <div class="prose"><div class="takeaway"><span>THE CORE IDEA</span><p>KNN predicts a new example from the answers of its nearest training examples.</p></div><p>Imagine identifying a fruit by comparing its weight and size with fruits you have already labeled. If the most similar examples are apples, an apple is a reasonable prediction. K-nearest neighbors turns that intuition into an algorithm: find nearby training examples and combine their answers.</p>
+<p>KNN supports both classification and regression. It does not learn a single equation of coefficients like linear or logistic regression. Instead, the stored training examples are central to making each prediction.</p>
+<h2 id="section-1"><span class="section-number">01</span>KNN in one minute</h2>
+<p>For every new example, KNN follows the same simple recipe:</p>
+<ol>
+<li>Measure the distance from the new example to the training examples.</li>
+<li>Select the nearest <code>k</code> examples.</li>
+<li>For classification, take their majority vote. For regression, average their values.</li>
+</ol>
+<p>The <code>k</code> tells us how many neighbors to consult. It is a setting chosen before prediction, not the number of classes in the data.</p>
+<h2 id="section-2"><span class="section-number">02</span>How one prediction works</h2>
+<p>For a new example, KNN measures its distance from training examples, selects the <code>k</code> closest, and combines their labels or target values. The letter <code>k</code> is a hyperparameter you choose, not the number of classes.</p>
+<p>Suppose we classify fruit using two already-standardized features. A new fruit lies at <code>(0, 0)</code>. Consider these four training examples:</p>
+<div class="table-scroll" role="region" aria-label="Worked example" tabindex="0"><table>
+<thead>
+<tr>
+<th scope="col">Fruit</th>
+<th scope="col">Feature coordinates</th>
+<th scope="col">Euclidean distance to the new fruit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Apple</td>
+<td>(0.3, 0.4)</td>
+<td>0.50</td>
+</tr>
+<tr>
+<td>Orange</td>
+<td>(0.0, 0.6)</td>
+<td>0.60</td>
+</tr>
+<tr>
+<td>Apple</td>
+<td>(0.6, 0.8)</td>
+<td>1.00</td>
+</tr>
+<tr>
+<td>Orange</td>
+<td>(1.2, 0.9)</td>
+<td>1.50</td>
+</tr>
+</tbody>
+</table></div>
+<p>At <code>k = 3</code>, the nearest neighbors are apple, orange, and apple. Uniform voting predicts <strong>apple</strong>, with two of the three votes. The fourth example does not contribute to this prediction.</p>
+<p>The vote fraction <code>2/3</code> can be reported as an estimated class probability. It is a local vote proportion, not a guarantee that the new fruit has a precisely calibrated 66.7% probability of being an apple.</p>
+<h2 id="section-3"><span class="section-number">03</span>What does “near” mean?</h2>
+<p>The usual starting point is Euclidean distance. For two features:</p>
+<pre tabindex="0"><code class="language-text">distance(x, q) = √((x₁ - q₁)² + (x₂ - q₂)²)
+</code></pre>
+<p>For the first fruit, that is <code>√(0.3² + 0.4²) = 0.5</code>. In more dimensions, add one squared difference per feature before taking the square root.</p>
+<p>Other distance measures encode different ideas of similarity. Manhattan distance sums absolute differences. The appropriate representation and metric depend on the task; arbitrary integer codes for categories can create meaningless distances. Encoding apple as <code>1</code>, orange as <code>2</code>, and banana as <code>3</code> does not make banana twice as far from apple as orange is.</p>
+<p>Distance also determines the shape of neighborhoods. Choosing a metric is part of choosing the model, rather than a cosmetic implementation detail.</p>
+<h2 id="section-4"><span class="section-number">04</span>Why feature scaling matters</h2>
+<p>Suppose the features are weight in grams and diameter in centimeters. Weight differences may be tens of units while diameter differences are only a few. Raw Euclidean distance can therefore be dominated by weight, even if diameter is equally useful.</p>
+<p>Standardization transforms each feature using its training mean and standard deviation:</p>
+<pre tabindex="0"><code class="language-text">scaled value = (value - training mean) / training standard deviation
+</code></pre>
+<p>Fit the scaler on training data only, and apply that same transformation to new examples. In cross-validation, fit it separately within each training fold. A pipeline makes that sequence easier to get right.</p>
+<p>Scaling does not tell us which features matter. Irrelevant features still contribute noise, and outliers can influence the scaling statistics. Feature selection, robust scaling, and an appropriate distance metric may improve the neighborhoods.</p>
+<h2 id="section-5"><span class="section-number">05</span>Choosing k: local detail versus smoothing</h2>
+<p>With <code>k = 1</code>, a prediction follows its single closest example. The resulting boundary can be highly detailed and sensitive to noisy labels. Larger values average over wider neighborhoods, making predictions smoother but potentially erasing smaller local patterns.</p>
+<p>At the extreme, if <code>k</code> equals the number of training examples, uniform classification voting predicts the training set’s majority class everywhere, subject to tie handling. That is usually too much smoothing.</p>
+<p>Try several values through validation or cross-validation. There is no universally best <code>k</code>. An odd <code>k</code> avoids an equal vote count between two classes under uniform voting, but it does not eliminate multiclass ties, equal-distance ties, or all ties under weighted voting.</p>
+<p>Distance weighting gives closer neighbors more influence than farther ones. It can help when the nearest examples are especially informative, but it can also amplify a nearby mislabeled example. Scikit-learn offers uniform and distance-weighted voting in its <a href="https://scikit-learn.org/stable/modules/neighbors.html#nearest-neighbors-classification">nearest-neighbors implementation</a>.</p>
+<h2 id="section-6"><span class="section-number">06</span>KNN can predict continuous values too</h2>
+<p>For regression, replace the class vote with an average of neighboring targets. If the three closest deliveries took 20, 24, and 28 minutes, a uniform KNN regressor predicts <code>(20 + 24 + 28) / 3 = 24</code> minutes. A distance-weighted regressor gives more influence to closer deliveries.</p>
+<p>With nonnegative averaging weights, the prediction stays within the range of the neighbors’ observed targets. KNN therefore does not extrapolate a rising trend the way a fitted straight line can. Beyond the observed region, it continues averaging the closest available examples.</p>
+<h2 id="section-7"><span class="section-number">07</span>Try classification in Python</h2>
+<p>Install with <code>python -m pip install scikit-learn</code>. This example uses the bundled Iris dataset, which contains flower measurements and three species. The search chooses <code>k</code> and voting weights using only the training partition. The test set remains separate until final evaluation.</p>
+<pre tabindex="0"><code class="language-python">from sklearn.datasets import load_iris
+from sklearn.metrics import accuracy_score, classification_report
+from sklearn.model_selection import GridSearchCV, train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+
+X, y = load_iris(return_X_y=True)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.25, stratify=y, random_state=42,
+)
+pipeline = Pipeline([
+    (&quot;scale&quot;, StandardScaler()),
+    (&quot;knn&quot;, KNeighborsClassifier()),
+])
+search = GridSearchCV(
+    pipeline,
+    {&quot;knn__n_neighbors&quot;: [3, 5, 7, 11],
+     &quot;knn__weights&quot;: [&quot;uniform&quot;, &quot;distance&quot;]},
+    cv=5,
+    scoring=&quot;accuracy&quot;,
+)
+search.fit(X_train, y_train)
+predictions = search.predict(X_test)
+print(&quot;Selected settings:&quot;, search.best_params_)
+print(&quot;Test accuracy:&quot;, accuracy_score(y_test, predictions))
+print(classification_report(y_test, predictions, zero_division=0))
+</code></pre>
+<p>Because scaling is inside the pipeline, each validation fold uses statistics learned only from its own training fold. After selection, the search refits the chosen pipeline on all training examples. The small test set is useful for a demonstration, but it cannot establish real-world reliability by itself.</p>
+<h2 id="section-8"><span class="section-number">08</span>When KNN is useful—and where it struggles</h2>
+<p>KNN is a useful baseline when similarity is meaningful and the dataset is manageable. Its local predictions can form nonlinear decision boundaries without explicitly building polynomial features.</p>
+<p>However, prediction can be expensive: a brute-force search compares a query with all training examples, requiring roughly <code>O(n × d)</code> distance work for <code>n</code> rows and <code>d</code> features. Search trees can help in suitable settings, but their advantage often declines in high dimensions. Storing the training data also consumes memory.</p>
+<p>In high-dimensional spaces, examples can become sparse and nearest-versus-farthest distances less informative. This is one part of the curse of dimensionality. Class imbalance and uneven sampling density can also make local votes misleading. Evaluate minority-class precision and recall when those errors matter.</p>
+<p>KNN makes a simple idea practical: predict from nearby examples. Its quality depends on what “nearby” means, how many neighbors you use, and whether those neighbors represent the new data well.</p>
+<p>For a model with a linear classification boundary, read <a href="../logistic-regression/logistic-regression.html">logistic regression</a>. For continuous predictions from learned coefficients, read <a href="../linear-regression/linear-regression.html">linear regression</a>.</p></div>
+      </div>
+    </article>
+    <div class="article-end"><p>Keep exploring.<span>More notes on AI and engineering.</span></p><a class="back" href="../../index.html#blog-page">← All posts</a></div>
+  </main>
+  <footer><div class="wrap">© 2026 Chanupa Deshan</div></footer>
+</body>
+</html>

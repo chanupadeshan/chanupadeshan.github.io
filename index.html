@@ -142,6 +142,9 @@ section{padding:72px 24px}
 .project-title{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:9px}
 .project h3{font-family:'Archivo',sans-serif;font-weight:700;font-size:1.25rem;line-height:1.3}
 .project .desc{color:var(--muted);font-size:.95rem;max-width:62ch}
+.project-highlights{margin:13px 0 0;padding-left:19px;color:var(--muted);font-size:.9rem;line-height:1.65;max-width:65ch}
+.project-highlights li + li{margin-top:5px}
+.project-highlights li::marker{color:var(--accent)}
 .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
 .tag{
   font-family:'JetBrains Mono',monospace;
@@ -153,6 +156,8 @@ section{padding:72px 24px}
 }
 .status{display:inline-flex;align-items:center;gap:6px;padding:4px 9px;background:#FFF4D9;border-color:#F0DDA8;color:#8A6414;font-size:.68rem;line-height:1}
 .status::before{content:"";width:6px;height:6px;border-radius:50%;background:#D89A17}
+.status-progress{background:#EAF1FF;border-color:#C7D8FA;color:#345B9D}
+.status-progress::before{background:#4F78C4}
 .links{margin-top:16px;display:flex;gap:20px;font-size:.9rem;font-weight:500}
 .links a::before{content:"→ ";color:var(--muted)}
 
@@ -191,6 +196,10 @@ footer{border-top:1px solid var(--line);padding:28px 0 40px;color:var(--muted);f
 .blog-heading{font-family:'Archivo',sans-serif;font-size:clamp(2.7rem,5.2vw,4rem);font-weight:800;letter-spacing:-.05em;line-height:1.05}
 .blog-heading em{font-style:normal;color:var(--accent)}
 .blog-sub{font-size:.9rem;line-height:1.8;color:var(--muted);max-width:34ch;padding-bottom:3px}
+.blog-coming-soon{display:grid;place-items:center;min-height:calc(100vh - 180px);text-align:center}
+.blog-coming-soon .blog-intro{display:block;margin:0}
+.blog-coming-soon .blog-sub{max-width:46ch;margin:20px auto 0;padding:0}
+.blog-coming-soon-mark{display:grid;place-items:center;width:72px;height:72px;margin:0 auto 28px;border:1px solid var(--line);border-radius:18px;background:var(--accent-soft);color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:1.5rem}
 .blog-index{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);padding:20px 0;font-family:'JetBrains Mono',monospace;font-size:.7rem}
 .blog-index span:last-child{color:var(--muted)}
 .blog-post + .blog-post{margin-top:24px}
@@ -284,7 +293,7 @@ footer{border-top:1px solid var(--line);padding:28px 0 40px;color:var(--muted);f
     <div class="repl-line in">&gt;&gt;&gt; <span class="obj">chanupa</span>.<span class="prop">focus</span></div>
     <div class="repl-line out">['Agentic AI systems', 'AI for finance', 'IoT', 'LLMOps', 'AIOps']</div>
     <div class="repl-line in">&gt;&gt;&gt; <span class="obj">chanupa</span>.<span class="prop">learning</span></div>
-    <div class="repl-line out">['AI security']</div>
+    <div class="repl-line out">['Deep Agent', 'Explainable AI']</div>
     <div class="repl-line in">&gt;&gt;&gt; <span class="obj">chanupa</span>.<span class="prop">contact</span></div>
     <div class="repl-line out">[<a href="mailto:chanupadeshan@gmail.com">'email'</a>, <a href="https://github.com/chanupadeshan" target="_blank" rel="noreferrer">'github'</a>, <a href="https://www.linkedin.com/in/chanupadeshanmunasinghe/" target="_blank" rel="noreferrer">'linkedin'</a>, <a href="https://127crew.dev/" target="_blank" rel="noreferrer">'127crew'</a>]</div>
     <div class="repl-line in">&gt;&gt;&gt; <span class="cursor" aria-hidden="true"></span></div>
@@ -298,34 +307,8 @@ footer{border-top:1px solid var(--line);padding:28px 0 40px;color:var(--muted);f
     <div>
       <h3>AI/ML Intern</h3>
       <div class="org">Sri Lanka Ports Authority (SLPA)</div>
-      <p class="desc">Six-month internship building two applied ML systems for port operations end-to-end, from dataset collection through deployment handoff.</p>
+      <p class="desc">Six-month internship building two applied ML systems for port operations end-to-end, from dataset collection through deployment handoff. The projects included a computer-vision system for detecting container damage and reading ISO numbers, and a multilingual RAG chatbot for SLPA staff and the public.</p>
 
-      <div class="sub-project">
-        <h4>Truck Container Damage Detection System</h4><span class="sub-date">Jan – May 2026</span>
-        <p class="desc">A full-stack inspection tool (React + Django) combining YOLO-based damage detection with SAM/GroundingDINO segmentation to isolate container regions, plus OCR to read ISO container numbers off the container body. Owned the pipeline end-to-end: dataset collection and annotation with class-balance and augmentation planning, model inference with caching to keep response times down, manual and automatic inspection workflows, and PDF/EIR report generation with damage labels, confidence scores, and bounding-box data. Also handled backend input validation, error handling, and a multilingual, theme-aware UI. Completed and handed over to the supervisor in May 2026.</p>
-        <div class="tags">
-          <span class="tag">React</span>
-          <span class="tag">Django</span>
-          <span class="tag">YOLO</span>
-          <span class="tag">SAM</span>
-          <span class="tag">OCR</span>
-          <span class="tag">Computer Vision</span>
-        </div>
-      </div>
-
-      <div class="sub-project">
-        <h4>SLPA Chatbot</h4><span class="sub-date">May – Jul 2026</span>
-        <p class="desc">A retrieval-augmented generation (RAG) chatbot serving separate internal (staff) and external (public) flows in English, Sinhala, and Tamil. Built the full pipeline solo: query processing, embedding-based retrieval over an indexed knowledge base, and prompt-engineered response generation tuned for concise, official-toned answers, with small-talk handling as a fallback for greetings and general messages. Also shipped an attendance-request feature (form + backend), a monitoring panel for chat and attendance activity, and structured logging for debugging failed responses. Delivered on React + Vite (frontend) and FastAPI (backend), from requirements gathering through final testing and demo.</p>
-        <div class="tags">
-          <span class="tag">React</span>
-          <span class="tag">Vite</span>
-          <span class="tag">FastAPI</span>
-          <span class="tag">Python</span>
-          <span class="tag">RAG</span>
-          <span class="tag">Embeddings</span>
-          <span class="tag">Multilingual</span>
-        </div>
-      </div>
     </div>
   </div>
 </section>
@@ -462,67 +445,14 @@ footer{border-top:1px solid var(--line);padding:28px 0 40px;color:var(--muted);f
       <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="10 3 5 8 10 13"/></svg>
       Back
     </a>
-    <div class="blog-intro">
-      <div>
-        <p class="blog-kicker">IDEAS, EXPLAINED.</p>
-        <h1 class="blog-heading">The <em>notebook.</em></h1>
+    <div class="blog-coming-soon">
+      <div class="blog-intro">
+        <div class="blog-coming-soon-mark" aria-hidden="true">{...}</div>
+        <p class="blog-kicker">BLOG</p>
+        <h1 class="blog-heading">Stay <em>tuned.</em></h1>
+        <p class="blog-sub">I’m preparing practical notes on machine learning, AI systems, and what I learn while building them. Check back soon.</p>
       </div>
-      <p class="blog-sub">Notes on machine learning and building with AI. A place to work through ideas and share what I learn.</p>
     </div>
-    <div class="blog-index"><span>Latest writing</span><span>02 articles</span></div>
-    <article class="blog-post">
-      <div class="blog-cover" aria-hidden="true">
-        <div><p class="cover-label">MACHINE LEARNING / 002</p><p class="cover-title">Better inputs.<br><span>A better place to start.</span></p></div>
-        <svg viewBox="0 0 360 145" fill="none">
-          <rect x="1" y="23" width="96" height="100" rx="10" fill="#f7faf7" stroke="#bfd3c5"/>
-          <rect x="132" y="23" width="96" height="100" rx="10" fill="#f7faf7" stroke="#bfd3c5"/>
-          <rect x="263" y="23" width="96" height="100" rx="10" fill="#f7faf7" stroke="#bfd3c5"/>
-          <path d="M104 73h20m-6-5 6 5-6 5M235 73h20m-6-5 6 5-6 5" stroke="#708f7b" stroke-width="2"/>
-          <g stroke="#809d8c" stroke-width="4" stroke-linecap="round"><path d="M19 43h34m12 0h13M19 62h58M19 82h18m12 0h29M19 101h40"/></g>
-          <g stroke="#327558" stroke-width="4" stroke-linecap="round"><path d="m148 49 5 5 9-12m-14 28 5 5 9-12m-14 28 5 5 9-12M174 49h35m-35 21h35m-35 21h35"/></g>
-          <g fill="#327558"><rect x="279" y="76" width="15" height="28" rx="3"/><rect x="304" y="55" width="15" height="49" rx="3"/><rect x="329" y="38" width="15" height="66" rx="3"/></g>
-        </svg>
-        <div class="cover-footer"><span>RAW → CLEAN → FEATURES</span><span>PYTHON INCLUDED</span></div>
-      </div>
-      <div class="blog-post-copy">
-        <p class="blog-category">Machine learning · Practical guide</p>
-        <h2><a href="blog/data-preprocessing/data-preprocessing.html">Data preprocessing: from raw data to model-ready inputs</a></h2>
-        <p class="blog-excerpt">What to clean, what to keep, and how to prepare tables, text, images, and time series—with runnable Python examples.</p>
-        <p class="blog-post-meta"><time datetime="2026-09-05">Sep 5, 2026</time> &nbsp;·&nbsp; 4 code examples</p>
-        <div class="blog-post-actions">
-          <a class="blog-read" href="blog/data-preprocessing/data-preprocessing.html">Read article <span aria-hidden="true">↗</span></a>
-          <div class="post-languages" role="group" aria-label="Article language"><a href="blog/data-preprocessing/data-preprocessing.html" lang="en" hreflang="en">English</a><span aria-hidden="true"> / </span><a href="blog/data-preprocessing/data-preprocessing.si.html" lang="si" hreflang="si">සිංහල</a></div>
-        </div>
-      </div>
-    </article>
-    <article class="blog-post">
-      <div class="blog-cover" aria-hidden="true">
-        <div><p class="cover-label">MACHINE LEARNING / 001</p><p class="cover-title">Learning with labels.<br><span>Learning without them.</span></p></div>
-        <svg viewBox="0 0 360 145" fill="none">
-          <rect x="1" y="1" width="158" height="143" rx="10" fill="#f7faf7" stroke="#bfd3c5"/>
-          <rect x="201" y="1" width="158" height="143" rx="10" fill="#f7faf7" stroke="#bfd3c5"/>
-          <path d="M80 18v110" stroke="#adc5b6" stroke-dasharray="4 5"/>
-          <g fill="#327558"><circle cx="30" cy="48" r="6"/><circle cx="54" cy="33" r="6"/><circle cx="47" cy="73" r="6"/><circle cx="26" cy="99" r="6"/><circle cx="62" cy="109" r="6"/></g>
-          <g fill="#b29161"><path d="m112 36 7 12h-14zM130 66l7 12h-14zM106 96l7 12H99zM128 112l7 12h-14z"/></g>
-          <g stroke="#88ac97" stroke-dasharray="3 4"><ellipse cx="245" cy="64" rx="30" ry="43"/><ellipse cx="310" cy="92" rx="31" ry="38"/></g>
-          <g fill="#527f64"><circle cx="240" cy="40" r="5"/><circle cx="256" cy="58" r="5"/><circle cx="233" cy="75" r="5"/><circle cx="246" cy="93" r="5"/><circle cx="301" cy="75" r="5"/><circle cx="319" cy="87" r="5"/><circle cx="300" cy="108" r="5"/><circle cx="327" cy="108" r="5"/></g>
-          <path d="M174 72h12m-6-6v12" stroke="#708f7b" stroke-width="1.5"/>
-        </svg>
-        <div class="cover-footer"><span>01 — SUPERVISED</span><span>02 — UNSUPERVISED</span></div>
-      </div>
-      <div class="blog-post-copy">
-        <p class="blog-category">Machine learning · Foundations</p>
-        <h2><a href="blog/supervisedVSunsupervised/supervised-vs-unsupervised-learning.html">Supervised learning vs. unsupervised learning</a></h2>
-        <p class="blog-excerpt">What changes when your data comes with answers? A practical guide to prediction, patterns, and choosing the right approach.</p>
-        <p class="blog-post-meta"><time datetime="2026-09-05">Sep 5, 2026</time> &nbsp;·&nbsp; 5 min read</p>
-        <div class="blog-post-actions">
-        <a class="blog-read" href="blog/supervisedVSunsupervised/supervised-vs-unsupervised-learning.html">Read article <span aria-hidden="true">↗</span></a>
-          <div class="post-languages" role="group" aria-label="Article language"><a href="blog/supervisedVSunsupervised/supervised-vs-unsupervised-learning.html" lang="en" hreflang="en">English</a><span aria-hidden="true"> / </span><a href="blog/supervisedVSunsupervised/supervised-vs-unsupervised-learning.si.html" lang="si" hreflang="si">සිංහල</a></div>
-        </div>
-      </div>
-    </article>
-    <div class="blog-signoff"><span>Written by Chanupa Deshan</span><span>Learning in public, one note at a time.</span></div>
-
   </div>
 </div>
 
@@ -566,14 +496,58 @@ window.addEventListener('hashchange', navigateToHash);
    ============================================================ */
 const PROJECTS = [
   {
-    name: "Verdict",
-    status: "In progress",
-    glyph: "⊢",
+    name: "Truck Container Damage Detection System",
+    status: "Internship project",
+    glyph: "▣",
     image: null,
-    desc: "A multi-agent natural-language data analysis system built on LangGraph and DuckDB. Ask questions in plain English; agents plan, write SQL, verify, and self-correct. Benchmarked against BIRD and Spider with honest single-agent baselines.",
-    tags: ["Python", "LangGraph", "DuckDB", "BIRD/Spider", "Evaluation","Docker"],
+    desc: "An end-to-end system that detects damage on shipping containers and automatically reads their ISO container numbers.",
+    highlights: [
+          "Prepared the computer-vision dataset, including collection, annotation, class balancing, and augmentation planning.",
+          "Combined YOLO damage detection with SAM/GroundingDINO segmentation and OCR.",
+          "Built manual and automatic inspection workflows with React and Django, including cached inference for faster responses.",
+          "Added input validation, error handling, multilingual and theme support, and PDF/EIR reports with damage labels, confidence scores, and bounding boxes.",
+          "Completed the system and handed it over to my supervisor in May 2026."
+    ],
+    tags: ["React", "Django", "YOLO", "SAM", "GroundingDINO", "OCR", "Computer Vision"],
     demo: "#",
     source: "#"
+  },
+  {
+    name: "SLPA Chatbot",
+    status: "Internship project",
+    glyph: "⌁",
+    image: null,
+    desc: "A multilingual RAG chatbot that provides separate experiences for SLPA staff and the public in English, Sinhala, and Tamil.",
+    highlights: [
+          "Built the complete RAG pipeline: query processing, embedding-based retrieval, and response generation over an indexed knowledge base.",
+          "Prompt-engineered concise, official responses and added small-talk handling for greetings and general messages.",
+          "Developed an attendance-request form and backend, plus a monitoring panel for chat and attendance activity.",
+          "Added structured logging to diagnose failed responses and improve reliability.",
+          "Delivered the React and Vite frontend with a FastAPI backend, from requirements gathering through testing and the final demonstration."
+    ],
+    tags: ["React", "Vite", "FastAPI", "Python", "RAG", "Embeddings", "Multilingual"],
+    demo: "#",
+    source: "#"
+  },
+  {
+    name: "Agentic Financial Reconciliation",
+    status: "In progress",
+    glyph: "⇄",
+    image: null,
+    desc: "An AI-assisted reconciliation and audit copilot that matches supplier invoices, ledger entries, and bank transactions. It uses deterministic rules for reliable financial calculations, LangGraph for controlled investigation workflows, and a human-in-the-loop review step for ambiguous or high-risk cases before final decisions are approved.",
+    tags: ["Python", "LangGraph", "Human-in-the-loop", "Pandas", "PostgreSQL", "FastAPI", "Streamlit", "Docker"],
+    demo: "#",
+    source: "https://github.com/chanupadeshan/agentic-financial-reconciliation"
+  },
+  {
+    name: "SeqAML Pipeline",
+    status: "In progress",
+    glyph: "∿",
+    image: null,
+    desc: "An explainable, end-to-end AML risk-scoring pipeline that models an account’s recent transaction history with GRU and LSTM networks and compares them against an XGBoost baseline. It emphasizes leakage-safe temporal validation, rare-event evaluation, explainable predictions, reproducible experiments, and containerized API deployment.",
+    tags: ["Python", "PyTorch", "XGBoost", "GRU/LSTM", "MLflow", "FastAPI", "Docker", "XAI"],
+    demo: "#",
+    source: "https://github.com/chanupadeshan/SeqAML-Pipeline"
   },
   {
     name: "SQL Data Warehouse Project",
@@ -615,9 +589,10 @@ list.innerHTML = PROJECTS.map(p => `
     <div class="project-content">
       <div class="project-title">
         <h3>${p.name}</h3>
-        ${p.status ? `<span class="tag status">${p.status}</span>` : ""}
+        ${p.status ? `<span class="tag status ${p.status === "In progress" ? "status-progress" : ""}">${p.status}</span>` : ""}
       </div>
       <p class="desc">${p.desc}</p>
+      ${p.highlights ? `<ul class="project-highlights">${p.highlights.map(item => `<li>${item}</li>`).join("")}</ul>` : ""}
       <div class="tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join("")}</div>
       <div class="links">
         ${p.demo && p.demo !== "#" ? `<a href="${p.demo}">Live demo</a>` : ""}

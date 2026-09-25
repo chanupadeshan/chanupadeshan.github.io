@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Linear Regression Explained: From Inputs to Continuous Predictions — Chanupa Deshan</title>
+  <meta name="description" content="A beginner-friendly explanation of Linear Regression with line of best fit, slope, intercept, residuals, MSE, RMSE, R², assumptions, and Python." />
+  <meta name="author" content="Chanupa Deshan" />
+  <link rel="canonical" href="https://chanupa.blog/blog/linear-regression/linear-regression.html" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Linear Regression Explained: From Inputs to Continuous Predictions" />
+  <meta property="og:description" content="Learn Linear Regression step by step with simple examples, equations, error metrics, assumptions, and practical Python." />
+  <meta property="og:url" content="https://chanupa.blog/blog/linear-regression/linear-regression.html" />
+  <link rel="icon" type="image/png" href="../../favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../article.css" />
+  <link rel="stylesheet" href="../../styles/navigation.css" />
+</head>
+
+<body>
+  <a class="skip-link" href="#article">Skip to article</a>
+
+  <nav lang="en" aria-label="Main navigation">
+    <div class="wrap nav-inner">
+      <a class="logo" href="../../index.html#top" aria-label="Back to top">
+        <span class="prompt">&gt;&gt;&gt;</span> Chanupa <span class="full-name">Deshan Munasinghe</span>
+      </a>
+      <div class="nav-links">
+        <a href="../../index.html#experience" class="main-only">Experience</a>
+        <a href="../../index.html#open-source" class="main-only">Open Source</a>
+        <a href="../../index.html#education" class="main-only">Education</a>
+        <a href="../../index.html#certificates" class="main-only">Certificates</a>
+        <a href="../../index.html#projects" class="main-only">Projects</a>
+        <a href="../../index.html#contact" class="main-only">Contact</a>
+        <a href="../../index.html#blog-page" id="blog-link" class="nav-blog-link">Blog</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="article" class="wrap">
+    <div class="article-toolbar">
+      <a class="back" href="../../index.html#blog-page">← All posts</a>
+    </div>
+
+    <article>
+      <header class="article-hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Machine Learning · Regression</p>
+          <h1>Linear Regression <span class="title-accent">explained.</span></h1>
+          <p class="dek">How a model learns a straight-line relationship and uses it to predict continuous values.</p>
+          <p class="meta">Chanupa Deshan · <time datetime="2026-09-21">September 21, 2026</time> · Beginner Guide + Python</p>
+        </div>
+
+        <figure class="learning-visual">
+          <figcaption>
+            <span class="figure-index">04 / LINEAR REGRESSION</span>
+            <span class="visual-dot" aria-hidden="true"></span>
+          </figcaption>
+
+          <div class="prep-flow">
+            <div class="prep-step"><span>01</span><p>Read the features</p></div>
+            <div class="prep-step"><span>02</span><p>Apply coefficients</p></div>
+            <div class="prep-step"><span>03</span><p>Predict a number</p></div>
+            <div class="prep-step"><span>04</span><p>Measure the error</p></div>
+          </div>
+
+          <p class="visual-note">Features → weighted equation → continuous prediction → residual/error.</p>
+        </figure>
+      </header>
+
+      <div class="reading-layout">
+        <aside class="contents" aria-label="ON THIS PAGE">
+          <p>ON THIS PAGE</p>
+          <a href="#what-is-it"><span>01</span> What is Linear Regression?</a>
+          <a href="#classification-vs-regression"><span>02</span> Regression vs classification</a>
+          <a href="#line"><span>03</span> The line equation</a>
+          <a href="#worked-example"><span>04</span> Worked example</a>
+          <a href="#best-fit"><span>05</span> Line of best fit</a>
+          <a href="#residuals"><span>06</span> Residuals</a>
+          <a href="#mse"><span>07</span> MSE & RMSE</a>
+          <a href="#r2"><span>08</span> R² explained</a>
+          <a href="#multiple"><span>09</span> Multiple Linear Regression</a>
+          <a href="#learning"><span>10</span> How the model learns</a>
+          <a href="#python"><span>11</span> Python example</a>
+          <a href="#assumptions"><span>12</span> Assumptions & limitations</a>
+          <a href="#when-to-use"><span>13</span> When should you use it?</a>
+        </aside>
+
+        <div class="prose">
+          <div class="takeaway">
+            <span>THE CORE IDEA</span>
+            <p>Linear Regression learns a mathematical relationship between input features and a continuous target, then uses that relationship to predict new numerical values.</p>
+          </div>
+
+          <p>Suppose you want to predict:</p>
+
+          <pre><code>House price
+Delivery time
+Monthly sales
+Electricity usage
+Temperature</code></pre>
+
+          <p>These outputs are not categories such as <code>Yes/No</code> or <code>Spam/Not Spam</code>.</p>
+
+          <p>They are <strong>continuous numerical values</strong>.</p>
+
+          <p>This is where regression models are useful, and one of the simplest regression algorithms is <strong>Linear Regression</strong>.</p>
+
+          <h2 id="what-is-it"><span class="section-number">01</span>What is Linear Regression?</h2>
+
+          <p>Linear Regression is a supervised machine-learning algorithm used to predict a continuous numerical target.</p>
+
+          <p>The basic idea is simple:</p>
+
+          <blockquote>
+            <p><strong>Find a line that represents the relationship between the input and the output.</strong></p>
+          </blockquote>
+
+          <p>For example, imagine we collect data about delivery distance and delivery time.</p>
+
+          <div class="table-scroll" role="region" aria-label="Delivery dataset example" tabindex="0">
+            <table>
+              <caption>Simple delivery dataset</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Distance</th>
+                  <th scope="col">Delivery Time</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>2 km</td><td>18 min</td></tr>
+                <tr><td>4 km</td><td>25 min</td></tr>
+                <tr><td>6 km</td><td>31 min</td></tr>
+                <tr><td>8 km</td><td>36 min</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>We can see a rough pattern:</p>
+
+          <pre><code>Longer distance
+      ↓
+Longer delivery time</code></pre>
+
+          <p>Linear Regression tries to learn that relationship mathematically.</p>
+
+          <h2 id="classification-vs-regression"><span class="section-number">02</span>Regression vs classification</h2>
+
+          <p>This is an important distinction.</p>
+
+          <p><strong>Classification</strong> predicts categories:</p>
+
+          <pre><code>Email → Spam / Not Spam
+Transaction → Fraud / Legitimate
+Customer → Leave / Stay</code></pre>
+
+          <p><strong>Regression</strong> predicts numbers:</p>
+
+          <pre><code>House → Rs. 35,000,000
+Delivery → 42 minutes
+Temperature → 29.5°C</code></pre>
+
+          <p>So:</p>
+
+          <div class="table-scroll" role="region" aria-label="Classification vs regression" tabindex="0">
+            <table>
+              <caption>Classification and regression</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Task</th>
+                  <th scope="col">Output</th>
+                  <th scope="col">Example</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Classification</td><td>Category</td><td>Spam / Not Spam</td></tr>
+                <tr><td>Regression</td><td>Number</td><td>House price</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>Logistic Regression, despite its name, is normally used for classification. Linear Regression is used for continuous numerical prediction.</p>
+
+          <h2 id="line"><span class="section-number">03</span>The Linear Regression equation</h2>
+
+          <p>With one input feature, Linear Regression is often written as:</p>
+
+          <pre><code>ŷ = b + wx</code></pre>
+
+          <p>or:</p>
+
+          <pre><code>prediction = intercept + slope × input</code></pre>
+
+          <p>Here:</p>
+
+          <ul>
+            <li><code>ŷ</code> is the predicted value.</li>
+            <li><code>x</code> is the input feature.</li>
+            <li><code>w</code> is the slope or coefficient.</li>
+            <li><code>b</code> is the intercept.</li>
+          </ul>
+
+          <p>Let's use a simple delivery-time model:</p>
+
+          <pre><code>Predicted delivery time = 12 + 3 × distance</code></pre>
+
+          <p>This means:</p>
+
+          <pre><code>Intercept = 12
+Slope     = 3</code></pre>
+
+          <h3>What does the slope mean?</h3>
+
+          <p>The slope tells us how much the prediction changes when the input increases by one unit.</p>
+
+          <pre><code>Slope = 3</code></pre>
+
+          <p>So, in this example:</p>
+
+          <blockquote>
+            <p>Each extra kilometer adds 3 minutes to the predicted delivery time.</p>
+          </blockquote>
+
+          <h3>What does the intercept mean?</h3>
+
+          <p>The intercept is the prediction when the input equals zero.</p>
+
+          <pre><code>Distance = 0 km
+Predicted time = 12 minutes</code></pre>
+
+          <p>That could represent preparation, packaging, or loading time — but we should be careful.</p>
+
+          <p>The mathematical intercept is not always meaningful in the real world, especially when <code>x = 0</code> is outside the range of data used to train the model.</p>
+
+          <h2 id="worked-example"><span class="section-number">04</span>A worked prediction example</h2>
+
+          <p>Suppose our model is:</p>
+
+          <pre><code>Predicted minutes = 12 + 3 × distance</code></pre>
+
+          <p>We want to predict the delivery time for:</p>
+
+          <pre><code>Distance = 6 km</code></pre>
+
+          <p>Substitute the value:</p>
+
+          <pre><code>Predicted time = 12 + 3 × 6
+
+Predicted time = 12 + 18
+
+Predicted time = 30 minutes</code></pre>
+
+          <p>So the model predicts:</p>
+
+          <blockquote>
+            <p><strong>30 minutes</strong></p>
+          </blockquote>
+
+          <p>For another distance:</p>
+
+          <pre><code>Distance = 10 km
+
+Prediction = 12 + 3 × 10
+Prediction = 42 minutes</code></pre>
+
+          <p>This is the basic idea behind Linear Regression prediction.</p>
+
+          <h2 id="best-fit"><span class="section-number">05</span>What is the line of best fit?</h2>
+
+          <p>Real data is rarely perfectly straight.</p>
+
+          <p>Suppose our observations look like this:</p>
+
+          <div class="table-scroll" role="region" aria-label="Observed delivery times" tabindex="0">
+            <table>
+              <caption>Real observations do not perfectly follow a line</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Distance</th>
+                  <th scope="col">Actual Time</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>2 km</td><td>20 min</td></tr>
+                <tr><td>4 km</td><td>22 min</td></tr>
+                <tr><td>6 km</td><td>32 min</td></tr>
+                <tr><td>8 km</td><td>33 min</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>No single straight line passes exactly through every point.</p>
+
+          <p>Linear Regression therefore searches for a line that makes the overall prediction errors as small as possible.</p>
+
+          <pre><code>Actual data points
+  •
+      •
+          •
+              •
+
+Best-fit line
+-------------------</code></pre>
+
+          <p>That line is commonly called the <strong>line of best fit</strong>.</p>
+
+          <p>For ordinary least squares, "best" means the line that minimizes the total squared prediction errors.</p>
+
+          <h2 id="residuals"><span class="section-number">06</span>What is a residual?</h2>
+
+          <p>A <strong>residual</strong> is the difference between the actual value and the predicted value.</p>
+
+          <pre><code>Residual = Actual - Predicted</code></pre>
+
+          <p>Suppose:</p>
+
+          <pre><code>Actual delivery time    = 32 minutes
+Predicted delivery time = 30 minutes</code></pre>
+
+          <p>Then:</p>
+
+          <pre><code>Residual = 32 - 30
+Residual = 2 minutes</code></pre>
+
+          <p>Another example:</p>
+
+          <pre><code>Actual    = 22
+Predicted = 24
+
+Residual = 22 - 24
+Residual = -2</code></pre>
+
+          <p>A positive residual means the model predicted too low.</p>
+
+          <p>A negative residual means the model predicted too high.</p>
+
+          <div class="table-scroll" role="region" aria-label="Residual examples" tabindex="0">
+            <table>
+              <caption>Example residuals</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Actual</th>
+                  <th scope="col">Predicted</th>
+                  <th scope="col">Residual</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>20</td><td>18</td><td>2</td></tr>
+                <tr><td>22</td><td>24</td><td>-2</td></tr>
+                <tr><td>32</td><td>30</td><td>2</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 id="mse"><span class="section-number">07</span>MSE and RMSE: measuring prediction error</h2>
+
+          <p>We need a way to summarize all the model's errors into a single number.</p>
+
+          <p>One common metric is <strong>Mean Squared Error (MSE)</strong>.</p>
+
+          <pre><code>MSE = average of squared prediction errors</code></pre>
+
+          <p>The formal equation is:</p>
+
+          <pre><code>MSE = (1/n) × Σ(y - ŷ)²</code></pre>
+
+          <p>Let's use the three residuals:</p>
+
+          <pre><code>2
+-2
+2</code></pre>
+
+          <p>Square them:</p>
+
+          <pre><code>2²  = 4
+-2² = 4
+2²  = 4</code></pre>
+
+          <p>Average them:</p>
+
+          <pre><code>MSE = (4 + 4 + 4) / 3
+
+MSE = 4</code></pre>
+
+          <p>Because the errors are squared, MSE is measured in squared units.</p>
+
+          <p>If our target is minutes:</p>
+
+          <pre><code>MSE → minutes²</code></pre>
+
+          <p>That is not always easy to interpret.</p>
+
+          <h3>RMSE</h3>
+
+          <p><strong>Root Mean Squared Error (RMSE)</strong> takes the square root of MSE.</p>
+
+          <pre><code>RMSE = √MSE
+
+RMSE = √4
+
+RMSE = 2 minutes</code></pre>
+
+          <p>RMSE is often easier to understand because it returns to the same unit as the target.</p>
+
+          <p>Why square the errors at all?</p>
+
+          <p>Two reasons:</p>
+
+          <ul>
+            <li>Positive and negative errors cannot cancel each other out.</li>
+            <li>Large errors receive a stronger penalty.</li>
+          </ul>
+
+          <p>For example:</p>
+
+          <pre><code>Error = 2
+Squared error = 4
+
+Error = 10
+Squared error = 100</code></pre>
+
+          <p>So a few very large mistakes can increase MSE significantly.</p>
+
+          <h2 id="r2"><span class="section-number">08</span>What does R² mean?</h2>
+
+          <p>Another common regression metric is <strong>R²</strong>, pronounced "R-squared."</p>
+
+          <p>R² compares the model's predictions with a very simple reference: predicting the mean target value.</p>
+
+          <p>Its formula is:</p>
+
+          <pre><code>R² = 1 - (model squared error / mean-baseline squared error)</code></pre>
+
+          <p>The main interpretation is:</p>
+
+          <div class="table-scroll" role="region" aria-label="R squared interpretation" tabindex="0">
+            <table>
+              <caption>Basic R² interpretation</caption>
+              <thead>
+                <tr>
+                  <th scope="col">R²</th>
+                  <th scope="col">Meaning</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>1.0</td><td>Perfect predictions on that evaluation data</td></tr>
+                <tr><td>0.0</td><td>Same squared error as predicting the evaluation mean</td></tr>
+                <tr><td>Below 0</td><td>Worse squared error than that simple reference</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>Suppose:</p>
+
+          <pre><code>R² = 0.85</code></pre>
+
+          <p>It is tempting to say:</p>
+
+          <blockquote>
+            <p>"The model is 85% accurate."</p>
+          </blockquote>
+
+          <p>That is <strong>not</strong> what R² means.</p>
+
+          <p>R² describes how much better the model explains the target variation, in squared-error terms, compared with predicting a constant mean.</p>
+
+          <p>For practical model comparison, it is also useful to compare against a baseline trained using the training-set mean.</p>
+
+          <h2 id="multiple"><span class="section-number">09</span>Multiple Linear Regression</h2>
+
+          <p>So far, we have used one input feature:</p>
+
+          <pre><code>Distance → Delivery Time</code></pre>
+
+          <p>But real-world predictions often depend on many features.</p>
+
+          <p>Delivery time might depend on:</p>
+
+          <pre><code>Distance
+Traffic level
+Number of packages
+Weather
+Time of day</code></pre>
+
+          <p>Then the equation becomes:</p>
+
+          <pre><code>ŷ = b + w₁x₁ + w₂x₂ + w₃x₃ + ...</code></pre>
+
+          <p>For example:</p>
+
+          <pre><code>Predicted time
+    =
+12
++ 3.0 × distance
++ 1.5 × package_count
++ 4.0 × traffic_score</code></pre>
+
+          <p>Suppose:</p>
+
+          <pre><code>Distance      = 6 km
+Package count = 2
+Traffic score = 1</code></pre>
+
+          <p>Then:</p>
+
+          <pre><code>Prediction
+= 12 + (3 × 6) + (1.5 × 2) + (4 × 1)
+
+= 12 + 18 + 3 + 4
+
+= 37 minutes</code></pre>
+
+          <h3>What do the coefficients mean?</h3>
+
+          <p>If the coefficient for package count is:</p>
+
+          <pre><code>1.5</code></pre>
+
+          <p>the model says that one additional package increases the predicted time by 1.5 minutes, <strong>while the other input features are held fixed</strong>.</p>
+
+          <p>But coefficient size depends on the unit of the feature.</p>
+
+          <p>For example:</p>
+
+          <pre><code>Distance measured in km
+vs.
+Distance measured in meters</code></pre>
+
+          <p>will produce different numerical coefficient values.</p>
+
+          <p>So a larger coefficient does not automatically mean a feature is more important.</p>
+
+          <h2 id="learning"><span class="section-number">10</span>How does Linear Regression learn?</h2>
+
+          <p>The model needs to find the best values for:</p>
+
+          <pre><code>Intercept
+Slope / coefficients</code></pre>
+
+          <p>Training can be viewed like this:</p>
+
+          <pre><code>Choose coefficients
+      ↓
+Make predictions
+      ↓
+Calculate residuals
+      ↓
+Square the errors
+      ↓
+Find coefficients that reduce total squared error</code></pre>
+
+          <p>Ordinary Least Squares chooses the coefficients that minimize the sum of squared residuals.</p>
+
+          <p>For simple Linear Regression, this can be solved directly using mathematics.</p>
+
+          <p>For larger or different optimization setups, numerical optimization methods may also be used.</p>
+
+          <h2 id="python"><span class="section-number">11</span>Linear Regression in Python</h2>
+
+          <p>Here is a simple scikit-learn example using delivery distance and delivery time.</p>
+
+          <pre tabindex="0"><code class="language-python">import numpy as np
+
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_absolute_error
+from sklearn.metrics import mean_squared_error
+from sklearn.metrics import r2_score
+from sklearn.model_selection import train_test_split
+
+# Distance in kilometers
+X = np.array([
+    [1], [2], [3], [4], [5],
+    [6], [7], [8], [9], [10],
+    [11], [12], [13], [14], [15]
+])
+
+# Delivery time in minutes
+y = np.array([
+    15, 19, 20, 25, 27,
+    31, 33, 37, 40, 43,
+    45, 50, 51, 55, 58
+])
+
+# Split into training and test data
+X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    test_size=0.25,
+    random_state=42
+)
+
+# Create and train the model
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+# Predict test values
+predictions = model.predict(X_test)
+
+# Evaluate
+mse = mean_squared_error(y_test, predictions)
+rmse = np.sqrt(mse)
+mae = mean_absolute_error(y_test, predictions)
+r2 = r2_score(y_test, predictions)
+
+print("Intercept:", model.intercept_)
+print("Slope:", model.coef_[0])
+
+print("MAE:", mae)
+print("MSE:", mse)
+print("RMSE:", rmse)
+print("R²:", r2)
+
+# Predict a new delivery
+new_distance = np.array([[6]])
+prediction = model.predict(new_distance)
+
+print("Prediction for 6 km:", prediction[0])</code></pre>
+
+          <p>The important workflow is:</p>
+
+          <pre><code>Data
+ ↓
+Train/Test Split
+ ↓
+model.fit()
+ ↓
+model.predict()
+ ↓
+Evaluate</code></pre>
+
+          <h3>MAE is also useful</h3>
+
+          <p><strong>Mean Absolute Error (MAE)</strong> is another common regression metric.</p>
+
+          <pre><code>MAE = average absolute prediction error</code></pre>
+
+          <p>If errors are:</p>
+
+          <pre><code>2
+-4
+3</code></pre>
+
+          <p>their absolute values are:</p>
+
+          <pre><code>2
+4
+3</code></pre>
+
+          <p>so:</p>
+
+          <pre><code>MAE = (2 + 4 + 3) / 3
+MAE = 3</code></pre>
+
+          <p>Unlike MSE, MAE does not square the errors, so very large errors have less influence.</p>
+
+          <h2 id="assumptions"><span class="section-number">12</span>Assumptions and limitations</h2>
+
+          <p>Linear Regression is useful, but it works best when the data roughly matches the type of relationship the model can represent.</p>
+
+          <h3>1. The relationship should be approximately linear</h3>
+
+          <p>If the true relationship is strongly curved:</p>
+
+          <pre><code>        •
+     •
+   •
+ •
+•
+────────────</code></pre>
+
+          <p>a straight line may not represent the pattern well.</p>
+
+          <p>However, you can sometimes add transformed features such as:</p>
+
+          <pre><code>x²
+log(x)
+interaction terms</code></pre>
+
+          <p>and still use a model that is linear in its coefficients.</p>
+
+          <h3>2. Outliers can strongly affect the fit</h3>
+
+          <p>Because squared error gives large mistakes extra weight, extreme observations can pull the fitted line.</p>
+
+          <p>Do not automatically remove outliers. First determine whether they are:</p>
+
+          <ul>
+            <li>Data-entry mistakes</li>
+            <li>Measurement errors</li>
+            <li>Rare but valid observations</li>
+            <li>Important cases for the problem</li>
+          </ul>
+
+          <h3>3. Correlated features can complicate interpretation</h3>
+
+          <p>Suppose we include:</p>
+
+          <pre><code>Weight in kilograms
+Weight in pounds</code></pre>
+
+          <p>These contain almost the same information.</p>
+
+          <p>When features are strongly correlated, individual coefficients may become unstable and harder to interpret.</p>
+
+          <h3>4. Prediction errors should be checked</h3>
+
+          <p>A residual plot can reveal problems.</p>
+
+          <p>Ideally, residuals should not show a strong systematic pattern.</p>
+
+          <p>For example, if residuals clearly form a curve, the model may be missing nonlinear structure.</p>
+
+          <h3>5. Be careful with extrapolation</h3>
+
+          <p>Suppose the model was trained on:</p>
+
+          <pre><code>Distances from 1 km to 20 km</code></pre>
+
+          <p>Predicting for:</p>
+
+          <pre><code>500 km</code></pre>
+
+          <p>may be unreliable because the model has never seen anything remotely similar.</p>
+
+          <blockquote>
+            <p><strong>A straight-line relationship does not have to continue forever.</strong></p>
+          </blockquote>
+
+          <h3>6. Association is not causation</h3>
+
+          <p>If Linear Regression finds:</p>
+
+          <pre><code>Feature X increases
+      ↓
+Target Y tends to increase</code></pre>
+
+          <p>that does not automatically prove that X causes Y.</p>
+
+          <p>The model learns statistical relationships from the data it sees.</p>
+
+          <h2 id="when-to-use"><span class="section-number">13</span>When should you use Linear Regression?</h2>
+
+          <p>Linear Regression is a very good starting point when:</p>
+
+          <ul>
+            <li>The target is continuous.</li>
+            <li>You want a simple baseline.</li>
+            <li>The relationship is approximately linear.</li>
+            <li>You want an interpretable model.</li>
+            <li>You want to understand how features relate to the prediction.</li>
+          </ul>
+
+          <p>Common examples include:</p>
+
+          <pre><code>House-price prediction
+Sales prediction
+Energy consumption
+Delivery time
+Demand estimation
+Temperature estimation</code></pre>
+
+          <p>It may not be the best choice when the relationship is highly nonlinear or when the data contains complex interactions that a simple linear model cannot represent.</p>
+
+          <h2 id="final-thoughts"><span class="section-number">14</span>Final thoughts</h2>
+
+          <p>Linear Regression is one of the simplest machine-learning algorithms, but it teaches several ideas that appear again and again in more advanced models.</p>
+
+          <pre><code>Input Features
+      ↓
+Coefficients + Intercept
+      ↓
+Continuous Prediction
+      ↓
+Compare with Actual Value
+      ↓
+Calculate Error
+      ↓
+Improve the Fit</code></pre>
+
+          <p>The key concepts are:</p>
+
+          <ul>
+            <li><strong>Slope:</strong> how much the prediction changes when a feature increases.</li>
+            <li><strong>Intercept:</strong> the model's baseline when the input is zero.</li>
+            <li><strong>Residual:</strong> actual value minus predicted value.</li>
+            <li><strong>MSE:</strong> average squared error.</li>
+            <li><strong>RMSE:</strong> square root of MSE, in the target's original units.</li>
+            <li><strong>MAE:</strong> average absolute error.</li>
+            <li><strong>R²:</strong> improvement in squared error compared with a constant-mean reference.</li>
+          </ul>
+
+          <div class="takeaway">
+            <span>REMEMBER</span>
+            <p><strong>Linear Regression learns a line — or, with many features, a linear surface — that maps inputs to a continuous numerical prediction.</strong></p>
+          </div>
+
+          <div class="takeaway">
+            <span>NEXT ARTICLE</span>
+            <p><strong>K-Nearest Neighbors (KNN):</strong> how a model can make predictions by looking at the most similar examples nearby.</p>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <div class="article-end">
+      <p>Keep exploring.<span>More notes on AI and engineering.</span></p>
+      <a class="back" href="../../index.html#blog-page">← All posts</a>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">© 2026 Chanupa Deshan</div>
+  </footer>
+</body>
+</html>

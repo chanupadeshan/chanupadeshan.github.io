@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Supervised Learning vs. Unsupervised Learning — Chanupa Deshan</title>
-  <meta name="description" content="How labels change what a machine learning model can learn, with practical examples and guidance on choosing an approach." />
+  <meta name="description" content="A simple introduction to supervised and unsupervised machine learning, with real-world examples and common algorithms." />
   <meta name="author" content="Chanupa Deshan" />
   <link rel="canonical" href="https://chanupa.blog/blog/supervisedVSunsupervised/supervised-vs-unsupervised-learning.html" />
   <link rel="alternate" hreflang="en" href="https://chanupa.blog/blog/supervisedVSunsupervised/supervised-vs-unsupervised-learning.html" />
@@ -14,7 +14,7 @@
   <meta property="og:locale:alternate" content="si_LK" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="Supervised Learning vs. Unsupervised Learning" />
-  <meta property="og:description" content="A practical introduction to labeled data, clustering, prediction, and choosing the right learning approach." />
+  <meta property="og:description" content="A beginner-friendly guide to supervised and unsupervised learning with clear examples, common algorithms, and practical use cases." />
   <meta property="og:url" content="https://chanupa.blog/blog/supervisedVSunsupervised/supervised-vs-unsupervised-learning.html" />
   <link rel="icon" type="image/png" href="../../favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -25,87 +25,596 @@
 </head>
 <body>
   <a class="skip-link" href="#article">Skip to article</a>
-<nav lang="en" aria-label="Main navigation">
-  <div class="wrap nav-inner">
-    <a class="logo" href="../../index.html#top" aria-label="Back to top"><span class="prompt">&gt;&gt;&gt;</span> Chanupa <span class="full-name">Deshan Munasinghe</span></a>
-    <div class="nav-links">
-      <a href="../../index.html#experience" class="main-only">Experience</a>
-      <a href="../../index.html#open-source" class="main-only">Open Source</a>
-      <a href="../../index.html#education" class="main-only">Education</a>
-      <a href="../../index.html#certificates" class="main-only">Certificates</a>
-      <a href="../../index.html#projects" class="main-only">Projects</a>
-      <a href="../../index.html#contact" class="main-only">Contact</a>
-      <a href="../../index.html#blog-page" id="blog-link" class="nav-blog-link">Blog</a>
+
+  <nav lang="en" aria-label="Main navigation">
+    <div class="wrap nav-inner">
+      <a class="logo" href="../../index.html#top" aria-label="Back to top">
+        <span class="prompt">&gt;&gt;&gt;</span> Chanupa <span class="full-name">Deshan Munasinghe</span>
+      </a>
+      <div class="nav-links">
+        <a href="../../index.html#experience" class="main-only">Experience</a>
+        <a href="../../index.html#open-source" class="main-only">Open Source</a>
+        <a href="../../index.html#education" class="main-only">Education</a>
+        <a href="../../index.html#certificates" class="main-only">Certificates</a>
+        <a href="../../index.html#projects" class="main-only">Projects</a>
+        <a href="../../index.html#contact" class="main-only">Contact</a>
+        <a href="../../index.html#blog-page" id="blog-link" class="nav-blog-link">Blog</a>
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
+
   <main id="article" class="wrap">
     <div class="article-toolbar">
-    <a class="back" href="../../index.html#blog-page">← All posts</a>
-      <div class="language-switch" role="group" aria-label="Article language"><a href="supervised-vs-unsupervised-learning.html" lang="en" hreflang="en" aria-current="page">English</a><a href="supervised-vs-unsupervised-learning.si.html" lang="si" hreflang="si">සිංහල</a></div>
+      <a class="back" href="../../index.html#blog-page">← All posts</a>
+      <div class="language-switch" role="group" aria-label="Article language">
+        <a href="supervised-vs-unsupervised-learning.html" lang="en" hreflang="en" aria-current="page">English</a>
+        <a href="supervised-vs-unsupervised-learning.si.html" lang="si" hreflang="si">සිංහල</a>
+      </div>
     </div>
+
     <article>
       <header class="article-hero">
         <div class="hero-copy">
-        <p class="eyebrow">Machine Learning · Foundations</p>
-        <h1>Supervised learning <span class="versus">vs.</span> <span class="title-accent">unsupervised learning</span></h1>
-        <p class="dek">Two ways to learn from data. The difference starts with the answers you already have.</p>
-        <p class="meta">Chanupa Deshan · <time datetime="2026-09-05">September 5, 2026</time> · 5 min read</p>
-
+          <p class="eyebrow">Machine Learning · Foundations</p>
+          <h1>Supervised learning <span class="versus">vs.</span> <span class="title-accent">unsupervised learning</span></h1>
+          <p class="dek">Two major ways machines learn from data — one learns with answers, the other discovers patterns without them.</p>
+          <p class="meta">Chanupa Deshan · <time datetime="2026-09-05">September 5, 2026</time> · 8 min read</p>
         </div>
+
         <figure class="learning-visual">
-          <figcaption><span class="figure-index">01 / THE BIG PICTURE</span><span class="visual-dot" aria-hidden="true"></span></figcaption>
+          <figcaption>
+            <span class="figure-index">01 / THE BIG PICTURE</span>
+            <span class="visual-dot" aria-hidden="true"></span>
+          </figcaption>
+
           <div class="plot-grid">
-            <div class="plot"><p>Supervised</p><svg viewBox="0 0 240 160" fill="none" aria-hidden="true"><path d="M20 18v125h206" stroke="#50665c" /><g stroke="#86b8a5" stroke-dasharray="4 5"><path d="M126 26 126 142" stroke="#dae8e1" stroke-dasharray="4 6" opacity=".6"/></g><circle cx="38" cy="100" r="5" fill="#89dbc0" /><circle cx="53" cy="72" r="5" fill="#89dbc0" /><circle cx="72" cy="92" r="5" fill="#89dbc0" /><circle cx="87" cy="53" r="5" fill="#89dbc0" /><circle cx="106" cy="75" r="5" fill="#89dbc0" /><circle cx="54" cy="120" r="5" fill="#89dbc0" /><circle cx="120" cy="48" r="5" fill="#89dbc0" /><circle cx="145" cy="113" r="5" fill="#b6b8f3" /><circle cx="163" cy="83" r="5" fill="#b6b8f3" /><circle cx="182" cy="111" r="5" fill="#b6b8f3" /><circle cx="193" cy="67" r="5" fill="#b6b8f3" /><circle cx="208" cy="98" r="5" fill="#b6b8f3" /></svg><span>Learn from labels</span></div>
-            <div class="plot"><p>Unsupervised</p><svg viewBox="0 0 240 160" fill="none" aria-hidden="true"><path d="M20 18v125h206" stroke="#50665c" /><g stroke="#86b8a5" stroke-dasharray="4 5"><ellipse cx="77" cy="84" rx="56" ry="59"/><ellipse cx="177" cy="91" rx="46" ry="45"/></g><circle cx="38" cy="100" r="5" fill="#bdd4cb" /><circle cx="53" cy="72" r="5" fill="#bdd4cb" /><circle cx="72" cy="92" r="5" fill="#bdd4cb" /><circle cx="87" cy="53" r="5" fill="#bdd4cb" /><circle cx="106" cy="75" r="5" fill="#bdd4cb" /><circle cx="54" cy="120" r="5" fill="#bdd4cb" /><circle cx="120" cy="48" r="5" fill="#bdd4cb" /><circle cx="145" cy="113" r="5" fill="#bdd4cb" /><circle cx="163" cy="83" r="5" fill="#bdd4cb" /><circle cx="182" cy="111" r="5" fill="#bdd4cb" /><circle cx="193" cy="67" r="5" fill="#bdd4cb" /><circle cx="208" cy="98" r="5" fill="#bdd4cb" /></svg><span>Find structure</span></div>
+            <div class="plot">
+              <p>Supervised</p>
+              <svg viewBox="0 0 240 160" fill="none" aria-hidden="true">
+                <path d="M20 18v125h206" stroke="#50665c" />
+                <g stroke="#86b8a5" stroke-dasharray="4 5">
+                  <path d="M126 26 126 142" stroke="#dae8e1" stroke-dasharray="4 6" opacity=".6"/>
+                </g>
+                <circle cx="38" cy="100" r="5" fill="#89dbc0" />
+                <circle cx="53" cy="72" r="5" fill="#89dbc0" />
+                <circle cx="72" cy="92" r="5" fill="#89dbc0" />
+                <circle cx="87" cy="53" r="5" fill="#89dbc0" />
+                <circle cx="106" cy="75" r="5" fill="#89dbc0" />
+                <circle cx="54" cy="120" r="5" fill="#89dbc0" />
+                <circle cx="120" cy="48" r="5" fill="#89dbc0" />
+                <circle cx="145" cy="113" r="5" fill="#b6b8f3" />
+                <circle cx="163" cy="83" r="5" fill="#b6b8f3" />
+                <circle cx="182" cy="111" r="5" fill="#b6b8f3" />
+                <circle cx="193" cy="67" r="5" fill="#b6b8f3" />
+                <circle cx="208" cy="98" r="5" fill="#b6b8f3" />
+              </svg>
+              <span>Learn from labeled examples</span>
+            </div>
+
+            <div class="plot">
+              <p>Unsupervised</p>
+              <svg viewBox="0 0 240 160" fill="none" aria-hidden="true">
+                <path d="M20 18v125h206" stroke="#50665c" />
+                <g stroke="#86b8a5" stroke-dasharray="4 5">
+                  <ellipse cx="77" cy="84" rx="56" ry="59"/>
+                  <ellipse cx="177" cy="91" rx="46" ry="45"/>
+                </g>
+                <circle cx="38" cy="100" r="5" fill="#bdd4cb" />
+                <circle cx="53" cy="72" r="5" fill="#bdd4cb" />
+                <circle cx="72" cy="92" r="5" fill="#bdd4cb" />
+                <circle cx="87" cy="53" r="5" fill="#bdd4cb" />
+                <circle cx="106" cy="75" r="5" fill="#bdd4cb" />
+                <circle cx="54" cy="120" r="5" fill="#bdd4cb" />
+                <circle cx="120" cy="48" r="5" fill="#bdd4cb" />
+                <circle cx="145" cy="113" r="5" fill="#bdd4cb" />
+                <circle cx="163" cy="83" r="5" fill="#bdd4cb" />
+                <circle cx="182" cy="111" r="5" fill="#bdd4cb" />
+                <circle cx="193" cy="67" r="5" fill="#bdd4cb" />
+                <circle cx="208" cy="98" r="5" fill="#bdd4cb" />
+              </svg>
+              <span>Discover patterns without labels</span>
+            </div>
           </div>
-          <p class="visual-note">Illustrative patterns · same data, different questions</p>
+
+          <p class="visual-note">Same idea: data goes in, but the learning goal is different.</p>
         </figure>
       </header>
+
       <div class="reading-layout">
         <aside class="contents" aria-label="Article contents">
           <p>ON THIS PAGE</p>
-          <a href="#supervised"><span>01</span> Supervised learning</a>
-          <a href="#unsupervised"><span>02</span> Unsupervised learning</a>
-          <a href="#comparison"><span>03</span> Key differences</a>
-          <a href="#choosing"><span>04</span> Choosing an approach</a>
-          <div class="contents-note">A field note on<br>machine learning foundations.</div>
+          <a href="#intro"><span>01</span> The basic idea</a>
+          <a href="#supervised"><span>02</span> Supervised learning</a>
+          <a href="#supervised-types"><span>03</span> Classification & regression</a>
+          <a href="#how-supervised-learns"><span>04</span> How supervised learning learns</a>
+          <a href="#unsupervised"><span>05</span> Unsupervised learning</a>
+          <a href="#clustering"><span>06</span> Clustering</a>
+          <a href="#dimensionality"><span>07</span> Dimensionality reduction</a>
+          <a href="#comparison"><span>08</span> Key differences</a>
+          <a href="#choosing"><span>09</span> Choosing an approach</a>
+          <a href="#both"><span>10</span> Using both together</a>
+          <div class="contents-note">A beginner-friendly field note on machine learning foundations.</div>
         </aside>
+
         <div class="prose">
-          <div class="takeaway"><span>THE CORE IDEA</span><p>Supervised learning predicts a known target. Unsupervised learning explores structure without target labels.</p></div>
-      <p>Imagine you have a spreadsheet containing thousands of bank transactions. You want to use machine learning to make sense of them.</p>
-      <p>If past transactions have been marked as fraudulent or legitimate, you can train a model to predict that label for new transactions. If you only have transaction details, you might instead look for groups of similar transactions or unusual patterns.</p>
-      <p>These are examples of supervised and unsupervised learning. The main difference is whether training data includes a target answer for the task.</p>
-      <h2 id="supervised"><span class="section-number">01</span>Supervised learning: learning from labeled examples</h2>
-      <p>In supervised learning, each training example includes input features and a target. The model learns a relationship between them so it can predict targets for unseen inputs.</p>
-      <p>For a house-price model, the features might be floor area, location, and number of bedrooms. The target is the recorded sale price.</p>
-      <div class="table-scroll" role="region" aria-label="Examples of features and targets" tabindex="0"><table><caption>Examples of features and targets</caption><thead><tr><th scope="col">Input features</th><th scope="col">Target</th></tr></thead><tbody><tr><td>Floor area, location, bedrooms</td><td>House sale price</td></tr><tr><td>Email text and sender information</td><td>Spam or legitimate</td></tr><tr><td>Transaction amount, time, and merchant</td><td>Fraudulent or legitimate</td></tr></tbody></table></div>
-      <p>The two common task types are:</p>
-      <ul><li><strong>Classification:</strong> predicting a category, such as whether an email is spam.</li><li><strong>Regression:</strong> predicting a numeric value, such as a house price.</li></ul>
-      <p>Common algorithms include linear regression, logistic regression, decision trees, random forests, and support vector machines. Neural networks can also be trained for supervised tasks.</p>
-      <p>During training, an algorithm adjusts the model to reduce a loss: a measure of how far its predictions are from the known targets. But performing well on training examples is only part of the job. We evaluate on held-out data to check whether the model generalizes.</p>
-      <p>The evaluation metric should match the task. For house prices, mean absolute error expresses the average error in the same currency as the target. For rare fraud cases, accuracy alone can be misleading: predicting every transaction as legitimate may appear accurate while missing every fraudulent transaction. Precision and recall help reveal that failure.</p>
-      <h2 id="unsupervised"><span class="section-number">02</span>Unsupervised learning: finding structure without target labels</h2>
-      <p>In unsupervised learning, the training data does not provide target labels for the task. The algorithm looks for structure according to its objective and assumptions.</p>
-      <p>Consider a bank that wants to explore customer behavior. It has features such as transaction frequency, average spending, and account balance, but no predefined customer-segment labels.</p>
-      <p>A clustering algorithm can group customers with similar feature values. An analyst then examines those groups and decides whether they are useful. Names such as “frequent small purchases” are human interpretations of the results.</p>
-      <p>Two common task types are:</p>
-      <ul><li><strong>Clustering:</strong> grouping similar examples. K-means and DBSCAN are common algorithms.</li><li><strong>Dimensionality reduction:</strong> representing data with fewer dimensions. Principal component analysis (PCA) is one approach, which preserves as much variance as possible for a chosen number of components.</li></ul>
-      <p>Unsupervised methods can also help flag unusual observations. An unusual transaction deserves investigation, but unusual behavior alone does not prove fraud.</p>
-      <p>Without target labels, evaluation takes more judgment. You can examine cluster separation, stability, and usefulness for the intended task. A good numerical clustering score does not automatically mean you have found meaningful customer segments.</p>
-      <h2 id="comparison"><span class="section-number">03</span>The key differences</h2>
-      <div class="table-scroll" role="region" aria-label="Supervised and unsupervised learning comparison" tabindex="0"><table><caption>Supervised and unsupervised learning comparison</caption><thead><tr><th scope="col">Question</th><th scope="col">Supervised learning</th><th scope="col">Unsupervised learning</th></tr></thead><tbody><tr><td>What training data is available?</td><td>Features with target labels</td><td>Features without target labels for the task</td></tr><tr><td>What is the goal?</td><td>Predict a known target</td><td>Discover or represent structure</td></tr><tr><td>Example</td><td>Predict whether a customer will leave</td><td>Group customers by behavior</td></tr><tr><td>Common tasks</td><td>Classification and regression</td><td>Clustering and dimensionality reduction</td></tr><tr><td>How is it evaluated?</td><td>Predictions against held-out targets</td><td>Structure, stability, and practical usefulness</td></tr><tr><td>Main challenge</td><td>Obtaining reliable, representative labels</td><td>Deciding whether discovered patterns are meaningful</td></tr></tbody></table></div>
-      <h2 id="choosing"><span class="section-number">04</span>Which should you use?</h2>
-      <p>Start with the question you want to answer.</p>
-      <p>If you want to predict a specific outcome and have reliable historical labels, supervised learning is a natural starting point. If you want to explore patterns without a predefined target, unsupervised learning may help.</p>
-      <p>Both depend on how you prepare the data. For example, k-means uses distances, so a feature measured in thousands can dominate another measured between zero and one unless you handle scaling appropriately. Supervised models can also produce misleading results if their inputs contain information that would only become available after the prediction is needed. That is data leakage.</p>
-      <p>The approaches can work together. You might first explore customer groups, then train a supervised model to predict customer churn. Any preprocessing used in that predictive pipeline should be fitted on the training data to keep evaluation honest.</p>
-      <p>Before choosing an algorithm, write down your target, the data available at prediction time, and what a useful result would look like. Those decisions will guide the approach more reliably than starting with a favorite model.</p>
+          <div class="takeaway">
+            <span>THE CORE IDEA</span>
+            <p>Supervised learning learns from data that includes the correct answers. Unsupervised learning looks for useful patterns when those answers are not provided.</p>
+          </div>
+
+          <h2 id="intro"><span class="section-number">01</span>The basic idea</h2>
+
+          <p>Machine learning is about teaching computers to learn patterns from data. But not every machine learning problem is solved in the same way.</p>
+
+          <p>Sometimes we already know the correct answers and want a model to learn from them. Other times, we only have data and want the computer to discover interesting patterns by itself.</p>
+
+          <p>This gives us two important types of machine learning:</p>
+
+          <ul>
+            <li><strong>Supervised Learning</strong></li>
+            <li><strong>Unsupervised Learning</strong></li>
+          </ul>
+
+          <p>The easiest way to remember the difference is:</p>
+
+          <blockquote>
+            <p><strong>Supervised learning learns with answers. Unsupervised learning looks for patterns without answers.</strong></p>
+          </blockquote>
+
+          <p>Imagine that a bank has thousands of previous transactions. Some transactions are already marked as <strong>Fraud</strong> or <strong>Not Fraud</strong>.</p>
+
+          <pre><code>Transaction data
+      ↓
+Known labels: Fraud / Not Fraud
+      ↓
+Train a model
+      ↓
+Predict whether a new transaction is fraudulent</code></pre>
+
+          <p>This is <strong>supervised learning</strong> because the model is given the correct answers during training.</p>
+
+          <p>Now imagine the same bank has thousands of customers but has never divided them into groups. The bank wants to discover different types of customers based on spending behavior.</p>
+
+          <pre><code>Customer data
+      ↓
+No predefined customer groups
+      ↓
+Find similarities
+      ↓
+Discover customer segments</code></pre>
+
+          <p>This is <strong>unsupervised learning</strong> because the algorithm tries to discover structure without predefined target labels.</p>
+
+          <h2 id="supervised"><span class="section-number">02</span>Supervised learning</h2>
+
+          <p>In supervised learning, we train a machine learning model using <strong>labeled data</strong>.</p>
+
+          <p>A label is simply the answer we want the model to learn.</p>
+
+          <p>Consider an email spam detector:</p>
+
+          <div class="table-scroll" role="region" aria-label="Email spam examples" tabindex="0">
+            <table>
+              <caption>Example labeled training data</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Email</th>
+                  <th scope="col">Label</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Congratulations! You won $10,000!</td><td>Spam</td></tr>
+                <tr><td>Meeting tomorrow at 10 AM</td><td>Not Spam</td></tr>
+                <tr><td>Claim your free prize now!</td><td>Spam</td></tr>
+                <tr><td>Here is the project report</td><td>Not Spam</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>The model studies many examples like these and learns patterns associated with spam and normal emails.</p>
+
+          <pre><code>New Email
+    ↓
+Machine Learning Model
+    ↓
+Spam / Not Spam</code></pre>
+
+          <h3>Features and targets</h3>
+
+          <p>The information we give to a machine learning model is usually called <strong>features</strong>. The answer we want the model to predict is called the <strong>target</strong> or <strong>label</strong>.</p>
+
+          <p>For a house-price prediction model, the features might be:</p>
+
+          <ul>
+            <li>House size</li>
+            <li>Number of bedrooms</li>
+            <li>Location</li>
+            <li>Number of bathrooms</li>
+            <li>Age of the house</li>
+          </ul>
+
+          <p>The target would be the <strong>house price</strong>.</p>
+
+          <div class="table-scroll" role="region" aria-label="House price example" tabindex="0">
+            <table>
+              <caption>Simple house-price dataset</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Size</th>
+                  <th scope="col">Bedrooms</th>
+                  <th scope="col">Location</th>
+                  <th scope="col">Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>1,200 sq ft</td><td>3</td><td>Colombo</td><td>Rs. 35M</td></tr>
+                <tr><td>900 sq ft</td><td>2</td><td>Kurunegala</td><td>Rs. 18M</td></tr>
+                <tr><td>1,500 sq ft</td><td>4</td><td>Kandy</td><td>Rs. 42M</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>The model tries to learn how the input features are related to the target. It can then estimate the price of a house it has never seen before.</p>
+
+          <h2 id="supervised-types"><span class="section-number">03</span>Two main types of supervised learning</h2>
+
+          <h3>Classification</h3>
+
+          <p>Classification means predicting a <strong>category</strong>.</p>
+
+          <pre><code>Email       → Spam / Not Spam
+Transaction → Fraud / Not Fraud
+Image       → Cat / Dog
+Customer    → Will Leave / Will Stay
+Test Result → Positive / Negative</code></pre>
+
+          <p>Common classification algorithms include:</p>
+
+          <ul>
+            <li>Logistic Regression</li>
+            <li>Decision Trees</li>
+            <li>Random Forest</li>
+            <li>K-Nearest Neighbors</li>
+            <li>Support Vector Machines</li>
+            <li>Naive Bayes</li>
+            <li>Neural Networks</li>
+          </ul>
+
+          <p>For example, a Logistic Regression model might calculate:</p>
+
+          <pre><code>Probability of Fraud = 0.87
+
+Decision threshold = 0.50
+
+0.87 &gt; 0.50
+
+Prediction → Fraud</code></pre>
+
+          <h3>Regression</h3>
+
+          <p>Regression means predicting a <strong>number</strong> or continuous value.</p>
+
+          <pre><code>House price          → Rs. 35,000,000
+Tomorrow's temperature → 29.5°C
+Delivery time        → 42 minutes
+Monthly sales        → Rs. 1,250,000</code></pre>
+
+          <p>One of the simplest regression algorithms is <strong>Linear Regression</strong>. A model might learn that larger houses generally have higher prices and use that relationship to estimate the value of a new house.</p>
+
+          <h2 id="how-supervised-learns"><span class="section-number">04</span>How does supervised learning learn?</h2>
+
+          <p>Suppose we want to train a model to detect fraudulent transactions.</p>
+
+          <p>We first give it previous examples:</p>
+
+          <pre><code>Transaction 1 → Fraud
+Transaction 2 → Legitimate
+Transaction 3 → Legitimate
+Transaction 4 → Fraud
+...</code></pre>
+
+          <p>The model makes predictions. At the beginning, many predictions may be wrong.</p>
+
+          <p>The learning algorithm compares the model's prediction with the actual answer, measures the error, and adjusts the model.</p>
+
+          <pre><code>Training Data
+     ↓
+Model Makes Prediction
+     ↓
+Compare With Correct Answer
+     ↓
+Calculate Error
+     ↓
+Adjust Model
+     ↓
+Repeat</code></pre>
+
+          <p>After many training steps, the goal is for the model to learn patterns that also work on new data.</p>
+
+          <p>A good machine learning model should not simply memorize its training examples. It should make useful predictions for data it has never seen before. This is called <strong>generalization</strong>.</p>
+
+          <h2 id="unsupervised"><span class="section-number">05</span>Unsupervised learning</h2>
+
+          <p>Unsupervised learning works differently. We give the algorithm data, but we do not provide the answers or target labels we want it to predict.</p>
+
+          <p>Imagine that an online store has information about 10,000 customers, including:</p>
+
+          <ul>
+            <li>Age</li>
+            <li>Monthly spending</li>
+            <li>Number of purchases</li>
+            <li>Average order value</li>
+            <li>Products viewed</li>
+          </ul>
+
+          <p>But the store does not already have labels such as:</p>
+
+          <pre><code>Premium Customer
+Regular Customer
+Occasional Customer</code></pre>
+
+          <p>An unsupervised learning algorithm can examine the data and try to find natural patterns.</p>
+
+          <p>It might discover groups such as:</p>
+
+          <pre><code>Cluster 1
+Young customers who purchase frequently
+
+Cluster 2
+Customers who rarely purchase but spend large amounts
+
+Cluster 3
+Regular customers with moderate spending</code></pre>
+
+          <p>The important difference is that nobody told the algorithm what these groups should be. It discovered the structure from the data.</p>
+
+          <h2 id="clustering"><span class="section-number">06</span>Clustering</h2>
+
+          <p>One of the most common unsupervised learning tasks is <strong>clustering</strong>.</p>
+
+          <p>Clustering means grouping similar data points together.</p>
+
+          <p>Suppose we have customers described by two features:</p>
+
+          <ul>
+            <li>Annual income</li>
+            <li>Annual spending</li>
+          </ul>
+
+          <p>Customers with similar behavior may appear close to one another. A clustering algorithm can identify these groups.</p>
+
+          <p>One popular clustering algorithm is <strong>K-Means Clustering</strong>.</p>
+
+          <pre><code>Customer Data
+      ↓
+Find Similar Customers
+      ↓
+Create Groups
+      ↓
+Analyze Those Groups</code></pre>
+
+          <p>Clustering can be useful for:</p>
+
+          <ul>
+            <li>Customer segmentation</li>
+            <li>User behavior analysis</li>
+            <li>Product grouping</li>
+            <li>Document grouping</li>
+            <li>Exploring patterns in large datasets</li>
+          </ul>
+
+          <p>However, the algorithm does not automatically understand what a cluster means. If K-Means creates a group of customers with high spending, a human analyst might decide to call that group <strong>High-value customers</strong>.</p>
+
+          <p>That meaning comes from human interpretation, not from the algorithm itself.</p>
+
+          <h2 id="dimensionality"><span class="section-number">07</span>Dimensionality reduction</h2>
+
+          <p>Another common unsupervised learning task is <strong>dimensionality reduction</strong>.</p>
+
+          <p>Imagine a dataset with 100 features. Working with all 100 may be difficult, and some features may contain similar information.</p>
+
+          <p>Dimensionality reduction tries to represent the data using fewer dimensions while keeping as much useful information as possible.</p>
+
+          <p>One popular technique is <strong>Principal Component Analysis (PCA)</strong>.</p>
+
+          <pre><code>100 Features
+     ↓
+PCA
+     ↓
+10 Components</code></pre>
+
+          <p>This can help with:</p>
+
+          <ul>
+            <li>Visualizing complex datasets</li>
+            <li>Reducing dataset complexity</li>
+            <li>Speeding up some machine learning tasks</li>
+            <li>Finding important patterns in high-dimensional data</li>
+          </ul>
+
+          <h3>A streaming-platform example</h3>
+
+          <p>Imagine a streaming platform similar to Netflix.</p>
+
+          <p>If the platform already knows whether users liked or disliked particular movies, it could train a model to predict:</p>
+
+          <pre><code>Will this user like this movie?
+
+Yes / No</code></pre>
+
+          <p>That is a <strong>supervised learning</strong> problem because previous answers are available.</p>
+
+          <p>But suppose the platform wants to discover different viewing behaviors from data such as:</p>
+
+          <ul>
+            <li>Movies watched</li>
+            <li>Genres watched</li>
+            <li>Watch time</li>
+            <li>Viewing frequency</li>
+          </ul>
+
+          <p>An algorithm might discover groups such as action-movie fans, weekend-only viewers, documentary viewers, or heavy streaming users.</p>
+
+          <p>That is <strong>unsupervised learning</strong> because those groups were not provided beforehand.</p>
+
+          <h2 id="comparison"><span class="section-number">08</span>Supervised vs. unsupervised learning</h2>
+
+          <div class="table-scroll" role="region" aria-label="Supervised and unsupervised learning comparison" tabindex="0">
+            <table>
+              <caption>Key differences</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Question</th>
+                  <th scope="col">Supervised Learning</th>
+                  <th scope="col">Unsupervised Learning</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Does the training data have answers?</td><td>Yes</td><td>No predefined target labels</td></tr>
+                <tr><td>Main goal</td><td>Predict an outcome</td><td>Discover patterns or structure</td></tr>
+                <tr><td>Typical output</td><td>Category or number</td><td>Groups, components, or structure</td></tr>
+                <tr><td>Classification</td><td>Yes</td><td>Not usually</td></tr>
+                <tr><td>Regression</td><td>Yes</td><td>No</td></tr>
+                <tr><td>Clustering</td><td>No</td><td>Yes</td></tr>
+                <tr><td>Example</td><td>Detect fraud</td><td>Group similar customers</td></tr>
+                <tr><td>Common algorithms</td><td>Logistic Regression, Random Forest, SVM</td><td>K-Means, DBSCAN, PCA</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>A simple way to remember it:</p>
+
+          <pre><code>SUPERVISED
+
+Data + Answers
+      ↓
+Learn the relationship
+      ↓
+Predict new answers
+
+
+UNSUPERVISED
+
+Data
+ ↓
+Search for patterns
+ ↓
+Discover structure</code></pre>
+
+          <h2 id="choosing"><span class="section-number">09</span>Which one should you use?</h2>
+
+          <p>Ask yourself one important question:</p>
+
+          <blockquote>
+            <p><strong>Do I already know what I want the model to predict?</strong></p>
+          </blockquote>
+
+          <p>If the answer is yes, and you have historical examples containing that answer, supervised learning is usually a good starting point.</p>
+
+          <p>Examples include:</p>
+
+          <ul>
+            <li>Predict fraud</li>
+            <li>Predict house prices</li>
+            <li>Predict customer churn</li>
+            <li>Classify images</li>
+            <li>Detect spam</li>
+          </ul>
+
+          <p>If you do not have target labels and instead want to explore the data, unsupervised learning may be more appropriate.</p>
+
+          <p>Examples include:</p>
+
+          <ul>
+            <li>Find customer groups</li>
+            <li>Discover unusual behavior</li>
+            <li>Group similar documents</li>
+            <li>Understand hidden patterns</li>
+            <li>Reduce dataset dimensions</li>
+          </ul>
+
+          <h2 id="both"><span class="section-number">10</span>Can we use both?</h2>
+
+          <p>Yes. Supervised and unsupervised learning are not competitors. They can be used together.</p>
+
+          <p>Imagine a company with thousands of customers.</p>
+
+          <p>First, it could use <strong>K-Means clustering</strong> to discover different customer groups:</p>
+
+          <pre><code>Customer Data
+      ↓
+K-Means
+      ↓
+Customer Segments</code></pre>
+
+          <p>Later, the company could collect information about which customers stopped using the service and train a <strong>Logistic Regression</strong> model to predict customer churn:</p>
+
+          <pre><code>Customer Features
+      ↓
+Logistic Regression
+      ↓
+Churn / Not Churn</code></pre>
+
+          <p>Real machine learning systems often combine different techniques depending on the problem.</p>
+
+          <h3>A common misunderstanding</h3>
+
+          <p>A common beginner mistake is thinking that supervised learning is better than unsupervised learning.</p>
+
+          <p>They simply solve different kinds of problems.</p>
+
+          <p>If you need to predict whether a transaction is fraudulent and already have labeled fraud examples, supervised learning makes sense.</p>
+
+          <p>If you have millions of transactions but no fraud labels and want to explore unusual behavior, unsupervised techniques may help you discover interesting patterns.</p>
+
+          <p>The right approach depends on:</p>
+
+          <ul>
+            <li>The problem you are trying to solve</li>
+            <li>The data you have available</li>
+            <li>The output you want from the system</li>
+          </ul>
+
+          <h2 id="final-thoughts"><span class="section-number">11</span>Final thoughts</h2>
+
+          <p>The most important difference between supervised and unsupervised learning is simple.</p>
+
+          <p><strong>Supervised learning learns from data that includes known answers.</strong></p>
+
+          <p><strong>Unsupervised learning works with data without predefined answers and tries to discover useful structure.</strong></p>
+
+          <p>Supervised learning commonly handles <strong>classification</strong> and <strong>regression</strong>, while unsupervised learning commonly handles <strong>clustering</strong> and <strong>dimensionality reduction</strong>.</p>
+
+          <p>Before selecting an algorithm, ask:</p>
+
+          <blockquote>
+            <p>What am I trying to predict or discover?</p>
+          </blockquote>
+
+          <p>Then ask:</p>
+
+          <blockquote>
+            <p>Do I already have the correct answers in my dataset?</p>
+          </blockquote>
+
+          <p>Those two questions will usually tell you whether you are dealing with supervised or unsupervised learning.</p>
+
+          <div class="takeaway">
+            <span>NEXT ARTICLE</span>
+            <p><strong>Logistic Regression:</strong> how a simple mathematical model can estimate probabilities and perform classification.</p>
+          </div>
         </div>
       </div>
     </article>
-    <div class="article-end"><p>Keep exploring.<span>More notes on AI and engineering.</span></p><a class="back" href="../../index.html#blog-page">← All posts</a></div>
+
+    <div class="article-end">
+      <p>Keep exploring.<span>More notes on AI and engineering.</span></p>
+      <a class="back" href="../../index.html#blog-page">← All posts</a>
+    </div>
   </main>
-  <footer><div class="wrap">© 2026 Chanupa Deshan</div></footer>
+
+  <footer>
+    <div class="wrap">© 2026 Chanupa Deshan</div>
+  </footer>
 </body>
 </html>
